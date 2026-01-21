@@ -28,7 +28,7 @@ sum(3, 6);
 function formatText(text: string, format: textFormat): string {
   if (format === 'uppercase') {
     return text.toUpperCase();
-  }  else if (format === 'lowercase') {
+  } else if (format === 'lowercase') {
     return text.toLowerCase();
   } else {
     return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
