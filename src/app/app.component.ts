@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { Color } from '../enums/Color';
 import { Collection } from './collection';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
 
-  companyName: string = 'РУМТИБЕТ';
+  companyName: string = 'Румтибет';
 
   private wordCollection: Collection<string> = new Collection<string>([]);
   private numberCollection: Collection<number> = new Collection<number>([]);
@@ -54,8 +55,8 @@ export class AppComponent {
   }
 
   saveVisitCount(): void {
-  const currentCount: number = parseInt(localStorage.getItem('visitCount') || '0');
-  const newCount: number = currentCount + 1;
-  localStorage.setItem('visitCount', newCount.toString());
+    const currentCount: number = parseInt(localStorage.getItem('visitCount') || '0') || 0;
+    const newCount: number = currentCount + 1;
+    localStorage.setItem('visitCount', newCount.toString());
   }
 }
