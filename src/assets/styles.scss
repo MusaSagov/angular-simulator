@@ -2,6 +2,12 @@
 @use './normalize';
 @use './components/button.scss';
 
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 :root {
   --primary-color: #FDFDFD;
   --secondary-color: #18121E;
