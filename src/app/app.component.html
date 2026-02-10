@@ -1,52 +1,159 @@
-<header class="header">
-  <div class="container">
-    <div class="header__wrapper">
-      <div class="header__logo">
-        <img src="/images/rumtibet-logo.svg" alt="Логотип компаний Румтибет">
-        <span class="company-name">{{ companyName | uppercase }}</span>
-      </div>
-      <div class="header__top">
-        <nav class="header__nav" role="navigation" aria-label="Главное меню">
-          <a href="#" class="header__link">Главная</a>
-          <a href="#" class="header__link">Про гида</a>
-          <a href="#" class="header__link">Программа тура</a>
-          <a href="#" class="header__link">Стоимость</a>
-          <a href="#" class="header__link">Блог</a>
-          <a href="#" class="header__link">Контакты</a>
-        </nav>
-        <div class="header__actions">
-          <button class="btn btn--primary">Консультация</button>
-        </div>
-      </div>
-    </div>
-    <div class="header__main">
-      <h1 class="header__title">Насладись прогулкой в горах с&nbsp;командой единомышленников</h1>
-      <div class="header__form">
-        <form class="form">
-          <div class="field">
-            <div class="field-input">
-              <input class="field-control" type="text" name="location" placeholder="Локация для тура">
-              <img src="./images/choice-icon.svg" alt="">
-            </div>
-            <span>выберите из списка</span>
-          </div>
-          <div class="field">
-            <div class="field-input">
-              <input class="field-control" type="text" name="location" placeholder="Дата похода">
-              <img src="./images/date-icon.svg" alt="">
-            </div>
-            <span>укажите диапазон</span>
-          </div>
-          <div class="field">
-            <div class="field-input">
-              <input class="field-control" type="text" name="location" placeholder="Участники">
-              <img src="./images/choice-icon.svg" alt="">
-            </div>
-            <span>минимум 4 человека</span>
-          </div>
-          <button class="btn_input" type="submit">Найти программу</button>
-        </form>
-      </div>
-    </div>
+@if (isLoading) {
+  <div class="loader-overlay">
+    <div class="loader"></div>
   </div>
-</header>
+} @else {
+    <div class="app-content">
+      <header class="header">
+        <div class="container">
+          <div class="header__wrapper">
+            <div class="header__logo">
+              <img src="/images/rumtibet-logo.svg" alt="Логотип компаний Румтибет">
+              <span class="company-name">{{ companyName | uppercase }}</span>
+            </div>
+            <div class="header__top">
+              <nav class="header__nav" role="navigation" aria-label="Главное меню">
+                <a href="#" id="nav-main-page" class="header__link">Главная</a>
+                <a href="#" id="nav-guide-info" class="header__link">Про гида</a>
+                <a href="#" id="nav-tour-program" class="header__link">Программа тура</a>
+                <a href="#" id="nav-pricing" class="header__link">Стоимость</a>
+                <a href="#" id="nav-blog" class="header__link">Блог</a>
+                <a href="#" id="nav-contacts" class="header__link">Контакты</a>
+              </nav>
+              <div class="header__actions">
+                <button id="consultation-btn" class="btn btn--primary">Консультация</button>
+              </div>
+            </div>
+          </div>
+          <div class="timer__clicker">
+            <button id="show-date-btn" class="btn btn--primary" (click)="setCurrentTask('counter')">Показать дату</button>
+            @if (currentTask === 'counter') {
+              <span class="timer">{{ dateTime | date:'dd.MM.yyyy HH:mm:ss' }}</span>
+            }
+            @else {
+              <div class="clicker-container">
+                <button class="btn-plus" (click)="incrementCounter()">+</button>
+                <span class="current-account">{{ counter }}</span>
+                <button class="btn-minus" (click)="decrementCounter()" [disabled]="counter <= 0">-</button>
+              </div>
+            }
+            <button id="show-clicker-btn" class="btn btn--primary" (click)="setCurrentTask('dateTime')">Показать кликер</button>
+          </div>
+          <div class="header__main">
+            <h1 class="header__title">Насладись прогулкой в горах с&nbsp;командой единомышленников</h1>
+            <div class="header__form">
+              <form class="form" #searchForm="ngForm" (ngSubmit)="onSearchSubmit(searchForm)">
+                <div class="field">
+                  <div class="field-input">
+                    @if (!formData.locationId) {
+                    <span>Локация для тура</span>
+                    } @else {
+                      <span>{{formData.locationName}}</span>
+                    }
+                    <select id="tour-location-select" class="field-control__location" name="location" [(ngModel)]="formData.locationId">
+                      <option value="" disabled>Локация для тура</option>
+                      @for (location of locations; track location.id) {
+                      <option [value]="location.id">{{location.name}}</option>
+                      }
+                    </select>
+                  </div>
+                  <span>выберите из списка</span>
+                </div>
+                <div class="field">
+                  <div class="field-input">
+                    @if (!selectedDate) {
+                      <span>Дата похода</span>
+                    } @else {
+                      <span>{{selectedDate}}</span>
+                    }
+                    <input id="tour-date-input" class="field-control__date" type="date" [(ngModel)]="selectedDate" name="date">
+                  </div>
+                  <span>укажите диапазон</span>
+                </div>
+                <div class="field">
+                  <div class="field-input">
+                    @if (!formData.participantsName) {
+                      <span>Участники</span>
+                    } @else {
+                      <span>{{formData.participantsName}}</span>
+                    }
+                    <select id="tour-participants-select" class="field-control__participants" name="participants" [(ngModel)]="formData.participantsName">
+                      <option value="" disabled>Участники</option>
+                      @for (participant of participants; track participant.id) {
+                      <option [value]="participant.value">{{participant.value}}</option>
+                      }
+                    </select>
+                  </div>
+                  <span>минимум 4 человека</span>
+                </div>
+                <button id="tour-search-btn" class="btn_input" type="submit" [disabled]="!(!!formData.locationId && !!formData.participantsName && !!selectedDate)">Найти программу</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="live-input-container">
+        <input type="text" class="live-input" [(ngModel)]="liveText" placeholder="Введи текст здесь..." name="liveInput">
+        <span class="live-output">{{ liveText || 'Результат появится здесь...' }}</span>
+      </div>
+      <section class="hike">
+        <div class="container">
+          <div class="hike__wrapper">
+            <div class="hike__content">
+              <div class="hike__gallery">
+                <img class="hike__img hike__img--bottom" src="./images/hike-rocks.png" alt="Скалы">
+                <img class="hike__img hike__img--top" src="./images/hike-foothills.png" alt="Предгорья">
+              </div>
+              <div class="hike__info">
+                <div class="hike__info-wrap">
+                  <div class="hike__title-block">
+              <span class="subtitle">О нашем походе</span>
+              <h2 class="title">Исследуйте все горные массивы мира вместе с нами</h2>
+                  </div>
+                  <p class="hike__text">
+              Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух
+              тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney,
+              штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur"
+              и занялся его поисками в классической латинской литературе.
+                  </p>
+                  <button class="hike__btn">Программа тура</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="offers">
+        <div class="container">
+          <div class="offers__wrapper">
+            <div class="offers__content">
+              <div class="offers__info">
+                <div class="offers__title-block">
+                  <span class="subtitle">наше предложение</span>
+                  <h2 class="title">Лучшие программы для тебя</h2>
+                </div>
+                <p class="offers__text">Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа.</p>
+                @for (offer of offers; track offer.id) {
+                  <div class="offers__item">
+                    <img [src]="'./images/' + offer.icon + '.svg'" [alt]="offer.title">
+                    <div class="offers__card">
+                      <h3>{{ offer.title }}</h3>
+                      <p>{{ offer.description }}</p>
+                    </div>  
+                  </div>
+                }
+                <button id="programs-pricing-btn" class="offers__btn">Стоимость программ</button>
+              </div>
+              <div class="offers__gallery">
+                <img src="./images/mountain-lake.png" alt="Горное озеро">
+                <img src="./images/mountain-canyon.png" alt="Горный каньон">
+                <img src="./images/winter-mountains.png" alt="Зимние горы">
+                <img src="./images/mountain-fields.png" alt="Главная поля">
+              </div> 
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+}
+

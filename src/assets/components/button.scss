@@ -22,3 +22,17 @@
   padding: 16px 36px;
   color: var(--tertiary-color);
 }
+
+.hike__btn {
+  width: 200px;
+  height: 62px;
+  padding: 16px 36px;
+  @extend .btn;
+}
+
+.offers__btn {
+  width: 236px;
+  height: 52px;
+  padding: 16px 36px;
+  @extend .btn;
+}

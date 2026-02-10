@@ -2,18 +2,75 @@ import { Component } from '@angular/core';
 import { Color } from '../enums/Color';
 import { Collection } from './collection';
 import { CommonModule } from '@angular/common';
+import { IOffer } from '../interfaces/IOffer';
+import { FormsModule, NgForm } from '@angular/forms';
+import { IParticipant } from '../interfaces/IParticipant';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
 
   companyName: string = 'Румтибет';
+  isLoading: boolean = true;
+  liveText: string = '';
 
+  offers: IOffer[] = [
+    {
+      id: 1,
+      title:'Опытный гид',
+      description: 'Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих условий активизации.',
+      icon: 'guide-icon'
+    },
+    {
+      id: 2,
+      title:'Безопасный поход',
+      description: 'Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих условий активизации.',
+      icon: 'safety-icon'
+    },
+    {
+      id: 3,
+      title:'Лояльные цены',
+      description: 'Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих условий активизации.',
+      icon: 'discount-icon'
+    }
+  ];
+
+  locations: ILocation[] = [
+    { id: 1, name: 'Россия' },
+    { id: 2, name: 'Украина' },
+    { id: 3, name: 'Беларусь' }
+  ];
+
+  formData: ISearchFormData = {
+    locationId: 0,
+    date: '',
+    participants: 0,
+    locationName: '',
+    participantsCount: '',
+    participantsName: ''
+  };
+
+  participants: IParticipant[] = [
+    { id: 1, value: '4 человека', quantity: 4 },
+    { id: 2, value: '5 человек', quantity: 5 },
+    { id: 3, value: '6 человек', quantity: 6 }
+  ];
+
+  locationSearch: string = '';
+  filteredLocations: ILocation[] = [];
+  selectedDate: string = '';
+  currentTime: Date = new Date();
+  currentTask: 'counter' | 'dateTime' = 'dateTime';
+  dateTime: Date = new Date();
+  counter: number = 0;
+
+  private timerId: number = 0;
   private wordCollection: Collection<string> = new Collection<string>([]);
+  private timeIntervalId?: number;
   private numberCollection: Collection<number> = new Collection<number>([]);
 
   constructor() {
@@ -26,6 +83,13 @@ export class AppComponent {
 
     this.saveLastVisitDate();
     this.saveVisitCount();
+    this.startTimer();
+
+    this.timerId = window.setInterval(() => {
+      if (this.currentTask === 'dateTime') {
+      this.dateTime = new Date();
+      }
+    }, 1000);
   }
 
   isPrimaryColor(color: Color): boolean {
@@ -58,5 +122,66 @@ export class AppComponent {
     const currentCount: number = parseInt(localStorage.getItem('visitCount') || '0') || 0;
     const newCount: number = currentCount + 1;
     localStorage.setItem('visitCount', newCount.toString());
+  }
+
+  onDateChange(): void {
+  this.formData.date = this.selectedDate;
+  }
+
+  filterLocations():void {
+    if (this.locationSearch.length > 0) {
+      this.filteredLocations = this.locations.filter(location =>
+        location.name.toLowerCase().includes(this.locationSearch.toLowerCase())
+      );
+    } else {
+      this.filteredLocations = [];
+    }
+  }
+
+  chooseLocation(id: number): void {
+    const location = this.locations.find(l => l.id === id);
+    if (location) {
+      this.formData.locationId = id;
+      this.locationSearch = location.name;
+      this.filteredLocations = [];
+    }
+  }
+
+  onSearchSubmit(form: NgForm): void {
+    if (form.valid) {
+      console.log('Поиск:', this.formData);
+    }
+  }
+
+  setCurrentTask(task: 'counter' | 'dateTime'): void {
+    this.currentTask = task;
+  }
+
+  incrementCounter(): void {
+    this.counter++;
+  }
+
+  decrementCounter(): void {
+    if (this.counter > 0) {
+    this.counter--;
+    }
+  }
+
+  startTimer(): void {
+    this.timeIntervalId = window.setInterval(() => {
+      this.currentTime = new Date();
+    }, 1000);
+  }
+
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 2000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.timeIntervalId) {
+      clearInterval(this.timeIntervalId);
+    }
   }
 }

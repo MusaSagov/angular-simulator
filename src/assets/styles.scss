@@ -1,6 +1,7 @@
 @use './fonts';
 @use './normalize';
 @use './components/button.scss';
+@use './components/titles.scss';
 
 * {
   padding: 0;
@@ -12,10 +13,18 @@
   --primary-color: #FDFDFD;
   --secondary-color: #18121E;
   --tertiary-color: #1A3E3E;
+  --quaternary-color:#F2BE22;
 }
 
 .container {
   display: block;
-  width: 1180px;
+  max-width: 1180px;
 }
 
+.fw4 {
+  font-weight: 400;
+}
+
+.fs18 {
+  font-size: 18px;
+}
