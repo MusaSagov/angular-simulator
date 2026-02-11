@@ -13,12 +13,9 @@
             </div>
             <div class="header__top">
               <nav class="header__nav" role="navigation" aria-label="Главное меню">
-                <a href="#" id="nav-main-page" class="header__link">Главная</a>
-                <a href="#" id="nav-guide-info" class="header__link">Про гида</a>
-                <a href="#" id="nav-tour-program" class="header__link">Программа тура</a>
-                <a href="#" id="nav-pricing" class="header__link">Стоимость</a>
-                <a href="#" id="nav-blog" class="header__link">Блог</a>
-                <a href="#" id="nav-contacts" class="header__link">Контакты</a>
+                @for (navItem of navItems; track navItem.id) {
+                  <a href={{navItem.href}} id={{navItem.id}} class={{navItem.className}}>{{navItem.title}}</a>
+                }
               </nav>
               <div class="header__actions">
                 <button id="consultation-btn" class="btn btn--primary">Консультация</button>

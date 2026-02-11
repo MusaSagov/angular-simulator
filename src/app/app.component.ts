@@ -18,6 +18,45 @@ export class AppComponent {
   isLoading: boolean = true;
   liveText: string = '';
 
+  navItems: INavItem[] = [
+    {
+    id: "nav-main-page",
+    title: "Главная",
+    href: "#",
+    className: "header__link"
+  },
+  {
+    id: "nav-guide-info",
+    title: "Про гида",
+    href: "#",
+    className: "header__link"
+  },
+  {
+    id: "nav-tour-program",
+    title: "Программа тура",
+    href: "#",
+    className: "header__link"
+  },
+  {
+    id: "nav-pricing",
+    title: "Стоимость",
+    href: "#",
+    className: "header__link"
+  },
+  {
+    id: "nav-blog",
+    title: "Блог",
+    href: "#",
+    className: "header__link"
+  },
+  {
+    id: "nav-contacts",
+    title: "Контакты",
+    href: "#",
+    className: "header__link"
+  }
+  ];
+
   offers: IOffer[] = [
     {
       id: 1,
