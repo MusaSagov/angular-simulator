@@ -46,14 +46,14 @@
                 <div class="field">
                   <div class="field-input">
                     @if (!formData.locationId) {
-                    <span>Локация для тура</span>
+                      <span>Локация для тура</span>
                     } @else {
-                      <span>{{formData.locationName}}</span>
+                        <span>{{formData.locationName}}</span>
                     }
                     <select id="tour-location-select" class="field-control__location" name="location" [(ngModel)]="formData.locationId">
                       <option value="" disabled>Локация для тура</option>
                       @for (location of locations; track location.id) {
-                      <option [value]="location.id">{{location.name}}</option>
+                        <option [value]="location.id">{{location.name}}</option>
                       }
                     </select>
                   </div>
@@ -64,7 +64,7 @@
                     @if (!selectedDate) {
                       <span>Дата похода</span>
                     } @else {
-                      <span>{{selectedDate}}</span>
+                        <span>{{selectedDate}}</span>
                     }
                     <input id="tour-date-input" class="field-control__date" type="date" [(ngModel)]="selectedDate" name="date">
                   </div>
@@ -75,12 +75,12 @@
                     @if (!formData.participantsName) {
                       <span>Участники</span>
                     } @else {
-                      <span>{{formData.participantsName}}</span>
+                        <span>{{formData.participantsName}}</span>
                     }
                     <select id="tour-participants-select" class="field-control__participants" name="participants" [(ngModel)]="formData.participantsName">
                       <option value="" disabled>Участники</option>
                       @for (participant of participants; track participant.id) {
-                      <option [value]="participant.value">{{participant.value}}</option>
+                        <option [value]="participant.value">{{participant.value}}</option>
                       }
                     </select>
                   </div>
@@ -107,14 +107,14 @@
               <div class="hike__info">
                 <div class="hike__info-wrap">
                   <div class="hike__title-block">
-              <span class="subtitle">О нашем походе</span>
-              <h2 class="title">Исследуйте все горные массивы мира вместе с нами</h2>
+                    <span class="subtitle">О нашем походе</span>
+                    <h2 class="title">Исследуйте все горные массивы мира вместе с нами</h2>
                   </div>
                   <p class="hike__text">
-              Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух
-              тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney,
-              штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur"
-              и занялся его поисками в классической латинской литературе.
+                    Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух
+                    тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney,
+                    штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur"
+                    и занялся его поисками в классической латинской литературе.
                   </p>
                   <button class="hike__btn">Программа тура</button>
                 </div>

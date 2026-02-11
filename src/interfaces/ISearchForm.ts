@@ -1,4 +1,4 @@
-interface ISearchFormData {
+interface ISearchForm {
   locationId: number;
   date: string;
   participants: number;

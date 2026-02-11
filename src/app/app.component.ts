@@ -45,7 +45,7 @@ export class AppComponent {
     { id: 3, name: 'Беларусь' }
   ];
 
-  formData: ISearchFormData = {
+  formData: ISearchForm = {
     locationId: 0,
     date: '',
     participants: 0,
@@ -68,9 +68,7 @@ export class AppComponent {
   dateTime: Date = new Date();
   counter: number = 0;
 
-  private timerId: number = 0;
   private wordCollection: Collection<string> = new Collection<string>([]);
-  private timeIntervalId?: number;
   private numberCollection: Collection<number> = new Collection<number>([]);
 
   constructor() {
@@ -85,11 +83,15 @@ export class AppComponent {
     this.saveVisitCount();
     this.startTimer();
 
-    this.timerId = window.setInterval(() => {
+    setInterval(() => {
       if (this.currentTask === 'dateTime') {
-      this.dateTime = new Date();
+        this.dateTime = new Date();
       }
     }, 1000);
+
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 2000);
   }
 
   isPrimaryColor(color: Color): boolean {
@@ -128,10 +130,11 @@ export class AppComponent {
   this.formData.date = this.selectedDate;
   }
 
-  filterLocations():void {
+  filterLocations(): void {
     if (this.locationSearch.length > 0) {
-      this.filteredLocations = this.locations.filter(location =>
-        location.name.toLowerCase().includes(this.locationSearch.toLowerCase())
+      this.filteredLocations = this.locations.filter(
+        (location: ILocation) =>
+          location.name.toLowerCase().includes(this.locationSearch.toLowerCase())
       );
     } else {
       this.filteredLocations = [];
@@ -139,7 +142,9 @@ export class AppComponent {
   }
 
   chooseLocation(id: number): void {
-    const location = this.locations.find(l => l.id === id);
+    const location: ILocation | undefined = this.locations.find(
+      (l: ILocation) => l.id === id
+    );
     if (location) {
       this.formData.locationId = id;
       this.locationSearch = location.name;
@@ -147,11 +152,7 @@ export class AppComponent {
     }
   }
 
-  onSearchSubmit(form: NgForm): void {
-    if (form.valid) {
-      console.log('Поиск:', this.formData);
-    }
-  }
+  onSearchSubmit(form: NgForm): void {}
 
   setCurrentTask(task: 'counter' | 'dateTime'): void {
     this.currentTask = task;
@@ -163,25 +164,13 @@ export class AppComponent {
 
   decrementCounter(): void {
     if (this.counter > 0) {
-    this.counter--;
+      this.counter--;
     }
   }
 
   startTimer(): void {
-    this.timeIntervalId = window.setInterval(() => {
+    setInterval(() => {
       this.currentTime = new Date();
-    }, 1000);
-  }
-
-  ngOnInit(): void {
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 2000);
-  }
-
-  ngOnDestroy(): void {
-    if (this.timeIntervalId) {
-      clearInterval(this.timeIntervalId);
-    }
+     }, 1000);
   }
 }
