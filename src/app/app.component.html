@@ -14,7 +14,7 @@
             <div class="header__top">
               <nav class="header__nav" role="navigation" aria-label="Главное меню">
                 @for (navItem of navItems; track navItem.id) {
-                  <a href={{navItem.href}} id={{navItem.id}} class={{navItem.className}}>{{navItem.title}}</a>
+                  <a [href]="navItem.href" [id]="navItem.id" [class]="navItem.className">{{navItem.title}}</a>
                 }
               </nav>
               <div class="header__actions">
@@ -142,10 +142,9 @@
                 <button id="programs-pricing-btn" class="offers__btn">Стоимость программ</button>
               </div>
               <div class="offers__gallery">
-                <img src="./images/mountain-lake.png" alt="Горное озеро">
-                <img src="./images/mountain-canyon.png" alt="Горный каньон">
-                <img src="./images/winter-mountains.png" alt="Зимние горы">
-                <img src="./images/mountain-fields.png" alt="Главная поля">
+                @for (image of galleryImages; track image.id) {
+                  <img [src]="'./images/' + image.icon + '.png'" [alt]="image.title">
+                }
               </div> 
             </div>
           </div>

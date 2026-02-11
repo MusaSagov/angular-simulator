@@ -18,6 +18,29 @@ export class AppComponent {
   isLoading: boolean = true;
   liveText: string = '';
 
+  galleryImages: IImageItem[] = [
+    {
+      id: 1,
+      icon: 'mountain-lake',
+      title: 'Горное озеро'
+    },
+    {
+      id: 2,
+      icon: 'mountain-canyon',
+      title: 'Горный каньон' 
+    },
+    {
+      id: 3,
+      icon: 'winter-mountains',
+      title: 'Зимние горы'
+    },
+    {
+      id: 4,
+      icon: 'mountain-fields',
+      title: 'Предгорья'
+    }
+  ];
+
   navItems: INavItem[] = [
     {
     id: "nav-main-page",
