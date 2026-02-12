@@ -140,9 +140,7 @@ export class AppComponent {
     this.saveVisitCount();
     
     setInterval(() => {
-      if (this.currentTask === 'dateTime') {
-        this.formattedDateTime = new Date().toLocaleString('ru-RU');
-      }
+      this.formattedDateTime = new Date().toLocaleString('ru-RU');
     }, 1000);
 
     setTimeout(() => {
@@ -210,8 +208,8 @@ export class AppComponent {
 
   onSearchSubmit(form: NgForm): void {}
 
-  setCurrentTask(task: 'counter' | 'dateTime'): void {
-    this.currentTask = task;
+  setCurrentTask(widget: 'counter' | 'dateTime'): void {
+    this.currentTask = widget;
   }
 
   incrementCounter(): void {
