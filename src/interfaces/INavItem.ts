@@ -1,6 +1,6 @@
 interface INavItem {
   id: string;
   title: string;
-  href: string;
+  link: string;
   className?: string;
 }

@@ -18,7 +18,7 @@ export class AppComponent {
   isLoading: boolean = true;
   liveText: string = '';
 
-  galleryImages: IImageItem[] = [
+  gallerySlides: ISlide[] = [
     {
       id: 1,
       icon: 'mountain-lake',
@@ -43,41 +43,35 @@ export class AppComponent {
 
   navItems: INavItem[] = [
     {
-    id: "nav-main-page",
-    title: "Главная",
-    href: "#",
-    className: "header__link"
-  },
-  {
-    id: "nav-guide-info",
-    title: "Про гида",
-    href: "#",
-    className: "header__link"
-  },
-  {
-    id: "nav-tour-program",
-    title: "Программа тура",
-    href: "#",
-    className: "header__link"
-  },
-  {
-    id: "nav-pricing",
-    title: "Стоимость",
-    href: "#",
-    className: "header__link"
-  },
-  {
+      id: "nav-main-page",
+      title: "Главная",
+      link: "#"
+    },
+    {
+      id: "nav-guide-info",
+      title: "Про гида",
+      link: "#"
+    },
+    {
+      id: "nav-tour-program",
+      title: "Программа тура",
+      link: "#"
+    },
+    {
+      id: "nav-pricing",
+      title: "Стоимость",
+      link: "#"
+    },
+    {
     id: "nav-blog",
     title: "Блог",
-    href: "#",
-    className: "header__link"
-  },
-  {
-    id: "nav-contacts",
-    title: "Контакты",
-    href: "#",
-    className: "header__link"
-  }
+    link: "#"
+    },
+    {
+      id: "nav-contacts",
+      title: "Контакты",
+      link: "#"
+    }
   ];
 
   offers: IOffer[] = [
@@ -129,7 +123,8 @@ export class AppComponent {
   currentTask: 'counter' | 'dateTime' = 'dateTime';
   dateTime: Date = new Date();
   counter: number = 0;
-
+  formattedDateTime: string = '';
+  
   private wordCollection: Collection<string> = new Collection<string>([]);
   private numberCollection: Collection<number> = new Collection<number>([]);
 
@@ -143,11 +138,10 @@ export class AppComponent {
 
     this.saveLastVisitDate();
     this.saveVisitCount();
-    this.startTimer();
-
+    
     setInterval(() => {
       if (this.currentTask === 'dateTime') {
-        this.dateTime = new Date();
+        this.formattedDateTime = new Date().toLocaleString('ru-RU');
       }
     }, 1000);
 
@@ -189,7 +183,7 @@ export class AppComponent {
   }
 
   onDateChange(): void {
-  this.formData.date = this.selectedDate;
+    this.formData.date = this.selectedDate;
   }
 
   filterLocations(): void {
@@ -228,11 +222,5 @@ export class AppComponent {
     if (this.counter > 0) {
       this.counter--;
     }
-  }
-
-  startTimer(): void {
-    setInterval(() => {
-      this.currentTime = new Date();
-     }, 1000);
   }
 }
