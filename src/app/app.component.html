@@ -23,8 +23,8 @@
             </div>
           </div>
           <div class="timer__clicker">
-            <button id="show-date-btn" class="btn btn--primary" (click)="setCurrentTask('dateTime')">Показать дату</button>
-            @if (currentTask === 'dateTime') {
+            <button id="show-date-btn" class="btn btn--primary" (click)="setWidget('dateTime')">Показать дату</button>
+            @if (currentWidget === 'dateTime') {
               <span class="timer">{{ formattedDateTime }}</span>
             } @else {
                 <div class="clicker-container">
@@ -33,7 +33,7 @@
                 <button class="btn-minus" (click)="decrementCounter()" [disabled]="counter <= 0">-</button>
                 </div>
               }
-            <button id="show-clicker-btn" class="btn btn--primary" (click)="setCurrentTask('counter')">Показать кликер</button>
+            <button id="show-clicker-btn" class="btn btn--primary" (click)="setWidget('counter')">Показать кликер</button>
           </div>
           <div class="header__main">
             <h1 class="header__title">Насладись прогулкой в горах с&nbsp;командой единомышленников</h1>

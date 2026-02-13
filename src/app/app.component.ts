@@ -120,7 +120,7 @@ export class AppComponent {
   filteredLocations: ILocation[] = [];
   selectedDate: string = '';
   currentTime: Date = new Date();
-  currentTask: 'counter' | 'dateTime' = 'dateTime';
+  currentWidget: 'counter' | 'dateTime' = 'dateTime';
   dateTime: Date = new Date();
   counter: number = 0;
   formattedDateTime: string = '';
@@ -208,8 +208,8 @@ export class AppComponent {
 
   onSearchSubmit(form: NgForm): void {}
 
-  setCurrentTask(widget: 'counter' | 'dateTime'): void {
-    this.currentTask = widget;
+  setWidget(widget: 'counter' | 'dateTime'): void {
+    this.currentWidget = widget;
   }
 
   incrementCounter(): void {
