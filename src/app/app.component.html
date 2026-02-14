@@ -1,6 +1,8 @@
 @if (isLoading) {
   <div class="loader-overlay">
-    <div class="loader"></div>
+    <div class="loader">
+      <img src="/images/loading-icon.svg" alt="иконка загрузки страницы">
+    </div>
   </div>
 } @else {
     <div class="app-content">
@@ -85,13 +87,14 @@
                 <button id="tour-search-btn" class="btn_input" type="submit" [disabled]="!(!!formData.locationId && !!formData.participantsName && !!selectedDate)">Найти программу</button>
               </form>
             </div>
+            <div class="live-input-container">
+              <input type="text" class="live-input" [(ngModel)]="liveText" placeholder="Живой инпут" name="liveInput">
+              <span class="live-output">{{ liveText }}</span>
+            </div>
           </div>
         </div>
       </header>
-      <div class="live-input-container">
-        <input type="text" class="live-input" [(ngModel)]="liveText" placeholder="Введи текст здесь..." name="liveInput">
-        <span class="live-output">{{ liveText || 'Результат появится здесь...' }}</span>
-      </div>
+      
       <section class="hike">
         <div class="container">
           <div class="hike__wrapper">
