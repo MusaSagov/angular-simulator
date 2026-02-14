@@ -1,6 +1,6 @@
 export interface IOffer {
   id: number;
   title: string;
-  description: string,
+  description: string;
   icon: string
 }

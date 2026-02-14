@@ -17,6 +17,7 @@ export class AppComponent {
   companyName: string = 'Румтибет';
   isLoading: boolean = true;
   liveText: string = '';
+  formData!: ISearchForm;
 
   gallerySlides: ISlide[] = [
     {
@@ -43,32 +44,32 @@ export class AppComponent {
 
   navItems: INavItem[] = [
     {
-      id: "nav-main-page",
+      id: "main-page",
       title: "Главная",
       link: "#"
     },
     {
-      id: "nav-guide-info",
+      id: "guide-info",
       title: "Про гида",
       link: "#"
     },
     {
-      id: "nav-tour-program",
+      id: "tour-program",
       title: "Программа тура",
       link: "#"
     },
     {
-      id: "nav-pricing",
+      id: "pricing",
       title: "Стоимость",
       link: "#"
     },
     {
-    id: "nav-blog",
-    title: "Блог",
-    link: "#"
+      id: "blog",
+      title: "Блог",
+      link: "#"
     },
     {
-      id: "nav-contacts",
+      id: "contacts",
       title: "Контакты",
       link: "#"
     }
@@ -100,16 +101,7 @@ export class AppComponent {
     { id: 2, name: 'Украина' },
     { id: 3, name: 'Беларусь' }
   ];
-
-  formData: ISearchForm = {
-    locationId: 0,
-    date: '',
-    participants: 0,
-    locationName: '',
-    participantsCount: '',
-    participantsName: ''
-  };
-
+  
   participants: IParticipant[] = [
     { id: 1, value: '4 человека', quantity: 4 },
     { id: 2, value: '5 человек', quantity: 5 },
@@ -119,7 +111,6 @@ export class AppComponent {
   locationSearch: string = '';
   filteredLocations: ILocation[] = [];
   selectedDate: string = '';
-  currentTime: Date = new Date();
   currentWidget: 'counter' | 'dateTime' = 'dateTime';
   dateTime: Date = new Date();
   counter: number = 0;
@@ -220,5 +211,16 @@ export class AppComponent {
     if (this.counter > 0) {
       this.counter--;
     }
+  }
+
+  ngOnInit(): void {
+    this.formData = {
+      locationId: 0,
+      date: '',
+      participants: 0,
+      locationName: '',
+      participantsCount: '',
+      participantsName: ''
+    };
   }
 }
