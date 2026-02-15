@@ -17,8 +17,7 @@ export class AppComponent {
   companyName: string = 'Румтибет';
   isLoading: boolean = true;
   liveText: string = '';
-  formData!: ISearchForm;
-
+  
   gallerySlides: ISlide[] = [
     {
       id: 1,
@@ -108,6 +107,7 @@ export class AppComponent {
     { id: 3, value: '6 человек', quantity: 6 }
   ];
 
+  formData!: ISearchForm;
   locationSearch: string = '';
   filteredLocations: ILocation[] = [];
   selectedDate: string = '';
@@ -120,6 +120,15 @@ export class AppComponent {
   private numberCollection: Collection<number> = new Collection<number>([]);
 
   constructor() {
+    this.formData = {
+      locationId: 0,
+      date: '',
+      participants: 0,
+      locationName: '',
+      participantsCount: '',
+      participantsName: ''
+    };
+    
     this.initCollections();
 
     const isRedPrimary: boolean = this.isPrimaryColor(Color.RED);
@@ -211,16 +220,5 @@ export class AppComponent {
     if (this.counter > 0) {
       this.counter--;
     }
-  }
-
-  ngOnInit(): void {
-    this.formData = {
-      locationId: 0,
-      date: '',
-      participants: 0,
-      locationName: '',
-      participantsCount: '',
-      participantsName: ''
-    };
   }
 }
