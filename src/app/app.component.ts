@@ -106,8 +106,11 @@ export class AppComponent {
     { id: 2, value: '5 человек', quantity: 5 },
     { id: 3, value: '6 человек', quantity: 6 }
   ];
-
-  formData!: ISearchForm;
+  
+  locationName: string = '';
+  date: string = '';
+  participantsCount: string = '';
+  participantsName: string = '';
   locationSearch: string = '';
   filteredLocations: ILocation[] = [];
   selectedDate: string = '';
@@ -120,15 +123,7 @@ export class AppComponent {
   private numberCollection: Collection<number> = new Collection<number>([]);
 
   constructor() {
-    this.formData = {
-      locationId: 0,
-      date: '',
-      participants: 0,
-      locationName: '',
-      participantsCount: '',
-      participantsName: ''
-    };
-    
+        
     this.initCollections();
 
     const isRedPrimary: boolean = this.isPrimaryColor(Color.RED);
@@ -180,10 +175,6 @@ export class AppComponent {
     localStorage.setItem('visitCount', newCount.toString());
   }
 
-  onDateChange(): void {
-    this.formData.date = this.selectedDate;
-  }
-
   filterLocations(): void {
     if (this.locationSearch.length > 0) {
       this.filteredLocations = this.locations.filter(
@@ -194,18 +185,7 @@ export class AppComponent {
       this.filteredLocations = [];
     }
   }
-
-  chooseLocation(id: number): void {
-    const location: ILocation | undefined = this.locations.find(
-      (l: ILocation) => l.id === id
-    );
-    if (location) {
-      this.formData.locationId = id;
-      this.locationSearch = location.name;
-      this.filteredLocations = [];
-    }
-  }
-
+  
   onSearchSubmit(form: NgForm): void {}
 
   setWidget(widget: 'counter' | 'dateTime'): void {

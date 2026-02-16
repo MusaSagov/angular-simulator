@@ -43,12 +43,12 @@
               <form class="form" #searchForm="ngForm" (ngSubmit)="onSearchSubmit(searchForm)">
                 <div class="field">
                   <div class="field-input">
-                    @if (!formData.locationId) {
+                    @if (!locationName) {
                       <span>Локация для тура</span>
                     } @else {
-                        <span>{{ formData.locationName }}</span>
+                        <span>{{ locationName }}</span>
                       }
-                    <select id="tour-location-select" class="field-control__location" name="location" [(ngModel)]="formData.locationId">
+                    <select id="tour-location-select" class="field-control__location" name="location" [(ngModel)]="locationName">
                       <option value="" disabled>Локация для тура</option>
                       @for (location of locations; track location.id) {
                         <option [value]="location.id">{{ location.name }}</option>
@@ -70,12 +70,12 @@
                 </div>
                 <div class="field">
                   <div class="field-input">
-                    @if (!formData.participantsName) {
+                    @if (!participantsCount) {
                       <span>Участники</span>
                     } @else {
-                        <span>{{ formData.participantsName }}</span>
+                        <span>{{ participantsCount }}</span>
                       }
-                    <select id="tour-participants-select" class="field-control__participants" name="participants" [(ngModel)]="formData.participantsName">
+                    <select id="tour-participants-select" class="field-control__participants" name="participants" [(ngModel)]="participantsCount">
                       <option value="" disabled>Участники</option>
                       @for (participant of participants; track participant.id) {
                         <option [value]="participant.value">{{ participant.value }}</option>
@@ -84,7 +84,7 @@
                   </div>
                   <span>минимум 4 человека</span>
                 </div>
-                <button id="tour-search-btn" class="btn_input" type="submit" [disabled]="!(!!formData.locationId && !!formData.participantsName && !!selectedDate)">Найти программу</button>
+                <button id="tour-search-btn" class="btn_input" type="submit" [disabled]="!locationName || !participantsCount || !selectedDate">Найти программу</button>
               </form>
             </div>
             <div class="live-input-container">

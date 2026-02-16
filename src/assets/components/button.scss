@@ -21,6 +21,11 @@
   border-radius: 4px;
   padding: 16px 36px;
   color: var(--tertiary-color);
+
+  &:not(:disabled) {
+    background-color: white;
+    color: var(--tertiary-color);
+  }
 }
 
 .hike__btn {
