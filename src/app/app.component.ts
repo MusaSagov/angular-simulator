@@ -17,6 +17,15 @@ export class AppComponent {
   companyName: string = 'Румтибет';
   isLoading: boolean = true;
   liveText: string = '';
+  selectedLocation: string = '';
+  selectedDate: string = '';
+  selectedCount: string = '';
+  locationSearch: string = '';
+  filteredLocations: ILocation[] = [];
+  currentWidget: 'counter' | 'dateTime' = 'dateTime';
+  dateTime: Date = new Date();
+  counter: number = 0;
+  formattedDateTime: string = '';
   
   gallerySlides: ISlide[] = [
     {
@@ -106,19 +115,7 @@ export class AppComponent {
     { id: 2, value: '5 человек', quantity: 5 },
     { id: 3, value: '6 человек', quantity: 6 }
   ];
-  
-  locationName: string = '';
-  date: string = '';
-  participantsCount: string = '';
-  participantsName: string = '';
-  locationSearch: string = '';
-  filteredLocations: ILocation[] = [];
-  selectedDate: string = '';
-  currentWidget: 'counter' | 'dateTime' = 'dateTime';
-  dateTime: Date = new Date();
-  counter: number = 0;
-  formattedDateTime: string = '';
-  
+    
   private wordCollection: Collection<string> = new Collection<string>([]);
   private numberCollection: Collection<number> = new Collection<number>([]);
 
