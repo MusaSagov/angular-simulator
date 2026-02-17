@@ -20,12 +20,9 @@ export class AppComponent {
   selectedLocation: string = '';
   selectedDate: string = '';
   selectedCount: string = '';
-  locationSearch: string = '';
-  filteredLocations: ILocation[] = [];
   currentWidget: 'counter' | 'dateTime' = 'dateTime';
-  dateTime: Date = new Date();
   counter: number = 0;
-  formattedDateTime: string = '';
+  formattedDateTime: string = new Date().toLocaleDateString('ru-Ru');
   
   gallerySlides: ISlide[] = [
     {
@@ -109,13 +106,13 @@ export class AppComponent {
     { id: 2, name: 'Украина' },
     { id: 3, name: 'Беларусь' }
   ];
-  
+
   participants: IParticipant[] = [
     { id: 1, value: '4 человека', quantity: 4 },
     { id: 2, value: '5 человек', quantity: 5 },
     { id: 3, value: '6 человек', quantity: 6 }
   ];
-    
+
   private wordCollection: Collection<string> = new Collection<string>([]);
   private numberCollection: Collection<number> = new Collection<number>([]);
 
@@ -160,7 +157,7 @@ export class AppComponent {
       JSON.parse(localStorage.getItem('numbers') || '[]')
     );
   }
-  
+
   saveLastVisitDate(): void {
     const now: string = new Date().toISOString();
     localStorage.setItem('lastVisit', now);
@@ -172,17 +169,6 @@ export class AppComponent {
     localStorage.setItem('visitCount', newCount.toString());
   }
 
-  filterLocations(): void {
-    if (this.locationSearch.length > 0) {
-      this.filteredLocations = this.locations.filter(
-        (location: ILocation) =>
-          location.name.toLowerCase().includes(this.locationSearch.toLowerCase())
-      );
-    } else {
-      this.filteredLocations = [];
-    }
-  }
-  
   onSearchSubmit(form: NgForm): void {}
 
   setWidget(widget: 'counter' | 'dateTime'): void {
