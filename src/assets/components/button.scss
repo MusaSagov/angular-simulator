@@ -52,3 +52,19 @@
 .btn-plus {
   @extend .btn-minus;
 }
+
+.btn-tour {
+  @extend .btn;
+  width: 244px;
+  height: 52px;
+  padding: 16px 36px;
+  font-style: SemiBold;
+}
+
+.btn-travel {
+  @extend .btn;
+  width: 220px;
+  height: 52px;
+  padding: 16px 36px;
+  font-style: SemiBold;
+}
