@@ -16,6 +16,8 @@ import { ToastService } from '../toast.service';
 })
 export class AppComponent {
 
+  toastService = inject(ToastService);
+
   companyName: string = 'Румтибет';
   isLoading: boolean = true;
   liveText: string = '';
@@ -25,7 +27,6 @@ export class AppComponent {
   currentWidget: 'counter' | 'dateTime' = 'dateTime';
   counter: number = 0;
   formattedDateTime: string = new Date().toLocaleDateString('ru-Ru');
-  toastService = inject(ToastService);
 
   gallerySlides: ISlide[] = [
     {
@@ -252,21 +253,5 @@ export class AppComponent {
     if (this.counter > 0) {
       this.counter--;
     }
-  }
-
-  showSuccess(): void {
-    this.toastService.addMessage('Направление забронировано!', MessageType.SUCCESS);
-  }
-
-  showError(): void {
-    this.toastService.addMessage('Материалы недоступны', MessageType.ERROR);
-  }
-
-  showInfo(): void {
-    this.toastService.addMessage('Стоимость отправлена!', MessageType.INFO);
-  }
-
-  showWarning(): void {
-    this.toastService.addMessage('Программа не доступна!', MessageType.WARN);
   }
 }

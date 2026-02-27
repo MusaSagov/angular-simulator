@@ -114,7 +114,7 @@
                     штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur"
                     и занялся его поисками в классической латинской литературе.
                   </p>
-                  <button (click)="showWarning()" class="hike__btn">Программа тура</button>
+                  <button (click)="toastService.showWarning('Программа не доступна!')" class="hike__btn">Программа тура</button>
                 </div>
               </div>
             </div>
@@ -140,7 +140,7 @@
                     </div>  
                   </div>
                 }
-                <button (click)="showInfo()" id="programs-pricing-btn" class="offers__btn">Стоимость программ</button>
+                <button (click)="toastService.showInfo('Стоимость отправлена!')" id="programs-pricing-btn" class="offers__btn">Стоимость программ</button>
               </div>
               <div class="offers__gallery">
                 @for (slide of gallerySlides; track slide.id) {
@@ -183,7 +183,7 @@
               }
             </div>
             <div class="btn__tour-container">
-              <button (click)="showSuccess()" class="btn-tour">Рейтинг направлений</button>
+              <button (click)="toastService.showSuccess('Направление забронировано!')" class="btn-tour">Рейтинг направлений</button>
             </div>
           </div>
         </div>
@@ -211,7 +211,7 @@
               }
             </div>
             <div class="btn__travel-container">
-              <button (click)="showError()" class="btn-travel">Другие материалы</button>
+              <button (click)="toastService.showError('Материалы недоступны')" class="btn-travel">Другие материалы</button>
             </div>
           </div>
         </div>
@@ -222,7 +222,7 @@
         <img class="icon-message" src="/images/service/icon-message.svg">
         <h4>{{ item.type }}</h4>
         <p>{{ item.text }}</p>
-        <img (click)="toastService.closeMessage(item)" class="close-button" src="/images/service/icon-closse.svg">
+        <img (click)="toastService.closeMessage(item)" class="close-button" src="/images/service/icon-close.svg">
       </div>
     </ng-template>
     <div class="message-container">
