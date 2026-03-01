@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { Color } from '../enums/Color';
 import { Collection } from './collection';
 import { CommonModule } from '@angular/common';
-import { IOffer } from '../interfaces/IOffer';
 import { FormsModule, NgForm } from '@angular/forms';
-import { IParticipant } from '../interfaces/IParticipant';
+import { inject } from '@angular/core';
+import { MessageType } from '../enums/MessageType';
+import { ILocation, INavItem, IOffer, IParticipant, ISlide, ITours, ITravels } from '../interfaces';
+import { ToastService } from '../toast.service';
 
 @Component({
   selector: 'app-root',
@@ -14,16 +16,18 @@ import { IParticipant } from '../interfaces/IParticipant';
 })
 export class AppComponent {
 
+  toastService = inject(ToastService);
+
   companyName: string = 'Румтибет';
   isLoading: boolean = true;
   liveText: string = '';
-  selectedLocation: string = '';
-  selectedDate: string = '';
-  selectedCount: string = '';
+  selectedLocation!: string;
+  selectedDate!: string;
+  selectedCount!: string;
   currentWidget: 'counter' | 'dateTime' = 'dateTime';
   counter: number = 0;
   formattedDateTime: string = new Date().toLocaleDateString('ru-Ru');
-  
+
   gallerySlides: ISlide[] = [
     {
       id: 1,
@@ -111,6 +115,72 @@ export class AppComponent {
     { id: 1, value: '4 человека', quantity: 4 },
     { id: 2, value: '5 человек', quantity: 5 },
     { id: 3, value: '6 человек', quantity: 6 }
+  ];
+
+  tours: ITours[] = [
+    {
+      id: 1, 
+      rating: 4.9, 
+      title: 'Озеро возле гор', 
+      subtitle: 'романтическое приключение', 
+      price: '480 $',
+      icon: 'mountain-lake-tour'
+    },
+    {
+      id: 2, 
+      rating: 4.5, 
+      title: 'Ночь в горах', 
+      subtitle: 'в компании друзей', 
+      price: '500 $',
+      icon: 'mountains-night-tour'
+    },
+    {
+      id: 3, 
+      rating: 4.7, 
+      title: 'Растяжка в горах', 
+      subtitle: 'для тех, кто забоится о себе', 
+      price: '230 $',
+      icon: 'mountain-sunrise-tour'
+    }
+  ];
+
+  travels: ITravels[] = [
+    {
+      id: 1,
+      icon: 'italian-city-blog',
+      title: 'Красивая Италия, какая она в реальности?',
+      text: 'Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих условий активизации.',
+      date: '01/04/2023',
+      href: '#',
+      linkText: 'читать статью'
+    },
+    {
+      id: 2,
+      icon: 'sunny-sky-blog',
+      title: 'Долой сомнения! Весь мир открыт для вас!',
+      text: 'Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих условий активизации ... независимые способы реализации соответствующих...',
+      date: '01/04/2023',
+      href: '#',
+      linkText: 'читать статью'
+    },
+    {
+      id: 3,
+      icon: 'narrow-alley-blog',
+      title: 'Как подготовиться к путешествию в одиночку? ',
+      text: 'Для современного мира базовый вектор развития предполагает.',
+      date: '01/04/2023',
+      href: '#',
+      linkText: 'читать статью'
+    },
+    {
+      id: 4,
+      icon: 'temple-india-blog',
+      title: 'Индия ... летим?',
+      text: 'Для современного мира базовый.',
+      date: '01/04/2023',
+      href: '#',
+      linkText: 'читать статью'
+    }
   ];
 
   private wordCollection: Collection<string> = new Collection<string>([]);

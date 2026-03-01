@@ -94,7 +94,6 @@
           </div>
         </div>
       </header>
-      
       <section class="hike">
         <div class="container">
           <div class="hike__wrapper">
@@ -115,7 +114,7 @@
                     штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur"
                     и занялся его поисками в классической латинской литературе.
                   </p>
-                  <button class="hike__btn">Программа тура</button>
+                  <button (click)="toastService.showWarning('Программа не доступна!')" class="hike__btn">Программа тура</button>
                 </div>
               </div>
             </div>
@@ -141,7 +140,7 @@
                     </div>  
                   </div>
                 }
-                <button id="programs-pricing-btn" class="offers__btn">Стоимость программ</button>
+                <button (click)="toastService.showInfo('Стоимость отправлена!')" id="programs-pricing-btn" class="offers__btn">Стоимость программ</button>
               </div>
               <div class="offers__gallery">
                 @for (slide of gallerySlides; track slide.id) {
@@ -152,6 +151,86 @@
           </div>
         </div>
       </section>
+      <section class="popular-directions">
+        <div class="container">
+          <div class="popular-wrap">
+            <div class="popular__title-block">
+              <span class="subtitle">по версии отдыхающих</span>
+              <h2 class="title">Популярные направления</h2>
+            </div>
+            <div class="tour-cards">
+              @for (tour of tours; track tour.id) {
+                <div class="tour-card">
+                  <img [src]="'./images/' + tour.icon + '.png'" [alt]="tour.title">
+                  <div class="tour-card__rating">
+                    <div class="tour-card__rating-group">
+                      <div class="tour-card__rating-icon">
+                        <img src="./images/icon-rating .svg" alt="">
+                      </div>
+                      <span>{{ tour.rating }}</span>
+                    </div>
+                  </div>
+                  <div class="tour-card__content">
+                    <div class="tour-card__text-block">
+                      <h3 class="title-tour">{{ tour.title }}</h3>
+                      <span>{{ tour.subtitle }}</span>
+                    </div>
+                    <div class="tour-card__price-block">
+                      <span>{{ tour.price }}</span>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+            <div class="btn__tour-container">
+              <button (click)="toastService.showSuccess('Направление забронировано!')" class="btn-tour">Рейтинг направлений</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="travel">
+        <div class="container">
+          <div class="travel-blog__wrap">
+            <div class="travel-blog__title-block">
+              <span class="subtitle">делимся впечатлениями</span>
+              <h2 class="title">Блог о путешествиях</h2>
+            </div>
+            <div class="travel-blogs">
+              @for (travel of travels; track travel.id) {
+                <div class="travel-blog" [ngClass]="{'travel-blog--hover': travel.id === 2}">
+                  <img [src]="'./images/' + travel.icon + '.png'" [alt]="travel.title">
+                  <div class="travel-blog-card__content">
+                    <h3 class="title-travel">{{ travel.title }}</h3>
+                    <p class="travel-blog-card__text">{{ travel.text }}</p>
+                    <div class="travel-blog-card__footer">
+                        <span class="card__date">{{ travel.date }}</span>
+                        <a [href]="travel.href" class="card__link">{{ travel.linkText }}</a>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+            <div class="btn__travel-container">
+              <button (click)="toastService.showError('Материалы недоступны')" class="btn-travel">Другие материалы</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <ng-template #messages let-item="item">
+      <div class="message" [attr.data-id]="item.id">
+        <img class="icon-message" src="/images/service/icon-message.svg">
+        <h4>{{ item.type }}</h4>
+        <p>{{ item.text }}</p>
+        <img (click)="toastService.closeMessage(item)" class="close-button" src="/images/service/icon-close.svg">
+      </div>
+    </ng-template>
+    <div class="message-container">
+      @for (message of toastService.getMessages(); track message.id) {
+        <ng-container 
+          [ngTemplateOutlet]="messages" 
+          [ngTemplateOutletContext]="{ item: message }">
+        </ng-container>
+      }
     </div>
 }
-
