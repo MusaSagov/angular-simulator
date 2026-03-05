@@ -1,0 +1,16 @@
+<ng-template #messages let-item="item">
+  <div class="message" [attr.data-id]="item.id">
+    <img class="icon-message" src="/images/service/icon-message.svg">
+    <h4>{{ item.type }}</h4>
+    <p>{{ item.text }}</p>
+    <img (click)="toastService.closeMessage(item)" class="close-button" src="/images/service/icon-close.svg">
+  </div>
+</ng-template>
+<div class="message-container">
+  @for (message of toastService.getMessages(); track message.id) {
+    <ng-container 
+      [ngTemplateOutlet]="messages" 
+      [ngTemplateOutletContext]="{ item: message }">
+    </ng-container>
+  }
+</div>
