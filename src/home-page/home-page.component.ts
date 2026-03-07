@@ -10,7 +10,8 @@ import { IOffer, ISlide, ITours, ITravels } from '../interfaces';
   styleUrl: './home-page.component.scss',
 })
 export class HomePageComponent {
-  toastService = inject(ToastService);
+
+  toastService: ToastService = inject(ToastService);
 
   isLoading: boolean = true;
 

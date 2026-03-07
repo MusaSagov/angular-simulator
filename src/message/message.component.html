@@ -7,10 +7,10 @@
   </div>
 </ng-template>
 <div class="message-container">
-  @for (message of toastService.getMessages(); track message.id) {
+  @for (toast of toastService.getMessages(); track toast.id) {
     <ng-container 
       [ngTemplateOutlet]="messages" 
-      [ngTemplateOutletContext]="{ item: message }">
+      [ngTemplateOutletContext]="{ item: toast }">
     </ng-container>
   }
 </div>
