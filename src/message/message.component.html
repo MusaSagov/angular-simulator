@@ -1,16 +1,16 @@
-<ng-template #messages let-item="item">
-  <div class="message" [attr.data-id]="item.id">
+<ng-template #messages let-toast="toast">
+  <div class="message" [attr.data-id]="toast.id">
     <img class="icon-message" src="/images/service/icon-message.svg">
-    <h4>{{ item.type }}</h4>
-    <p>{{ item.text }}</p>
-    <img (click)="toastService.closeMessage(item)" class="close-button" src="/images/service/icon-close.svg">
+    <h4>{{ toast.type }}</h4>
+    <p>{{ toast.text }}</p>
+    <img (click)="toastService.closeMessage(toast)" class="close-button" src="/images/service/icon-close.svg">
   </div>
 </ng-template>
 <div class="message-container">
   @for (toast of toastService.getMessages(); track toast.id) {
     <ng-container 
       [ngTemplateOutlet]="messages" 
-      [ngTemplateOutletContext]="{ item: toast }">
+      [ngTemplateOutletContext]="{ toast: toast }">
     </ng-container>
   }
 </div>

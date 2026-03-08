@@ -11,5 +11,5 @@ import { ToastService } from '../toast.service';
 })
 export class MessageComponent {
   
-  toastService: ToastService = inject(ToastService)
+  toastService: ToastService = inject(ToastService);
 }
