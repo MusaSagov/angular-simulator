@@ -1,10 +1,14 @@
 import { Injectable } from "@angular/core";
-import { IToastMessage } from "./interfaces";
-import { MessageType } from "./enums/MessageType";
+import { IToastMessage } from "../interfaces/IToastMessage";
+import { MessageType } from "../enums/MessageType";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
   private messages: IToastMessage[] = [];
+
+  private messagesSubject: BehaviorSubject<IToastMessage[]> = new BehaviorSubject<IToastMessage[]>([]);
+  messages$ = this.messagesSubject.asObservable()
 
   getMessages(): IToastMessage[] {
     return [...this.messages];
@@ -32,12 +36,13 @@ export class ToastService {
       text,
       type
     };
-    this.messages = [message, ...this.messages];
-
-    setTimeout(() => this.closeMessage(message), 5000);
+    const messageList: IToastMessage[] = this.messagesSubject.getValue();
+    this.messagesSubject.next([message, ...messageList]);
+    setTimeout(() => this.closeMessage(message.id), 5000);
   }
 
-  closeMessage(message: IToastMessage): void {
-    this.messages = this.messages.filter((msg: IToastMessage) => msg !== message);
+  closeMessage(id: string): void {
+    const current = this.messagesSubject.getValue();
+    this.messagesSubject.next(current.filter((msg: IToastMessage) => msg.id !== id));
   }
 }

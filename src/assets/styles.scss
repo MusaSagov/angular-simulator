@@ -22,6 +22,12 @@
   margin: 0 auto;
 }
 
+body.loader-lock {
+  overflow: hidden !important;
+  position: fixed !important;
+  width: 100% !important;
+}
+
 .fw4 {
   font-weight: 400;
 }
@@ -32,4 +38,8 @@
 
 .fs26 {
   font-size: 26px;
+}
+
+.mb26 {
+  margin-bottom: 26px;
 }
