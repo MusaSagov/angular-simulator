@@ -5,13 +5,14 @@ import { BehaviorSubject } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
-  private messages: IToastMessage[] = [];
 
-  private messagesSubject: BehaviorSubject<IToastMessage[]> = new BehaviorSubject<IToastMessage[]>([]);
-  messages$ = this.messagesSubject.asObservable()
+  private toasts: IToastMessage[] = [];
+
+  private toastsSubject: BehaviorSubject<IToastMessage[]> = new BehaviorSubject<IToastMessage[]>([]);
+  toasts$ = this.toastsSubject.asObservable()
 
   getMessages(): IToastMessage[] {
-    return [...this.messages];
+    return [...this.toasts];
   }
 
   showSuccess(message: string): void {
@@ -36,13 +37,14 @@ export class ToastService {
       text,
       type
     };
-    const messageList: IToastMessage[] = this.messagesSubject.getValue();
-    this.messagesSubject.next([message, ...messageList]);
+    const messageList: IToastMessage[] = this.toastsSubject.getValue();
+    this.toastsSubject.next([message, ...messageList]);
     setTimeout(() => this.closeMessage(message.id), 5000);
   }
 
   closeMessage(id: string): void {
-    const current = this.messagesSubject.getValue();
-    this.messagesSubject.next(current.filter((msg: IToastMessage) => msg.id !== id));
+    const current = this.toastsSubject.getValue();
+    this.toastsSubject.next(current.filter((msg: IToastMessage) => msg.id !== id));
   }
+  
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostBinding, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { LoaderService } from '../service/loader.service';
 
@@ -7,10 +7,10 @@ import { LoaderService } from '../service/loader.service';
   standalone: true,
   imports: [AsyncPipe],
   templateUrl: './loader.component.html',
-  styleUrl: './loader.component.scss'
+  styleUrl: './loader.component.scss',
 })
 export class LoaderComponent {
 
   loaderService: LoaderService = inject(LoaderService);
-
+  
 }

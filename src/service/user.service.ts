@@ -25,15 +25,16 @@ export class UserService {
   }
 
   loadUsers(): void {
-    this.loaderService.on();
+    this.loaderService.showLoader();
     this.userApi.getUsers()
     .pipe(
+      delay(2000),
       tap((users: IUser[]) => this.setUsers(users)),
       catchError((error): Observable<IUser[]> => {
         this.toastService.showError('Не удалось загрузить пользователей');
         return of([]);
       }),
-      finalize(() => this.loaderService.off()),
+      finalize(() => this.loaderService.hideLoader()),
     ).subscribe();
   }
 }

@@ -7,7 +7,7 @@
   </div>
 </ng-template>
 <div class="message-container">
-  @for (toast of toastService.messages$ | async; track $index) {
+  @for (toast of toastService.toasts$ | async; track $index) {
     <ng-container 
       [ngTemplateOutlet]="messages" 
       [ngTemplateOutletContext]="{ toast: toast }">

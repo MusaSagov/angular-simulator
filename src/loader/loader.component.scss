@@ -2,18 +2,20 @@
   display: block;
 }
 
-.loader-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
+.loader-overlay.loader-lock {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+  overflow: hidden !important;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: all;
-  user-select: none;
-  touch-action: none;
+  pointer-events: all !important;
+  user-select: none !important;
+  touch-action: none !important;
+  cursor: wait !important;
 }
 
 .loader-spinner {
