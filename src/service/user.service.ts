@@ -15,26 +15,26 @@ export class UserService {
   userApi: UserApiService = inject(UserApiService);
 
   private userSubject: BehaviorSubject<IUser[]>= new BehaviorSubject<IUser[]>([]);
+  users$: Observable<IUser[]> =this.userSubject.asObservable();
 
   setUsers(users: IUser[]): void {
     this.userSubject.next(users);
   }
 
-  getUsers(): Observable<IUser[]> {
-    return this.userSubject.asObservable();
+  getUsers(): IUser[] {
+    return this.userSubject.getValue();
   }
 
-  loadUsers(): void {
+  loadUsers(): Observable<IUser[]> {
     this.loaderService.showLoader();
-    this.userApi.getUsers()
+    return this.userApi.getUsers()
     .pipe(
-      delay(2000),
-      tap((users: IUser[]) => this.setUsers(users)),
-      catchError((error): Observable<IUser[]> => {
+      catchError(() => {
         this.toastService.showError('Не удалось загрузить пользователей');
         return of([]);
       }),
       finalize(() => this.loaderService.hideLoader()),
-    ).subscribe();
+    );
   }
+  
 }

@@ -1,18 +1,16 @@
 import { Injectable } from "@angular/core";
 import { IToastMessage } from "../interfaces/IToastMessage";
 import { MessageType } from "../enums/MessageType";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
-
-  private toasts: IToastMessage[] = [];
-
+  
   private toastsSubject: BehaviorSubject<IToastMessage[]> = new BehaviorSubject<IToastMessage[]>([]);
-  toasts$ = this.toastsSubject.asObservable()
+  toasts$: Observable<IToastMessage[]> = this.toastsSubject.asObservable();
 
   getMessages(): IToastMessage[] {
-    return [...this.toasts];
+    return this.toastsSubject.getValue();
   }
 
   showSuccess(message: string): void {
@@ -43,8 +41,9 @@ export class ToastService {
   }
 
   closeMessage(id: string): void {
-    const current = this.toastsSubject.getValue();
-    this.toastsSubject.next(current.filter((msg: IToastMessage) => msg.id !== id));
+    const current: IToastMessage[] = this.toastsSubject.getValue();
+    const updatedMessages: IToastMessage[] = current.filter((msg: IToastMessage) => msg.id !== id)
+    this.toastsSubject.next(updatedMessages);
   }
-  
+
 }

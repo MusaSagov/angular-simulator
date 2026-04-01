@@ -12,5 +12,5 @@ import { LoaderService } from '../service/loader.service';
 export class LoaderComponent {
 
   loaderService: LoaderService = inject(LoaderService);
-  
+
 }
