@@ -16,12 +16,12 @@ export class UsersPageComponent {
   userService: UserService = inject(UserService);
   users$: Observable<IUser[]> = this.userService.users$;
 
-  loadUsers$ = this.userService.loadUsers().pipe(
-    tap((users: IUser[]) => this.userService.setUsers(users))
-  )
-
-  ngOnInit(): void {
-    this.loadUsers$.subscribe();
+  constructor() {
+    this.userService.loadUsers()
+      .pipe(
+        tap((users: IUser[]) => this.userService.setUsers(users))
+      )
+      .subscribe();
   }
-
+  
 }
