@@ -3,11 +3,11 @@
     <img class="icon-message" src="/images/service/icon-message.svg">
     <h4>{{ toast.type }}</h4>
     <p>{{ toast.text }}</p>
-    <img (click)="toastService.closeMessage(toast)" class="close-button" src="/images/service/icon-close.svg">
+    <img (click)="toastService.closeMessage(toast.id)" class="close-button" src="/images/service/icon-close.svg">
   </div>
 </ng-template>
 <div class="message-container">
-  @for (toast of toastService.getMessages(); track toast.id) {
+  @for (toast of toastService.toasts$ | async; track $index) {
     <ng-container 
       [ngTemplateOutlet]="messages" 
       [ngTemplateOutletContext]="{ toast: toast }">

@@ -1,11 +1,12 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { ToastService } from '../toast.service';
-import { IOffer, ISlide, ITours, ITravels } from '../interfaces';
+import { ToastService } from '../service/toast.service';
+import { ILocation, IOffer, IParticipant, ISlide, ITours, ITravels } from '../interfaces';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-home-page',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
 })
@@ -14,6 +15,10 @@ export class HomePageComponent {
   toastService: ToastService = inject(ToastService);
 
   isLoading: boolean = true;
+  selectedLocation!: string;
+  selectedDate!: string;
+  selectedCount!: string;
+  liveText: string = '';
 
   gallerySlides: ISlide[] = [
     {
@@ -158,10 +163,24 @@ export class HomePageComponent {
     }
   ];
 
+  locations: ILocation[] = [
+    { id: 1, name: 'Россия' },
+    { id: 2, name: 'Украина' },
+    { id: 3, name: 'Беларусь' }
+  ];
+
+  participants: IParticipant[] = [
+    { id: 1, value: '4 человека', quantity: 4 },
+    { id: 2, value: '5 человек', quantity: 5 },
+    { id: 3, value: '6 человек', quantity: 6 }
+  ];
+
   constructor() {
 
     setTimeout(() => {
       this.isLoading = false;
     }, 2000);
   }
+
+  onSearchSubmit(form: NgForm): void {}
 }

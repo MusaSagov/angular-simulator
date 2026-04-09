@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ToastService } from '../toast.service';
+import { ToastService } from '../service/toast.service';
 
 @Component({
   selector: 'app-message',
@@ -12,4 +12,5 @@ import { ToastService } from '../toast.service';
 export class MessageComponent {
   
   toastService: ToastService = inject(ToastService);
+  
 }

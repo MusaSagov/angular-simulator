@@ -14,10 +14,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class HeaderComponent {
 
   companyName: string = 'Румтибет';
-  selectedLocation!: string;
-  selectedDate!: string;
-  selectedCount!: string;
-  liveText: string = '';
   currentWidget: 'counter' | 'dateTime' = 'dateTime';
   counter: number = 0;
   formattedDateTime: string = new Date().toLocaleDateString('ru-Ru');
@@ -34,26 +30,12 @@ export class HeaderComponent {
       link: "/users-page" 
     }
   ];
-
-  locations: ILocation[] = [
-    { id: 1, name: 'Россия' },
-    { id: 2, name: 'Украина' },
-    { id: 3, name: 'Беларусь' }
-  ];
-
-  participants: IParticipant[] = [
-    { id: 1, value: '4 человека', quantity: 4 },
-    { id: 2, value: '5 человек', quantity: 5 },
-    { id: 3, value: '6 человек', quantity: 6 }
-  ];
-
+  
   constructor() {
     setInterval(() => {
       this.formattedDateTime = new Date().toLocaleString('ru-RU');
     }, 1000);
   }
-
-  onSearchSubmit(form: NgForm): void {}
 
   setWidget(widget: 'counter' | 'dateTime'): void {
     this.currentWidget = widget;
