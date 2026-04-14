@@ -1,68 +1,14 @@
 <section class="section-user-page">
   <div class="user-page">
     <h1 class="user-page__title">Страница пользователей</h1>
+    <app-create-user (createUser)="onUserCreated($event)"></app-create-user>
+    <app-users-filter (filter)="onFilterChange($event)"></app-users-filter>
     <div class="user-cards">
-      @for (user of users$ | async; track user.id) {
-        <div class="user-card">
-          <h2 class="user-card__title">{{ user.name }}</h2>
-          <p class="user-card__username color-yellow">{{ user.username }}</p>
-          <h3 class="user-card__subtitle">Контакты</h3>
-          <div class="user-card__section">
-            <div class="user-card__row">
-              <p class="user-card__label">Эл. почта:</p>
-              <span class="user-card__value color-yellow">{{ user.email }}</span>
-            </div>
-            <div class="user-card__row">
-              <p class="user-card__label">Телефон:</p>
-              <span class="user-card__value">{{ user.phone }}</span>
-            </div>
-            <div class="user-card__row">
-              <p class="user-card__label">Веб-сайт:</p>
-              <span class="user-card__value color-yellow">{{ user.website }}</span>
-            </div>
-          </div>
-          <h3 class="user-card__subtitle">Адрес проживания</h3>
-          <div class="user-card__section">
-            <div class="user-card__row">
-              <p class="user-card__label">Город:</p>
-              <span class="user-card__value">{{ user.address.city }}</span>
-            </div>
-            <div class="user-card__row">
-              <p class="user-card__label">Улица:</p>
-              <span class="user-card__value">{{ user.address.street }}</span>
-            </div>
-            <div class="user-card__row">
-              <p class="user-card__label">Офис:</p>
-              <span class="user-card__value">{{ user.address.suite }}</span>
-            </div>
-            <div class="user-card__row">
-              <p class="user-card__label">Индекс:</p>
-              <span class="user-card__value">{{ user.address.zipcode }}</span>
-            </div>
-            <div class="user-card__row user-card__row--coords">
-              <p class="user-card__label">Координаты:</p>
-              <div class="user-card__coords">
-                <span class="user-card__coord">{{ user.address.geo.lat }}</span>
-                <span class="user-card__coord">{{ user.address.geo.lng }}</span>
-              </div>
-            </div>
-          </div>
-          <h3 class="user-card__subtitle">Место работы</h3>
-          <div class="user-card__section">
-            <div class="user-card__row">
-              <p class="user-card__label">Компания:</p>
-              <span class="user-card__value">{{ user.company.name }}</span>
-            </div>
-            <div class="user-card__row mb26">
-              <p class="user-card__label">Миссия:</p>
-              <span class="user-card__value text-italic">{{ user.company.catchPhrase }}</span>
-            </div>
-            <div class="user-card__row">
-              <p class="user-card__label">Специализация:</p>
-              <span class="user-card__value">{{ user.company.bs }}</span>
-            </div>
-          </div>
-        </div>
+      @for (user of filteredUsers$ | async; track user.id) {
+        <app-user-card 
+          [user]="user"
+          (deleteUser)="onDeleteUser($event)">
+        </app-user-card>
       } @empty {
         <div class="message-not-users">
           <p class="text">Нет пользователей для отображения</p>
@@ -70,4 +16,5 @@
       }
     </div>
   </div>
+  <button (click)="refreshUsers()" class="user-page__refresh">Обновить с сервера</button>
 </section>
