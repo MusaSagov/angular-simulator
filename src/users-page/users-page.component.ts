@@ -25,7 +25,7 @@ export class UsersPageComponent {
   filteredUsers$: Observable<IUser[]>= this.users$.pipe(
     map(users => {
       console.log('users (UserService):', users);
-      const query = this.filterQuery.trim();
+      const query: string = this.filterQuery.trim();
       if (!query) return users;
       return users.filter(user =>
         user.name && user.name.toLowerCase().includes(query.toLowerCase())
@@ -42,7 +42,6 @@ export class UsersPageComponent {
   }
 
   onFilterChange(query: string): void {
-    console.log('filter query:', query);
     this.filterQuery = query;
   }
 
@@ -51,7 +50,7 @@ export class UsersPageComponent {
   }
 
   onUserCreated(user: IUser): void {
-    const users = this.userService.getUsers();
+    const users: IUser[] = this.userService.getUsers();
     const userWithId: IUser = { id: Date.now(), ...user };
     this.userService.setUsers([...users, userWithId]);
   }

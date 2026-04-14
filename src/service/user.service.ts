@@ -56,9 +56,7 @@ export class UserService {
   }
 
   refreshUsers(): Observable<IUser[]> {
-    // this.localStorage.deleteKey('users');
     this.userSubject.next([]);
-
     return this.userApi.getUsers()
       .pipe(
         tap(users => this.setUsers(users)),
