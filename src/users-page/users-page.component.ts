@@ -19,13 +19,10 @@ export class UsersPageComponent {
   
   userService: UserService = inject(UserService);
   users$: Observable<IUser[]> = this.userService.users$;
-
-  filterQuery: string = '';
-
+  filterQuery: string | null = '';
   filteredUsers$: Observable<IUser[]>= this.users$.pipe(
     map(users => {
-      console.log('users (UserService):', users);
-      const query: string = this.filterQuery.trim();
+      const query: string = (this.filterQuery ?? '').trim();
       if (!query) return users;
       return users.filter(user =>
         user.name && user.name.toLowerCase().includes(query.toLowerCase())
@@ -41,7 +38,7 @@ export class UsersPageComponent {
       .subscribe();
   }
 
-  onFilterChange(query: string): void {
+  onFilterChange(query: string | null): void {
     this.filterQuery = query;
   }
 

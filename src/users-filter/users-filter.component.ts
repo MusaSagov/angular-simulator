@@ -1,7 +1,7 @@
 import { Component, DestroyRef, EventEmitter, inject, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { debounce, debounceTime, delay, distinctUntilChanged, map } from 'rxjs';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { debounce, debounceTime, delay, distinctUntilChanged, map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-users-filter',
@@ -11,20 +11,19 @@ import { debounce, debounceTime, delay, distinctUntilChanged, map } from 'rxjs';
 })
 export class UsersFilterComponent {
 
-  fd = inject(FormBuilder);
-  filterControl = this.fd.control<string | null>('');
-  @Output() filter = new EventEmitter<string>();
+  @Output() filterChange: EventEmitter<string | null> = new EventEmitter<string | null>();
+  private readonly formBuilder: FormBuilder = inject(FormBuilder);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
-  destroyRef = inject(DestroyRef);
+  filterControl: FormControl<string | null> = this.formBuilder.control<string | null>('');
 
   ngOnInit(): void {
     this.filterControl.valueChanges.pipe(
-      map(v => v?.trim() ?? ''),
+      debounceTime(200),
       distinctUntilChanged(),
-      delay(200),
+      tap((query: string | null) => this.filterChange.emit(query)),
       takeUntilDestroyed(this.destroyRef)
-    ).subscribe(query => {
-      this.filter.emit(query);
-    });
+    ).subscribe();
   }
+
 }

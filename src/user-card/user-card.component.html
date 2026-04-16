@@ -13,7 +13,7 @@
     </div>
     <div class="user-card__row">
       <p class="user-card__label">Веб-сайт:</p>
-      <span class="user-card__value color-yellow">{{ user.website }}</span>
+      <span class="user-card__value color-yellow">{{ user.website || 'неизвестно' }}</span>
     </div>
   </div>
   <h3 class="user-card__subtitle">Адрес проживания</h3>
@@ -28,7 +28,7 @@
     </div>
     <div class="user-card__row">
       <p class="user-card__label">Офис:</p>
-      <span class="user-card__value">{{ user.address.suite }}</span>
+      <span class="user-card__value">{{ user.address.suite || 'неизвестно' }}</span>
     </div>
     <div class="user-card__row">
       <p class="user-card__label">Индекс:</p>
@@ -50,15 +50,15 @@
     </div>
     <div class="user-card__row mb26">
       <p class="user-card__label">Миссия:</p>
-      <span class="user-card__value text-italic">{{ user.company.catchPhrase }}</span>
+      <span class="user-card__value text-italic">{{ user.company.catchPhrase || 'неизвестно'}}</span>
     </div>
     <div class="user-card__row">
       <p class="user-card__label">Специализация:</p>
-      <span class="user-card__value">{{ user.company.bs }}</span>
+      <span class="user-card__value">{{ user.company.bs || 'неизвестно' }}</span>
     </div>
   </div>
   <div class="user-card__delete">
-  <button (click)="deleteUser.emit(user)" class="delete-btn">
+  <button (click)="onDeleteUser()" class="delete-btn">
     Удалить пользователя
   </button>
 </div>

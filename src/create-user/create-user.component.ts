@@ -71,14 +71,14 @@ export class CreateUserComponent implements OnInit {
     const formValue = this.userForm.value as UserFormData;
     const userData: IUser= {
       name: formValue.name ?? '',
-      username: (formValue.username ?? '').trim() || 'Неизвестно',
+      username: (formValue.username ?? '').trim(),
       email: formValue.email ?? '',
       phone: formValue.phone ?? '',
-      website: (formValue.website ?? '').trim() || 'Неизвестно',
+      website: (formValue.website ?? '').trim(),
       address: {
-        city: (formValue.address?.city ?? '').trim() || 'Неизвестно',
-        street: (formValue.address?.street ?? '').trim() || 'Неизвестно',
-        suite: (formValue.address?.suite ?? '').trim() || 'Неизвестно',
+        city: (formValue.address?.city ?? '').trim(),
+        street: (formValue.address?.street ?? '').trim(),
+        suite: (formValue.address?.suite ?? '').trim(),
         zipcode: formValue.address?.zipcode ?? '',
         geo: {
           lat: formValue.address?.geo?.lat ?? '',
@@ -87,11 +87,12 @@ export class CreateUserComponent implements OnInit {
       },
       company: {
         name: formValue.company?.name ?? '',
-        catchPhrase: (formValue.company?.catchPhrase ?? '').trim() || 'Неизвестно',
-        bs: (formValue.company?.bs ?? '').trim() || 'Неизвестно',
+        catchPhrase: (formValue.company?.catchPhrase ?? '').trim(),
+        bs: (formValue.company?.bs ?? '').trim(),
       },
     };
 
     this.createUser.emit(userData);
   }
+  
 }
