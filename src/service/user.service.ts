@@ -16,30 +16,33 @@ export class UserService {
   userApi: UserApiService = inject(UserApiService);
   localStorage: LocalStorageService = inject(LocalStorageService);
 
-  private userSubject: BehaviorSubject<IUser[]>= new BehaviorSubject<IUser[]>([]);
-  users$: Observable<IUser[]> =this.userSubject.asObservable();
+  private usersSubject: BehaviorSubject<IUser[]>= new BehaviorSubject<IUser[]>([]);
+  users$: Observable<IUser[]> =this.usersSubject.asObservable();
 
   setUsers(users: IUser[]): void {
-    this.userSubject.next(users);
-    this.saveUsers(users);
+    console.log('setUsers:', users);
+    this.usersSubject.next(users);
+    this.localStorage.saveData('users', users);
   }
 
   getUsers(): IUser[] {
-    return this.userSubject.getValue();
+    return this.usersSubject.getValue();
+  }
+
+  addUser(user: IUser): void {
+    const users: IUser[] = this.getUsers();
+    const { id, ...rest} = user;
+    const userWithId: IUser = { id: Date.now(), ...rest };
+    this.setUsers([...users, userWithId]);
   }
 
    deleteUser(user: IUser): void {
-    const currentUsers: IUser[] = this.userSubject.getValue().filter(u => u.id !== user.id);
-    this.userSubject.next(currentUsers);
-    this.saveUsers(currentUsers);
+    const currentUsers: IUser[] = this.usersSubject.getValue().filter((u: IUser) => u.id !== user.id);
+    this.usersSubject.next(currentUsers);
+    this.setUsers(currentUsers);
   }
 
   loadUsers(): Observable<IUser[]> {
-    const cached: IUser[] | null = this.localStorage.loadData('users');
-    if (cached) {
-      this.setUsers(cached);
-      return of(cached);
-    }
     this.loaderService.showLoader();
     return this.userApi.getUsers()
     .pipe(
@@ -51,20 +54,4 @@ export class UserService {
     );
   }
 
-  saveUsers(users: IUser[]): void {
-    this.localStorage.saveData('users', users);
-  }
-
-  refreshUsers(): Observable<IUser[]> {
-    this.userSubject.next([]);
-    return this.userApi.getUsers()
-      .pipe(
-        tap(users => this.setUsers(users)),
-        catchError(error => {
-          this.toastService.showError('Не удалось обновить пользователей');
-          return of([]);
-        }),
-        finalize(() => this.loaderService.hideLoader()),
-      );
-  }
 }

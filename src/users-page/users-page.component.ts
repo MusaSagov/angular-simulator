@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { LoaderComponent } from '../loader/loader.component';
 import { IUser } from '../interfaces';
-import { map, Observable, tap } from 'rxjs';
+import { combineLatest, map, Observable, startWith, tap } from 'rxjs';
 import { UserService } from '../service/user.service';
 import { AsyncPipe } from '@angular/common';
 import { UserCardComponent } from '../user-card/user-card.component';
 import { CreateUserComponent } from '../create-user/create-user.component';
 import { UsersFilterComponent } from '../users-filter/users-filter.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-users-page',
@@ -19,18 +19,30 @@ export class UsersPageComponent {
   
   userService: UserService = inject(UserService);
   users$: Observable<IUser[]> = this.userService.users$;
-  filterQuery: string | null = '';
-  filteredUsers$: Observable<IUser[]>= this.users$.pipe(
-    map(users => {
-      const query: string = (this.filterQuery ?? '').trim();
-      if (!query) return users;
+  filterControl: FormControl<string | null> = new FormControl<string | null>('');
+  filterChange$: Observable<string | null> = new Observable();
+  filteredUsers$: Observable<IUser[]> = combineLatest([
+    this.users$,
+    this.filterControl.valueChanges.pipe(
+      startWith('')
+    )
+    ]).pipe(
+      map(([users, query]) => {
+      console.log('Filtered users:', users);
+      const trimmedQuery = (query ?? '').trim();
+      if (!trimmedQuery) return users;
       return users.filter(user =>
-        user.name && user.name.toLowerCase().includes(query.toLowerCase())
+      user.name && user.name.toLowerCase().includes(trimmedQuery.toLowerCase())
       );
     })
   );
   
   ngOnInit(): void {
+    const cached: IUser[] | null = this.userService.localStorage.loadData('users');
+    if (cached) {
+      this.userService.setUsers(cached);
+      return;
+    }
     this.userService.loadUsers()
       .pipe(
         tap((users: IUser[]) => this.userService.setUsers(users))
@@ -38,23 +50,13 @@ export class UsersPageComponent {
       .subscribe();
   }
 
-  onFilterChange(query: string | null): void {
-    this.filterQuery = query;
-  }
-
   onDeleteUser(user: IUser): void {
     this.userService.deleteUser(user);
   }
 
-  onUserCreated(user: IUser): void {
-    const users: IUser[] = this.userService.getUsers();
-    const userWithId: IUser = { id: Date.now(), ...user };
-    this.userService.setUsers([...users, userWithId]);
-  }
-
-  refreshUsers(): void {
-    this.userService.refreshUsers()
-    .subscribe(users => this.userService.setUsers(users));
+  onCreateUser(user: IUser): void {
+    console.log('Created user:', user);
+    this.userService.addUser(user);
   }
 
 }

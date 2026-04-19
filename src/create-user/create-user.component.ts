@@ -1,8 +1,8 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IUser } from '../interfaces';
-import { UserFormData, UserFormControls } from '../interfaces'; // или отдельный файл
+import { UserFormControls } from '../interfaces/IUserFormControls';
 
 @Component({
   selector: 'app-create-user',
@@ -11,88 +11,38 @@ import { UserFormData, UserFormControls } from '../interfaces'; // или отд
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss'],
 })
-export class CreateUserComponent implements OnInit {
+export class CreateUserComponent {
 
-  @Output() createUser = new EventEmitter<IUser>();
-  userForm!: FormGroup<UserFormControls>;
+  @Output() createUser: EventEmitter<IUser> = new EventEmitter<IUser>();
+  private fb: FormBuilder = inject(FormBuilder);
 
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.userForm = this.fb.group<UserFormControls>({
-      name: this.fb.control('', [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(100),
-      ]),
-      username: this.fb.control('', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(30),
-      ]),
-      email: this.fb.control('', [
-        Validators.required,
-        Validators.email,
-        Validators.maxLength(100),
-      ]),
-      phone: this.fb.control('', [
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(25),
-      ]),
-      website: this.fb.control('', [Validators.maxLength(100)]),
-      address: this.fb.group({
-        city: this.fb.control('', [Validators.maxLength(50)]),
-        street: this.fb.control('', [Validators.maxLength(100)]),
-        suite: this.fb.control('', [Validators.maxLength(50)]),
-        zipcode: this.fb.control('', [
-          Validators.required,
-          Validators.minLength(5),
-          Validators.maxLength(10),
-        ]),
+  userForm: FormGroup = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+    username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
+    email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
+    phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(25)]],
+    website: ['', [Validators.maxLength(100)]],
+    address: this.fb.group({
+      city: ['', [Validators.maxLength(50)]],
+      street: ['', [Validators.maxLength(100)]],
+      suite: ['', [Validators.maxLength(50)]],
+      zipcode: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
       geo: this.fb.group({
-          lat: this.fb.control('', [Validators.required]),
-          lng: this.fb.control('', [Validators.required]),
-        }),
+        lat: ['', [Validators.required]],
+        lng: ['', [Validators.required]],
       }),
-      company: this.fb.group({
-        name: this.fb.control('', [
-          Validators.required,
-          Validators.maxLength(50),
-        ]),
-        catchPhrase: this.fb.control('', [Validators.maxLength(200)]),
-        bs: this.fb.control('', [Validators.maxLength(100)]),
-      }),
-    });
-  }
+    }),
+    company: this.fb.group({
+      name: ['', [Validators.required, Validators.maxLength(50)]],
+      catchPhrase: ['', [Validators.maxLength(200)]],
+      bs: ['', [Validators.maxLength(100)]],
+    }),
+  });
 
   onSubmit(): void {
     if (this.userForm.invalid) return;
-    const formValue = this.userForm.value as UserFormData;
-    const userData: IUser= {
-      name: formValue.name ?? '',
-      username: (formValue.username ?? '').trim(),
-      email: formValue.email ?? '',
-      phone: formValue.phone ?? '',
-      website: (formValue.website ?? '').trim(),
-      address: {
-        city: (formValue.address?.city ?? '').trim(),
-        street: (formValue.address?.street ?? '').trim(),
-        suite: (formValue.address?.suite ?? '').trim(),
-        zipcode: formValue.address?.zipcode ?? '',
-        geo: {
-          lat: formValue.address?.geo?.lat ?? '',
-          lng: formValue.address?.geo?.lng ?? '',
-        },
-      },
-      company: {
-        name: formValue.company?.name ?? '',
-        catchPhrase: (formValue.company?.catchPhrase ?? '').trim(),
-        bs: (formValue.company?.bs ?? '').trim(),
-      },
-    };
-
-    this.createUser.emit(userData);
+    const formValue: IUser = this.userForm.value as IUser;
+    this.createUser.emit(formValue);
   }
-  
+
 }

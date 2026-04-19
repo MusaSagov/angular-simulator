@@ -12,8 +12,8 @@ import { debounce, debounceTime, delay, distinctUntilChanged, map, tap } from 'r
 export class UsersFilterComponent {
 
   @Output() filterChange: EventEmitter<string | null> = new EventEmitter<string | null>();
-  private readonly formBuilder: FormBuilder = inject(FormBuilder);
-  private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private formBuilder: FormBuilder = inject(FormBuilder);
+  private destroyRef: DestroyRef = inject(DestroyRef);
 
   filterControl: FormControl<string | null> = this.formBuilder.control<string | null>('');
 
