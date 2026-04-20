@@ -2,7 +2,7 @@
   <div class="user-page">
     <h1 class="user-page__title">Страница пользователей</h1>
     <app-create-user (createUser)="onCreateUser($event)"></app-create-user>
-    <app-users-filter (filterChange)="filterControl.setValue($event)"></app-users-filter>
+    <app-users-filter (filterChange)="onFilterChange($event)"></app-users-filter>
     <div class="user-cards">
       @for (user of filteredUsers$ | async; track user.id) {
         <app-user-card 

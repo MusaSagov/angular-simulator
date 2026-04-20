@@ -1,8 +1,9 @@
 import { Component, Output, EventEmitter, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IUser } from '../interfaces';
-import { UserFormControls } from '../interfaces/IUserFormControls';
+import { FormControls } from '../types/form-controls';
+export type UserFormControls = FormControls<IUser>
 
 @Component({
   selector: 'app-create-user',
@@ -17,6 +18,7 @@ export class CreateUserComponent {
   private fb: FormBuilder = inject(FormBuilder);
 
   userForm: FormGroup = this.fb.group({
+    id: [Date.now()],
     name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
     username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
     email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
@@ -40,8 +42,12 @@ export class CreateUserComponent {
   });
 
   onSubmit(): void {
-    if (this.userForm.invalid) return;
+    if (this.userForm.invalid) {
+      return;
+    } 
     const formValue: IUser = this.userForm.value as IUser;
+    const id: number = Date.now();
+    formValue.id = id;
     this.createUser.emit(formValue);
   }
 

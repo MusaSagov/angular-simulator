@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { IUser } from '../interfaces';
-import { combineLatest, map, Observable, startWith, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, startWith, tap } from 'rxjs';
 import { UserService } from '../service/user.service';
 import { AsyncPipe } from '@angular/common';
 import { UserCardComponent } from '../user-card/user-card.component';
@@ -19,11 +19,11 @@ export class UsersPageComponent {
   
   userService: UserService = inject(UserService);
   users$: Observable<IUser[]> = this.userService.users$;
-  filterControl: FormControl<string | null> = new FormControl<string | null>('');
-  filterChange$: Observable<string | null> = new Observable();
+  filterQuerySubject = new BehaviorSubject<string>('');
+  filterQuery$: Observable<string> = this.filterQuerySubject.asObservable();
   filteredUsers$: Observable<IUser[]> = combineLatest([
     this.users$,
-    this.filterControl.valueChanges.pipe(
+    this.filterQuery$.pipe(
       startWith('')
     )
     ]).pipe(
@@ -55,8 +55,11 @@ export class UsersPageComponent {
   }
 
   onCreateUser(user: IUser): void {
-    console.log('Created user:', user);
     this.userService.addUser(user);
+  }
+
+  onFilterChange(query: string): void {
+    this.filterQuerySubject.next(query);
   }
 
 }

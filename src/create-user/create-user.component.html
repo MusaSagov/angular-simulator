@@ -1,50 +1,50 @@
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
   <div class="form-group">
     <label for="name-input">Имя:</label>
-    <input id="name-input" formControlName="name" placeholder="Имя">
+    <input id="name" formControlName="name" placeholder="Имя">
   </div>
   <div class="form-group">
     <label for="username-input">Фамилия:</label>
-    <input id="username-input" formControlName="username" placeholder="Фамилия">
+    <input id="username" formControlName="username" placeholder="Фамилия">
   </div>
   <div class="form-group">
     <label for="email-input">Email:</label>
-    <input id="email-input" formControlName="email" type="email" placeholder="email@example.com">
+    <input id="email" formControlName="email" type="email" placeholder="email@example.com">
   </div>
   <div class="form-group">
     <label for="phone-input">Телефон:</label>
-    <input id="phone-input" formControlName="phone" placeholder="Телефон">
+    <input id="phone" formControlName="phone" placeholder="Телефон">
   </div>
   <div class="form-group">
     <label for="website-input">Сайт:</label>
-    <input id="website-input" formControlName="website" placeholder="website.com">
+    <input id="website" formControlName="website" placeholder="website.com">
   </div>
   <h3>Адрес</h3>
   <div formGroupName="address">
     <div class="form-group">
       <label for="city-input">Город:</label>
-      <input id="city-input" formControlName="city" placeholder="Город">
+      <input id="city" formControlName="city" placeholder="Город">
     </div>
     <div class="form-group">
       <label for="street-input">Улица:</label>
-      <input id="street-input" formControlName="street" placeholder="Улица">
+      <input id="street" formControlName="street" placeholder="Улица">
     </div>
     <div class="form-group">
       <label for="suite-input">Офис:</label>
-      <input id="suite-input" formControlName="suite" placeholder="Офис">
+      <input id="suite" formControlName="suite" placeholder="Офис">
     </div>
     <div class="form-group">
       <label for="zipcode-input">Индекс:</label>
-      <input id="zipcode-input" formControlName="zipcode" placeholder="12345">
+      <input id="zipcode" formControlName="zipcode" placeholder="12345">
     </div>
     <div formGroupName="geo" class="form-row">
       <div class="form-group">
         <label for="lat-input">Широта:</label>
-        <input id="lat-input" formControlName="lat" placeholder="lat">
+        <input id="lat" formControlName="lat" placeholder="lat">
       </div>
     <div class="form-group">
           <label for="lng-input">Долгота:</label>
-          <input id="lng-input" formControlName="lng" placeholder="lng">
+          <input id="lng" formControlName="lng" placeholder="lng">
       </div>
     </div>
   </div>
@@ -52,15 +52,15 @@
   <div formGroupName="company">
     <div class="form-group">
       <label for="name-input">Название:</label>
-      <input id="name-input" formControlName="name" placeholder="Компания">
+      <input id="name" formControlName="name" placeholder="Компания">
     </div>
     <div class="form-group">
       <label for="catchphrase-input">Слоган:</label>
-      <input id="catchphrase-input" formControlName="catchPhrase" placeholder="Слоган">
+      <input id="catchphrase" formControlName="catchPhrase" placeholder="Слоган">
     </div>
     <div class="form-group">
       <label for="bs-input">Сфера:</label>
-      <input id="bs-input" formControlName="bs" placeholder="Сфера деятельности">
+      <input id="bs" formControlName="bs" placeholder="Сфера деятельности">
     </div>
   </div>
   <button id="create-user-btn" type="submit" [disabled]="userForm.invalid">Создать пользователя</button>
