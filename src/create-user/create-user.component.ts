@@ -45,10 +45,7 @@ export class CreateUserComponent {
     if (this.userForm.invalid) {
       return;
     } 
-    const formValue: IUser = this.userForm.value as IUser;
-    const id: number = Date.now();
-    formValue.id = id;
-    this.createUser.emit(formValue);
+    this.createUser.emit({ ...(this.userForm.value as IUser), id: Date.now() });
   }
 
 }

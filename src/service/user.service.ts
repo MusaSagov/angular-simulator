@@ -20,7 +20,6 @@ export class UserService {
   users$: Observable<IUser[]> =this.usersSubject.asObservable();
 
   setUsers(users: IUser[]): void {
-    console.log('setUsers:', users);
     this.usersSubject.next(users);
     this.localStorage.saveData('users', users);
   }
@@ -31,18 +30,21 @@ export class UserService {
 
   addUser(user: IUser): void {
     const users: IUser[] = this.getUsers();
-    const { id, ...rest} = user;
-    const userWithId: IUser = { id: Date.now(), ...rest };
-    this.setUsers([...users, userWithId]);
+    this.setUsers([...users, user]);
   }
 
    deleteUser(user: IUser): void {
-    const currentUsers: IUser[] = this.usersSubject.getValue().filter((u: IUser) => u.id !== user.id);
+    const currentUsers: IUser[] = this.getUsers().filter((u: IUser) => u.id !== user.id);
     this.usersSubject.next(currentUsers);
     this.setUsers(currentUsers);
   }
 
   loadUsers(): Observable<IUser[]> {
+    const usersFromStorage = this.localStorage.loadData<IUser[]>('users');
+    if (usersFromStorage?.length) {
+      this.usersSubject.next(usersFromStorage);
+      return of(usersFromStorage);
+    }
     this.loaderService.showLoader();
     return this.userApi.getUsers()
     .pipe(
