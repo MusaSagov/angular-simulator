@@ -16,7 +16,7 @@ export class UsersFilterComponent {
   private formBuilder: FormBuilder = inject(FormBuilder);
   private destroyRef: DestroyRef = inject(DestroyRef);
 
-  filterControl: FormControl<string | null> = this.formBuilder.control<string | null>('');
+  filterControl: FormControl<string | null> = this.formBuilder.control('');
 
   ngOnInit(): void {
     this.filterControl.valueChanges.pipe(

@@ -35,14 +35,13 @@ export class UserService {
 
    deleteUser(user: IUser): void {
     const currentUsers: IUser[] = this.getUsers().filter((u: IUser) => u.id !== user.id);
-    this.usersSubject.next(currentUsers);
     this.setUsers(currentUsers);
   }
 
   loadUsers(): Observable<IUser[]> {
     const usersFromStorage = this.localStorage.loadData<IUser[]>('users');
     if (usersFromStorage?.length) {
-      this.usersSubject.next(usersFromStorage);
+      this.setUsers(usersFromStorage);
       return of(usersFromStorage);
     }
     this.loaderService.showLoader();

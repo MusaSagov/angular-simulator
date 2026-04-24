@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { CommonModule } from '@angular/common';
 import { IUser } from '../interfaces';
 import { FormControls } from '../types/form-controls';
-export type UserFormControls = FormControls<IUser>
 
 @Component({
   selector: 'app-create-user',
@@ -24,7 +23,7 @@ export class CreateUserComponent {
     email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
     phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(25)]],
     website: ['', [Validators.maxLength(100)]],
-    address: this.fb.group({
+    address: this.fb.nonNullable.group({
       city: ['', [Validators.maxLength(50)]],
       street: ['', [Validators.maxLength(100)]],
       suite: ['', [Validators.maxLength(50)]],
@@ -44,8 +43,9 @@ export class CreateUserComponent {
   onSubmit(): void {
     if (this.userForm.invalid) {
       return;
-    } 
-    this.createUser.emit({ ...(this.userForm.value as IUser), id: Date.now() });
+    }
+    const formValue: IUser = this.userForm.value; 
+    this.createUser.emit({ ...formValue, id: Date.now() });
   }
 
 }

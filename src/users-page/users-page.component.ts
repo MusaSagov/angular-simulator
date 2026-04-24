@@ -19,17 +19,16 @@ export class UsersPageComponent {
   
   userService: UserService = inject(UserService);
   users$: Observable<IUser[]> = this.userService.users$;
+
   filterQuerySubject = new BehaviorSubject<string>('');
-  filterQuery$: Observable<string> = this.filterQuerySubject.asObservable();
   filteredUsers$: Observable<IUser[]> = combineLatest([
     this.users$,
-    this.filterQuery$.pipe(
+    this.filterQuerySubject.asObservable().pipe(
       startWith('')
     )
     ]).pipe(
-      map(([users, query]) => {
-      console.log('Filtered users:', users);
-      const trimmedQuery = (query ?? '').trim();
+      map(([users, query]: [IUser[], string]): IUser[] => {
+      const trimmedQuery: string = (query ?? '').trim();
       if (!trimmedQuery) return users;
       return users.filter(user =>
       user.name && user.name.toLowerCase().includes(trimmedQuery.toLowerCase())
@@ -38,16 +37,7 @@ export class UsersPageComponent {
   );
   
   ngOnInit(): void {
-    const cached: IUser[] | null = this.userService.localStorage.loadData('users');
-    if (cached) {
-      this.userService.setUsers(cached);
-      return;
-    }
-    this.userService.loadUsers()
-      .pipe(
-        tap((users: IUser[]) => this.userService.setUsers(users))
-      )
-      .subscribe();
+    this.userService.loadUsers().subscribe();
   }
 
   onDeleteUser(user: IUser): void {
