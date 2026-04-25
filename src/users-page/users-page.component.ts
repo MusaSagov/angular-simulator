@@ -6,7 +6,6 @@ import { AsyncPipe } from '@angular/common';
 import { UserCardComponent } from '../user-card/user-card.component';
 import { CreateUserComponent } from '../create-user/create-user.component';
 import { UsersFilterComponent } from '../users-filter/users-filter.component';
-import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-users-page',

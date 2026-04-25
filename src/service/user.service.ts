@@ -2,7 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { LoaderService } from "./loader.service";
 import { ToastService } from "./toast.service";
 import { UserApiService } from "./user-api.service";
-import { BehaviorSubject, catchError, delay, finalize, Observable, of, tap } from "rxjs";
+import { BehaviorSubject, catchError, finalize, Observable, of } from "rxjs";
 import { IUser } from "../interfaces";
 import { LocalStorageService } from "./local-storage.service";
 
