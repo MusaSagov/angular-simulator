@@ -39,9 +39,8 @@ export class UserService {
   }
 
   loadUsers(): Observable<IUser[]> {
-    const usersFromStorage = this.localStorage.loadData<IUser[]>('users');
+    const usersFromStorage: IUser[] | null = this.localStorage.loadData<IUser[]>('users');
     if (usersFromStorage?.length) {
-      this.setUsers(usersFromStorage);
       return of(usersFromStorage);
     }
     this.loaderService.showLoader();
