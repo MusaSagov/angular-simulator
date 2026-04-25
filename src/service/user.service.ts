@@ -47,9 +47,6 @@ export class UserService {
     this.loaderService.showLoader();
     return this.userApi.getUsers()
     .pipe(
-      tap(users => {
-        this.setUsers(users);
-      }),
       catchError(() => {
         this.toastService.showError('Не удалось загрузить пользователей');
         return of([]);

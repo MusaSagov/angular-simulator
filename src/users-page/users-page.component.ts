@@ -37,7 +37,11 @@ export class UsersPageComponent {
   );
   
   ngOnInit(): void {
-    this.userService.loadUsers().subscribe();
+    this.userService.loadUsers().pipe(
+      tap(users => {
+        this.userService.setUsers(users);
+      }),  
+    ).subscribe();
   }
 
   onDeleteUser(user: IUser): void {
