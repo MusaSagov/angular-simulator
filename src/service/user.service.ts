@@ -14,14 +14,14 @@ export class UserService {
   loaderService: LoaderService = inject(LoaderService);
   toastService: ToastService = inject(ToastService);
   userApi: UserApiService = inject(UserApiService);
-  localStorage: LocalStorageService = inject(LocalStorageService);
+  localStorageService: LocalStorageService = inject(LocalStorageService);
 
   private usersSubject: BehaviorSubject<IUser[]>= new BehaviorSubject<IUser[]>([]);
   users$: Observable<IUser[]> =this.usersSubject.asObservable();
 
   setUsers(users: IUser[]): void {
     this.usersSubject.next(users);
-    this.localStorage.saveData('users', users);
+    this.localStorageService.saveData('users', users);
   }
 
   getUsers(): IUser[] {
@@ -39,8 +39,8 @@ export class UserService {
   }
 
   loadUsers(): Observable<IUser[]> {
-    const usersFromStorage: IUser[] | null = this.localStorage.loadData<IUser[]>('users');
-    if (usersFromStorage?.length) {
+    const usersFromStorage: IUser[] = this.localStorageService.loadData<IUser[]>('users') ?? [];
+    if (usersFromStorage.length) {
       return of(usersFromStorage);
     }
     this.loaderService.showLoader();

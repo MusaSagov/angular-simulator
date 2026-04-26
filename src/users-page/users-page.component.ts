@@ -38,7 +38,7 @@ export class UsersPageComponent {
   ngOnInit(): void {
     this.userService.loadUsers()
       .pipe(
-        tap(users => this.userService.setUsers(users)))
+        tap((users: IUser[]) => this.userService.setUsers(users)))
       .subscribe();
   }
 
