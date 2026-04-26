@@ -26,7 +26,9 @@ export class UsersPageComponent {
     ]).pipe(
       map(([users, query]: [IUser[], string]): IUser[] => {
       const trimmedQuery: string = query.trim();
-      if (!trimmedQuery) return users;
+      if (!trimmedQuery) {
+        return users;
+      }  
       return users.filter((user: IUser) =>
       user.name?.toLowerCase().includes(trimmedQuery.toLowerCase()) ?? false
       );
