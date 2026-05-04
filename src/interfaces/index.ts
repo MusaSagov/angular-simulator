@@ -7,3 +7,4 @@ export * from './IToastMessage';
 export * from './ITours';
 export * from './ITravels';
 export * from './IUser';
+export * from './IThemeState';

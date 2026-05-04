@@ -1,25 +1,43 @@
 <header class="header">
+  <p-toggleswitch
+    id="toggle-mode"
+    class="switch-mode"
+    [ngModel]="(themeService.state$ | async)?.colorMode === 'dark'"
+    (onChange)="toggleMode($event)"
+  >
+  </p-toggleswitch>
+  <div class="switch-themes">
+    <p-selectbutton
+      id="switch-theme"
+      [options]="themeService.themes"
+      [ngModel]="(themeService.state$ | async)?.theme"
+      (onChange)="toggleTheme($event.value)"
+      optionLabel="label"
+      optionValue="value"
+      aria-labelledby="basic"
+    />
+  </div>
   <div class="container">
     <div class="header__wrapper">
       <div class="header__logo">
-              <img src="/images/rumtibet-logo.svg" alt="Логотип компаний Румтибет">
-              <span class="company-name">{{ companyName | uppercase }}</span>
+        <img src="/images/rumtibet-logo.svg" alt="Логотип компаний Румтибет">
+        <span class="company-name">{{ companyName | uppercase }}</span>
       </div>
       <div class="header__top">
-              <nav class="header__nav" role="navigation" aria-label="Главное меню">
-              @for (navItem of navItems; track navItem.id) {
-                <a 
-                  [routerLink]="navItem.link"
-                  [id]="navItem.id"
-                  class="header__link"
-                  routerLinkActive="active-link"
-                  [routerLinkActiveOptions]="{ exact: navItem.id === 'main-page' }">
-                  {{ navItem.title }}</a>
-              }
-              </nav>
-              <div class="header__actions">
-                <button id="consultation-btn" class="btn btn--primary">Консультация</button>
-              </div>
+        <nav class="header__nav" role="navigation" aria-label="Главное меню">
+        @for (navItem of navItems; track navItem.id) {
+          <a 
+            [routerLink]="navItem.link"
+            [id]="navItem.id"
+            class="header__link"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: navItem.id === 'main-page' }">
+            {{ navItem.title }}</a>
+        }
+        </nav>
+        <div class="header__actions">
+          <button id="consultation-btn" class="btn btn--primary">Консультация</button>
+        </div>
       </div>
     </div>
     <div class="timer__clicker">
@@ -35,6 +53,5 @@
         }
       <button id="show-clicker-btn" class="btn btn--primary" (click)="setWidget('counter')">Показать кликер</button>
     </div>
-    
   </div>
 </header>

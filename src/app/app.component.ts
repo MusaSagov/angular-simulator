@@ -10,11 +10,16 @@ import { FooterComponent } from "../footer/footer.component";
 import { HeaderComponent } from "../header/header.component";
 import { RouterOutlet } from '@angular/router';
 import { LoaderComponent } from '../loader/loader.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, MessageComponent, FooterComponent, HeaderComponent, RouterOutlet, LoaderComponent],
+  imports: [CommonModule, FormsModule, MessageComponent, FooterComponent, HeaderComponent, RouterOutlet, LoaderComponent, FontAwesomeModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -25,8 +30,10 @@ export class AppComponent {
 
   private wordCollection: Collection<string> = new Collection<string>([]);
   private numberCollection: Collection<number> = new Collection<number>([]);
+ 
+  constructor(library: FaIconLibrary) {
 
-  constructor() {
+    library.addIconPacks(fas, far, fab);
 
     this.initCollections();
 
@@ -70,4 +77,5 @@ export class AppComponent {
     const newCount: number = currentCount + 1;
     localStorage.setItem('visitCount', newCount.toString());
   }
+  
 }

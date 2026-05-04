@@ -17,6 +17,12 @@
   --quaternary-color:#F2BE22;
 }
 
+.my-app-dark html,
+.my-app-dark body {
+  background-color: #121212;
+  color: #ffffff;
+}
+
 .container {
   max-width: 1180px;
   margin: 0 auto;
