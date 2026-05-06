@@ -1,5 +1,5 @@
 export enum ThemeName {
-  AURA = 'aura',
-  LARA = 'lara',
-  NORA = 'nora'
+  AURA = 'AURA',
+  LARA = 'LARA',
+  NORA = 'NORA'
 }

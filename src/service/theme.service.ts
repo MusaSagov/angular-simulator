@@ -1,85 +1,75 @@
 import { inject, Injectable } from '@angular/core';
+import { LocalStorageService } from './local-storage.service';
 import { usePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 import Lara from '@primeuix/themes/lara';
 import Nora from '@primeuix/themes/nora';
-import { BehaviorSubject, distinctUntilChanged, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { Preset } from '@primeuix/themes/types';
 import { ThemeName } from '../enums/Theme';
 import { ColorMode } from '../enums/ColorMode';
-import { IThemeChoice } from '../interfaces/IThemeChoice';
+import { IThemeOption } from '../interfaces/IThemeOption';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  private themeName: ThemeName =
-    (localStorage.getItem('my-app-theme') ? JSON.parse(localStorage.getItem('my-app-theme')!) : ThemeName.AURA) as ThemeName;
-  private stateSubject = new BehaviorSubject<{
-    theme: ThemeName;
-    colorMode: ColorMode;
-  }>({
-    theme: this.themeName,
-    colorMode: (document.documentElement.classList.contains('my-app-dark')
-      ? ColorMode.Dark
-      : ColorMode.Light),
-  });
 
-  state$: Observable<{ theme: ThemeName; colorMode: ColorMode }> =
-    this.stateSubject.asObservable();
+  private localStorage = inject(LocalStorageService);
+  private themeNameSubject = new BehaviorSubject<ThemeName>(this.getDefaultTheme());
+  private colorModeSubject = new BehaviorSubject<ColorMode>(this.getDefaultDarkMode());
 
-  themes: IThemeChoice[] = [
+  themeName$: Observable<ThemeName> = this.themeNameSubject.asObservable();
+  colorMode$: Observable<ColorMode> = this.colorModeSubject.asObservable();
+  
+  isDarkMode$: Observable<boolean> = this.colorMode$.pipe(map((mode) => mode === ColorMode.DARK));
+  themeOptions: IThemeOption[] = [
     { label: 'Aura', value: ThemeName.AURA },
     { label: 'Lara', value: ThemeName.LARA },
     { label: 'Nora', value: ThemeName.NORA },
   ];
-  
+ 
+  private readonly PRESETS: Record<ThemeName, Preset> = {
+    [ThemeName.AURA]: Aura,
+    [ThemeName.LARA]: Lara,
+    [ThemeName.NORA]: Nora,
+  };
+
   constructor() {
-    this.stateSubject
+    this.themeNameSubject
       .pipe(
-        distinctUntilChanged(
-          (prev, curr) =>
-            prev.theme === curr.theme && prev.colorMode === curr.colorMode
-        ),
-        tap((state) => {
-          this.apply(state);
+        tap((theme) => {
+          const preset = this.PRESETS[theme];
+          if (preset) {
+            usePreset(preset);
+          }
+          this.localStorage.saveData<ThemeName>('theme-name', theme);
+        })
+      )
+      .subscribe();
+    this.colorModeSubject
+      .pipe(
+        tap((mode) => {
+          const isDark = mode === ColorMode.DARK;
+          document.documentElement.classList.toggle('my-app-dark', isDark);
+          this.localStorage.saveData<ColorMode>('theme', mode);
         })
       )
       .subscribe();
   }
 
-  get state(): { theme: ThemeName; colorMode: ColorMode } {
-    return this.stateSubject.value;
+  private getDefaultTheme(): ThemeName {
+    return this.localStorage.loadData<ThemeName>('theme-name') ?? ThemeName.AURA;
+  }
+
+  private getDefaultDarkMode(): ColorMode {
+    return this.localStorage.loadData<ColorMode>('theme') ?? ColorMode.DARK;
+  }
+
+  switchDarkToLight(isDark: boolean): void {
+    this.colorModeSubject.next(isDark ? ColorMode.DARK : ColorMode.LIGHT);
   }
 
   setTheme(theme: ThemeName): void {
-    const next = { ...this.state, theme };
-    this.stateSubject.next(next);
-    localStorage.setItem('my-app-theme', JSON.stringify(theme));
+    this.themeNameSubject.next(theme);
   }
 
-  setColorMode(colorMode: ColorMode): void {
-    const next = { ...this.state, colorMode };
-    this.stateSubject.next(next);
-    this.apply(next);
-  }
-
-  toggleColorMode(): void {
-    this.setColorMode(
-      this.state.colorMode === ColorMode.Light
-        ? ColorMode.Dark
-        : ColorMode.Light
-    );
-  }
-
-  private apply(state: { theme: ThemeName; colorMode: ColorMode }): void {
-    const presetMap: Record<ThemeName, Preset> = {
-      [ThemeName.AURA]: Aura,
-      [ThemeName.LARA]: Lara,
-      [ThemeName.NORA]: Nora,
-    };
-    const preset: Preset = presetMap[state.theme];
-    if (preset) {      
-      usePreset(preset)
-    }
-  }
-  
 }

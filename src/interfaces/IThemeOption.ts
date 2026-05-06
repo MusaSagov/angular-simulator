@@ -1,4 +1,4 @@
-export interface IThemeChoice {
+export interface IThemeOption {
   label: string;
   value: string;
 }

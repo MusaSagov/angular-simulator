@@ -8,25 +8,13 @@ import { ThemeName } from '../enums/Theme';
 import { Preset } from '@primeuix/themes/types';
 import { provideRouter } from '@angular/router';
 
-const themeMap: Record<string, Preset> = {
-  [ThemeName.AURA]: Aura,
-  [ThemeName.LARA]: Lara,
-  [ThemeName.NORA]: Nora,
-};
-
-function getTheme(): Preset {
-  const value: string | null = localStorage.getItem('my-app-theme');
-  const theme: string | null = value ? JSON.parse(value) : null;
-  return theme && themeMap[theme] ? themeMap[theme] : Aura;
-}
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideZoneChangeDetection(),
     providePrimeNG({
       theme: {
-        preset: getTheme(),
+        preset: Aura,
         options: {
           darkModeSelector: '.my-app-dark'
         }

@@ -2,15 +2,15 @@
   <p-toggleswitch
     id="toggle-mode"
     class="switch-mode"
-    [ngModel]="(themeService.state$ | async)?.colorMode === 'dark'"
+    [ngModel]="themeService.isDarkMode$ | async"
     (onChange)="toggleMode($event)"
   >
   </p-toggleswitch>
   <div class="switch-themes">
     <p-selectbutton
       id="switch-theme"
-      [options]="themeService.themes"
-      [ngModel]="(themeService.state$ | async)?.theme"
+      [options]="themeService.themeOptions"
+      [ngModel]="themeService.themeName$ | async"
       (onChange)="toggleTheme($event.value)"
       optionLabel="label"
       optionValue="value"

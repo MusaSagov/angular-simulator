@@ -59,7 +59,7 @@ export class HeaderComponent {
 
   toggleMode(event: ToggleSwitchChangeEvent): void {
     const isDark: boolean = event.checked;
-    this.themeService.setColorMode(isDark ? ColorMode.Dark : ColorMode.Light);
+    this.themeService.switchDarkToLight(isDark);
   }
 
   toggleTheme(theme: ThemeName): void {
