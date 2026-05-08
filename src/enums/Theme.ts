@@ -1,5 +1,5 @@
-export enum ThemeName {
-  AURA = 'AURA',
-  LARA = 'LARA',
-  NORA = 'NORA'
+export enum Theme {
+  AURA = 'Aura',
+  LARA = 'Lara',
+  NORA = 'Nora'
 }

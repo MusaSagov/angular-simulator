@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ThemeService } from '../service/theme.service';
-import { ThemeName } from '../enums/Theme';
+import { Theme } from '../enums/Theme';
 import { ColorMode } from '../enums/ColorMode';
 import { INavItem } from '../interfaces';
 import { CommonModule } from '@angular/common';
@@ -59,10 +59,10 @@ export class HeaderComponent {
 
   toggleMode(event: ToggleSwitchChangeEvent): void {
     const isDark: boolean = event.checked;
-    this.themeService.switchDarkToLight(isDark);
+    this.themeService.toggleDarkMode(isDark);
   }
 
-  toggleTheme(theme: ThemeName): void {
+  toggleTheme(theme: Theme): void {
     this.themeService.setTheme(theme);
   }
 
