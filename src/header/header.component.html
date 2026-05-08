@@ -10,7 +10,7 @@
     <p-selectbutton
       id="switch-theme"
       [options]="themeService.themeOptions"
-      [ngModel]="themeService.themeName$ | async"
+      [ngModel]="themeService.theme$ | async"
       (onChange)="toggleTheme($event.value)"
       optionLabel="label"
       optionValue="value"

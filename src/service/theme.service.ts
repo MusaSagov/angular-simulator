@@ -7,35 +7,24 @@ import Nora from '@primeuix/themes/nora';
 import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { Preset } from '@primeuix/themes/types';
 import { Theme } from '../enums/Theme';
-import { ColorMode } from '../enums/ColorMode';
 import { IThemeOption } from '../interfaces/IThemeOption';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
 
-  private localStorage: LocalStorageService = inject(LocalStorageService);
+  private localStorageService: LocalStorageService = inject(LocalStorageService);
   private themeNameSubject: BehaviorSubject<Theme> = new BehaviorSubject<Theme>(this.getDefaultTheme());
-  private colorModeSubject: BehaviorSubject<ColorMode> = new BehaviorSubject<ColorMode>(this.getDefaultDarkMode());
+  private colorModeSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getDefaultDarkMode());
 
-  themeName$: Observable<Theme> = this.themeNameSubject.asObservable().pipe(
-    tap((theme) => {
-      const preset: Preset = this.PRESETS[theme];
-      if (preset) {
-        usePreset(preset);
-      }
-      this.localStorage.saveData<Theme>('theme-name', theme);
-    })
-  );
-
-  colorMode$: Observable<ColorMode> = this.colorModeSubject.asObservable().pipe(
-    tap((mode) => {
-      const isDark: boolean = mode === ColorMode.DARK;
+  theme$: Observable<Theme> = this.themeNameSubject.asObservable();
+  colorMode$: Observable<boolean> = this.colorModeSubject.asObservable().pipe(
+    tap((isDark: boolean) => {
       document.documentElement.classList.toggle('my-app-dark', isDark);
-      this.localStorage.saveData<ColorMode>('theme', mode);
+      this.localStorageService.saveData<boolean>('theme', isDark);
     })
   );
-  
-  isDarkMode$: Observable<boolean> = this.colorMode$.pipe(map((mode) => mode === ColorMode.DARK));
+
+  isDarkMode$: Observable<boolean> = this.colorMode$;
   themeOptions: IThemeOption[] = [
     { label: 'Aura', value: Theme.AURA },
     { label: 'Lara', value: Theme.LARA },
@@ -49,19 +38,22 @@ export class ThemeService {
   };
 
   private getDefaultTheme(): Theme {
-    return this.localStorage.loadData<Theme>('theme-name') ?? Theme.AURA;
+    return this.localStorageService.loadData<Theme>('theme-name') ?? Theme.AURA;
   }
 
-  private getDefaultDarkMode(): ColorMode {
-    return this.localStorage.loadData<ColorMode>('theme') ?? ColorMode.DARK;
+  private getDefaultDarkMode(): boolean {
+    return this.localStorageService.loadData<boolean>('dark-mode') ?? false;
   }
 
   toggleDarkMode(isDark: boolean): void {
-    this.colorModeSubject.next(isDark ? ColorMode.DARK : ColorMode.LIGHT);
+    this.colorModeSubject.next(isDark);
   }
 
   setTheme(theme: Theme): void {
     this.themeNameSubject.next(theme);
+    const preset: Preset = this.PRESETS[theme];
+    if (preset) usePreset(preset);
+    this.localStorageService.saveData<Theme>('theme-name', theme);
   }
 
 }
