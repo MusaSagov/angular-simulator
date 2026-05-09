@@ -11,7 +11,7 @@ export class LocalStorageService {
     localStorage.setItem(key, JSON.stringify(data));
   }
 
-  loadData<T>(key: string): T | null {
+  getItem<T>(key: string): T | null {
     const data: string | null = localStorage.getItem(key);
     return data ? JSON.parse(data) : null;
   }
