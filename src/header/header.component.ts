@@ -1,18 +1,24 @@
-import { Component } from '@angular/core';
-import { ILocation, INavItem, IParticipant } from '../interfaces';
+import { Component, inject, OnInit } from '@angular/core';
+import { ThemeService } from '../service/theme.service';
+import { Theme } from '../enums/Theme';
+import { ColorMode } from '../enums/ColorMode';
+import { INavItem } from '../interfaces';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ToggleSwitchChangeEvent, ToggleSwitchModule} from 'primeng/toggleswitch';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLinkActive, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLinkActive, RouterLink, SelectButtonModule, ToggleSwitchModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
 
+  themeService: ThemeService = inject(ThemeService)
   companyName: string = 'Румтибет';
   currentWidget: 'counter' | 'dateTime' = 'dateTime';
   counter: number = 0;
@@ -50,4 +56,14 @@ export class HeaderComponent {
       this.counter--;
     }
   }
+
+  toggleMode(event: ToggleSwitchChangeEvent): void {
+    const isDark: boolean = event.checked;
+    this.themeService.toggleDarkMode(isDark);
+  }
+
+  toggleTheme(theme: Theme): void {
+    this.themeService.setTheme(theme);
+  }
+
 }

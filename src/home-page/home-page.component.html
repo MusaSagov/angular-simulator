@@ -96,7 +96,7 @@
           <p class="offers__text">Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа.</p>
           @for (offer of offers; track offer.id) {
             <div class="offers__item">
-              <img [src]="'./images/' + offer.icon + '.svg'" [alt]="offer.title">
+              <fa-icon [icon]="offer.icon"></fa-icon>
               <div class="offers__card">
                 <h3>{{ offer.title }}</h3>
                 <p>{{ offer.description }}</p>

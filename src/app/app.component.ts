@@ -10,11 +10,12 @@ import { FooterComponent } from "../footer/footer.component";
 import { HeaderComponent } from "../header/header.component";
 import { RouterOutlet } from '@angular/router';
 import { LoaderComponent } from '../loader/loader.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, MessageComponent, FooterComponent, HeaderComponent, RouterOutlet, LoaderComponent],
+  imports: [CommonModule, FormsModule, MessageComponent, FooterComponent, HeaderComponent, RouterOutlet, LoaderComponent, FontAwesomeModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -25,7 +26,7 @@ export class AppComponent {
 
   private wordCollection: Collection<string> = new Collection<string>([]);
   private numberCollection: Collection<number> = new Collection<number>([]);
-
+ 
   constructor() {
 
     this.initCollections();
@@ -70,4 +71,5 @@ export class AppComponent {
     const newCount: number = currentCount + 1;
     localStorage.setItem('visitCount', newCount.toString());
   }
+
 }
