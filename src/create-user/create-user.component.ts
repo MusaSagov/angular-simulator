@@ -3,11 +3,12 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { CommonModule } from '@angular/common';
 import { IUser } from '../interfaces';
 import { FormControls } from '../types/form-controls';
+import { AnimatedGradientDirective } from '../directive/gradient-border.directive';
 
 @Component({
   selector: 'app-create-user',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, AnimatedGradientDirective],
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss'],
 })
