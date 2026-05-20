@@ -12,24 +12,21 @@ export class PhonePipe implements PipeTransform {
     const digits: string = value.replace(/\D/g, '');
     if (digits.length < 12) return digits;
 
+    const countryCode: string = digits.slice(0, 2);
+    const operatorCode: string = digits.slice(2, 5);
+    const firstGroup: string = digits.slice(5, 8);
+    const secondGroup: string = digits.slice(8, 10);
+    const lastTwoDigits: string = digits.slice(10, 12);
+
     switch (mode) {
       case PhoneFormat.COMPACT:
-        return '+' + digits;
+        return `+${ digits }`;
       case PhoneFormat.INTERNATIONAL:
-        return '+' + digits.slice(0, 2) + ' ' +
-               digits.slice(2, 5) + ' ' +
-               digits.slice(5, 8) + ' ' +
-               digits.slice(8, 10) + ' ' +
-               digits.slice(10, 12);
+        return `+${ countryCode } ${ operatorCode } ${ firstGroup } ${ secondGroup } ${ lastTwoDigits }`;
       case PhoneFormat.NATIONAL:
-        return digits.slice(2, 5) + ' ' +
-               digits.slice(5, 8) + ' ' +
-               digits.slice(8, 10) + ' ' +
-               digits.slice(10, 12);
+        return `${ operatorCode } ${ firstGroup } ${ secondGroup } ${ lastTwoDigits }`;
       case PhoneFormat.MASKED:
-        return '+' + digits.slice(0, 2) + ' ' +
-               digits.slice(2, 5) + ' *** ** ' +
-               digits.slice(10, 12);
+        return `+${ countryCode } ${ operatorCode } *** ** ${ lastTwoDigits }`;
       default:
         return digits;
     }

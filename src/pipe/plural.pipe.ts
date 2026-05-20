@@ -8,19 +8,20 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class PluralPipe implements PipeTransform {
 
   transform(value: number | string): string {
-    const n = typeof value === 'string' ? Number(value) : value;
-    if (Number.isNaN(n)) {
+    const count: number = typeof value === 'string' ? Number(value) : value;
+    if (Number.isNaN(count)) {
       return '';
     }
-    switch (n) {
+
+    switch (count) {
       case 1:
-        return `${n} пользователь`;
+        return `${ count } пользователь`;
       case 2:
       case 3:
       case 4:
-        return `${n} пользователя`;
+        return `${ count } пользователя`;
       default:
-        return `${n} пользователей`;
+        return `${ count } пользователей`;
     }
   }
 

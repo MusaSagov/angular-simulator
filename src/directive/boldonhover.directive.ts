@@ -1,12 +1,10 @@
 import { Directive, ElementRef, HostBinding, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[BoldOnHover]',
+  selector: '[boldOnHover]',
   standalone: true,
 })
 export class BoldOnHoverDirective {
-
-  constructor(private el: ElementRef) {}
 
   @HostBinding('style.fontWeight') fontWeight: string = 'Bold';
 
@@ -17,7 +15,7 @@ export class BoldOnHoverDirective {
 
   @HostListener('mouseleave')
   onLeave() {
-    this.fontWeight = ''
+    this.fontWeight = '';
   }
 
 }

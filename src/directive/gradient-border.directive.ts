@@ -28,7 +28,7 @@ export class AnimatedGradientDirective implements OnDestroy {
       const gradient: string = `linear-gradient(45deg, ${colors})`;
       this.border = `${thickness}px solid transparent`;
       this.background = `${gradient} padding-box, ${gradient} border-box`;
-    }, this.GradientConfiguration.delay ?? 1000);
+    },this.GradientConfiguration.delay ?? 1000);
   }
 
   @HostListener('mouseleave')
