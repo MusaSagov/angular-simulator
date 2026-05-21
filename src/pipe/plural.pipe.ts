@@ -13,7 +13,9 @@ export class PluralPipe implements PipeTransform {
       return '';
     }
 
-    switch (count) {
+    const pluralKey = count % 100 >= 11 && count % 100 <= 14 ? 0 : count % 10;
+    
+    switch (pluralKey) {
       case 1:
         return `${ count } пользователь`;
       case 2:

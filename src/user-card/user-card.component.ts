@@ -18,7 +18,7 @@ export class UserCardComponent {
   @Input({ required: true }) user!: IUser;
   @Output() deleteUser: EventEmitter<IUser> = new EventEmitter<IUser>();
   
-  PhoneFormat = PhoneFormat;
+  phoneFormat: typeof PhoneFormat = PhoneFormat;
 
   onDeleteUser(): void {
     this.deleteUser.emit(this.user);
