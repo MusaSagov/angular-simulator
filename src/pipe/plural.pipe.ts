@@ -15,23 +15,16 @@ export class PluralPipe implements PipeTransform {
 
     const lastTwoDigits: number = count % 100;
     const lastDigit: number = count % 10;
-    let pluralKey: number;
 
     if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
-      pluralKey = 0;
-    } else {
-      pluralKey = lastDigit;
+      return `${ count } пользователей`;
     }
-
-    switch (pluralKey) {
-      case 1:
-        return `${ count } пользователь`;
-      case 2:
-      case 3:
-      case 4:
-        return `${ count } пользователя`;
-      default:
-        return `${ count } пользователей`;
+    if (lastDigit === 1) {
+      return `${ count } пользователь`;
+    } else if (lastDigit === 2 || lastDigit === 3 || lastDigit === 4) {
+      return `${ count } пользователя`;
+    } else {
+      return `${ count } пользователей`;
     }
   }
 
