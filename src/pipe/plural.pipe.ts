@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class PluralPipe implements PipeTransform {
 
-  transform(value: number | string, one: string, two: string, five: string): string {
+  transform(value: number | string, singular: string, few: string, many: string): string {
     const count: number = typeof value === 'string' ? Number(value) : value;
     if (Number.isNaN(count)) {
       return '';
@@ -15,17 +15,18 @@ export class PluralPipe implements PipeTransform {
 
     const lastTwoDigits: number = count % 100;
     const lastDigit: number = count % 10;
+    const isFewForm: boolean = [2, 3, 4].includes(lastDigit);
 
     if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
-      return `${ count } ${ five }`;
+      return `${ count } ${ many }`;
     }
     if (lastDigit === 1) {
-      return `${ count } ${ one }`;
+      return `${ count } ${ singular }`;
     }
-    if ([2, 3, 4].includes(lastDigit)) {
-      return `${ count } ${ two }`;
+    if (isFewForm) {
+      return `${ count } ${ few }`;
     }
-    return `${ count } ${ five}`;
+    return `${ count } ${ many}`;
   }
   
 }
