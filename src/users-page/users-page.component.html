@@ -1,6 +1,7 @@
 <section class="section-user-page">
   <div class="user-page">
     <h1 class="user-page__title">Страница пользователей</h1>
+    <p class="user-page__count">{{ (usersCount$ | async) ?? 0 | plural: 'пользователь':'пользователя':'пользователей' }}</p>
     <app-create-user (createUser)="onCreateUser($event)"></app-create-user>
     <app-users-filter (filterChange)="onFilterChange($event)"></app-users-filter>
     <div class="user-cards">

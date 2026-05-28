@@ -1,4 +1,4 @@
-<div class="user-card">
+<div class="user-card" animatedGradient>
   <h2 class="user-card__title">{{ user.name }}</h2>
   <p class="user-card__username color-yellow">{{ user.username }}</p>
   <h3 class="user-card__subtitle">Контакты</h3>
@@ -9,7 +9,7 @@
     </div>
     <div class="user-card__row">
       <p class="user-card__label">Телефон:</p>
-      <span class="user-card__value">{{ user.phone }}</span>
+      <span class="user-card__value">{{ user.phone | phone: phoneFormat.INTERNATIONAL }}</span>
     </div>
     <div class="user-card__row">
       <p class="user-card__label">Веб-сайт:</p>
@@ -57,7 +57,7 @@
     </div>
   </div>
   <div class="user-card__delete">
-  <button (click)="onDeleteUser()" class="delete-btn">
+  <button BoldOnHover (click)="onDeleteUser()" class="delete-btn">
     Удалить пользователя
   </button>
 </div>

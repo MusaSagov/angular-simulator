@@ -6,11 +6,12 @@ import { AsyncPipe } from '@angular/common';
 import { UserCardComponent } from '../user-card/user-card.component';
 import { CreateUserComponent } from '../create-user/create-user.component';
 import { UsersFilterComponent } from '../users-filter/users-filter.component';
+import { PluralPipe } from '../pipe/plural.pipe';
 
 @Component({
   selector: 'app-users-page',
   standalone: true,
-  imports: [AsyncPipe, UserCardComponent, CreateUserComponent, UsersFilterComponent],
+  imports: [AsyncPipe, UserCardComponent, CreateUserComponent, UsersFilterComponent, PluralPipe],
   templateUrl: './users-page.component.html',
   styleUrl: './users-page.component.scss',
 })
@@ -35,6 +36,11 @@ export class UsersPageComponent {
     })
   );
   
+  usersCount$: Observable<number> = this.filteredUsers$.pipe(
+    map((users: IUser[]) => users.length),
+    startWith(0)
+  );
+
   ngOnInit(): void {
     this.userService.loadUsers()
       .pipe(

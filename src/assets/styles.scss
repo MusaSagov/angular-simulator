@@ -36,6 +36,11 @@ body.loader-lock {
   width: 100% !important;
 }
 
+@keyframes gradientMove {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
 .fw4 {
   font-weight: 400;
 }
