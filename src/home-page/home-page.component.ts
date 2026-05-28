@@ -1,4 +1,4 @@
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ToastService } from '../service/toast.service';
 import { ILocation, IOffer, IParticipant, ISlide, ITours, ITravels } from '../interfaces';

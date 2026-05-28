@@ -7,6 +7,7 @@ import { routes } from './app.routes';
 import { Theme } from '../enums/Theme';
 import { provideRouter } from '@angular/router';
 import { Preset } from '@primeuix/themes/types';
+import { provideHttpClient } from '@angular/common/http';
 
 const getTheme = (): Preset => {
   const themeMap: Record<Theme, Preset> = {
@@ -23,6 +24,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideZoneChangeDetection(),
+    provideHttpClient(),
     providePrimeNG({
       theme: {
         preset: getTheme(),
@@ -30,6 +32,6 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: '.my-app-dark'
         }
       }
-    })
+    }),
   ]
 };
