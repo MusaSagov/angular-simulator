@@ -7,6 +7,10 @@ import { routes } from './app.routes';
 import { Theme } from '../enums/Theme';
 import { provideRouter } from '@angular/router';
 import { Preset } from '@primeuix/themes/types';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { loggingInterceptor } from './interceptors/logging.interceptor';
+import { MessageService } from 'primeng/api';
+import { serverErrorInterceptor } from './interceptors/server-error.interceptor';
 
 const getTheme = (): Preset => {
   const themeMap: Record<Theme, Preset> = {
@@ -23,6 +27,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideZoneChangeDetection(),
+    MessageService,
+    provideHttpClient(
+      withInterceptors([loggingInterceptor, serverErrorInterceptor])
+    ),
     providePrimeNG({
       theme: {
         preset: getTheme(),

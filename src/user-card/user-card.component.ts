@@ -3,13 +3,12 @@ import { CommonModule } from '@angular/common';
 import { IUser } from '../interfaces';
 import { PhonePipe } from '../pipe/phone.pipe';
 import { PhoneFormat } from '../enums/PhoneFormat';
-import { BoldOnHoverDirective } from '../directive/boldonhover.directive';
 import { AnimatedGradientDirective } from '../directive/gradient-border.directive';
 
 @Component({
   selector: 'app-user-card',
   standalone: true,
-  imports: [CommonModule, PhonePipe, BoldOnHoverDirective, AnimatedGradientDirective],
+  imports: [CommonModule, PhonePipe, AnimatedGradientDirective],
   templateUrl: './user-card.component.html',
   styleUrls: ['./user-card.component.scss']
 })

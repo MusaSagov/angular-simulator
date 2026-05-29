@@ -3,6 +3,7 @@ import { Color } from '../enums/Color';
 import { Collection } from './collection';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ToastModule } from 'primeng/toast';
 import { inject } from '@angular/core';
 import { ToastService } from '../service/toast.service';
 import { MessageComponent } from '../message/message.component';
@@ -15,7 +16,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, MessageComponent, FooterComponent, HeaderComponent, RouterOutlet, LoaderComponent, FontAwesomeModule],
+  imports: [CommonModule, FormsModule, MessageComponent, FooterComponent, HeaderComponent, RouterOutlet, LoaderComponent, FontAwesomeModule, ToastModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
