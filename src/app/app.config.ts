@@ -27,7 +27,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideZoneChangeDetection(),
-    MessageService,
     provideHttpClient(
       withInterceptors([loggingInterceptor, serverErrorInterceptor])
     ),
