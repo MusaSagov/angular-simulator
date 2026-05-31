@@ -3,6 +3,7 @@ import { Color } from '../enums/Color';
 import { Collection } from './collection';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ToastModule } from 'primeng/toast';
 import { inject } from '@angular/core';
 import { ToastService } from '../service/toast.service';
 import { MessageComponent } from '../message/message.component';

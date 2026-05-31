@@ -10,7 +10,7 @@ import { ToastService } from '../service/toast.service';
   styleUrl: './message.component.scss',
 })
 export class MessageComponent {
-  
+
   toastService: ToastService = inject(ToastService);
-  
+
 }
