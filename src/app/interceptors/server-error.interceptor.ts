@@ -5,7 +5,7 @@ import { MessageType } from '../../enums/MessageType';
 import { ToastService } from '../../service/toast.service';
 
 export const serverErrorInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
-  const toastService = inject(ToastService);
+  const toastService: ToastService = inject(ToastService);
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
