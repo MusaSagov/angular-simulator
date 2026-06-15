@@ -11,11 +11,12 @@ import { HeaderComponent } from "../header/header.component";
 import { RouterOutlet } from '@angular/router';
 import { LoaderComponent } from '../loader/loader.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, MessageComponent, FooterComponent, HeaderComponent, RouterOutlet, LoaderComponent, FontAwesomeModule],
+  imports: [CommonModule, ToastModule, FormsModule, MessageComponent, FooterComponent, HeaderComponent, RouterOutlet, LoaderComponent, FontAwesomeModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
