@@ -1,33 +1,26 @@
-// src/features/posts/post.resolver.ts
-import { Resolve, ActivatedRouteSnapshot, Router } from '@angular/router';
-import { Injectable } from '@angular/core';
+import { inject } from '@angular/core';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, ResolveFn, Router } from '@angular/router';
 import { PostApiService } from './post-api.service';
 import { IPost } from './interfaces/IPost';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, of, Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class PostResolver implements Resolve<IPost | null> {
-  
-  constructor(private api: PostApiService, private router: Router) {}
+export const postResolver: ResolveFn<IPost | null> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
 
-  resolve(snapshot: ActivatedRouteSnapshot): Observable<IPost | null> {
-    const idParam = snapshot.paramMap.get('id');
-    const id = idParam ? +idParam : null;
+  const api: PostApiService = inject(PostApiService);
+  const router: Router = inject(Router);
+  const idParam: string | null = route.paramMap.get('id');
+  const id: number | null = idParam ? Number(idParam) : null;
 
-    if (!id) {
-      this.router.navigate(['/posts']);
-      return of(null);
-    }
-
-    return this.api.getPost(id).pipe(
-      catchError(() => {
-        this.router.navigate(['/posts']);
-        return of(null);
-      })
-    );
+  if (!id) {
+    router.navigate(['/posts']);
+    return of(null);
   }
 
-}
+  return api.getPost(id).pipe(
+    catchError(() => {
+      router.navigate(['/posts']);
+      return of(null);
+    })
+  );
+  
+};

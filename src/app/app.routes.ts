@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { PostResolver } from '../features/posts/post.resolver';
+import { postResolver } from '../features/posts/post.resolver';
 
 export const routes: Routes = [
   {
@@ -20,7 +20,7 @@ export const routes: Routes = [
   },
   {
     path: 'posts/:id',
-    loadComponent: () => import('../features/posts/post-detail/post-detail.component').then(m => m.PostDetailComponent), resolve: {post: PostResolver}
+    loadComponent: () => import('../features/posts/post-detail/post-detail.component').then(m => m.PostDetailComponent), resolve: {post: postResolver}
   },
   {
     path: '**',
