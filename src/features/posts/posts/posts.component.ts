@@ -7,31 +7,30 @@ import { ContextMenuModule } from 'primeng/contextmenu';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PostEditDialogComponent } from '../post-edit-dialog/post-edit-dialog.component';
 import { BehaviorSubject, finalize, Observable, tap } from 'rxjs';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { AsyncPipe } from '@angular/common';
 import { IPost } from '../interfaces/IPost';
-import { ToastModule } from 'primeng/toast';
 import { LoaderService } from '../../../service/loader.service';
+import { ToastService } from '../../../service/toast.service';
 
 @Component({
   selector: 'app-posts',
   standalone: true,
-  imports: [TableModule, SkeletonModule, ContextMenuModule, AsyncPipe, RouterLink, ToastModule],
+  imports: [TableModule, SkeletonModule, ContextMenuModule, AsyncPipe, RouterLink],
   templateUrl: './posts.component.html',
   styleUrl: './posts.component.scss',
-  providers: [DialogService, MessageService]
+  providers: [DialogService],
 })
 export class PostsComponent implements OnInit {
 
-  private readonly loaderService = inject(LoaderService);
-  private readonly router = inject(Router);
-  private readonly dialogService = inject(DialogService);
-  private readonly postService = inject(PostApiService);
-  private readonly messageService = inject(MessageService);
-  private postsSubject: BehaviorSubject<IPost[]> = new BehaviorSubject<IPost[]>([]);
+  loaderService: LoaderService = inject(LoaderService);
+  router: Router = inject(Router);
+  dialogService: DialogService = inject(DialogService);
+  postService: PostApiService = inject(PostApiService);
+  toastService: ToastService = inject(ToastService);
+  postsSubject: BehaviorSubject<IPost[]> = new BehaviorSubject<IPost[]>([]);
   posts$: Observable<IPost[]> = this.postsSubject.asObservable();
-
-  isLoading = true;
+  
   pageSize = 10;
   firstNumber = 0;
   totalRecords = 0;
@@ -49,7 +48,6 @@ export class PostsComponent implements OnInit {
 
   loadPosts(limit: number, skip: number): void {
     this.loaderService.showLoader();
-
     this.postService.getPosts(limit, skip)
       .pipe(
         tap((response) => {
@@ -60,7 +58,7 @@ export class PostsComponent implements OnInit {
       )
       .subscribe({
         error: () => {
-          this.loaderService.hideLoader();
+          this.toastService.showError('Не удалось загрузить посты');
         }
       });
   }
@@ -75,15 +73,10 @@ export class PostsComponent implements OnInit {
     this.router.navigate([`/posts/${id}`]);
   }
 
-  viewPost(post: IPost): void {
-    this.router.navigate(['/posts', post.id]);
-  }
-
   onView(): void {
     if (!this.selectedPost) return;
-    this.router.navigate(['/posts', this.selectedPost.id]);
+    this.openDetail(this.selectedPost.id);
   }
-
 
   onEdit(): void {
     if (this.selectedPost === null) return;
@@ -121,22 +114,13 @@ export class PostsComponent implements OnInit {
           this.totalRecords = Math.max(0, this.totalRecords - 1);
           this.selectedPost = null;
 
-          this.messageService.add({ 
-            severity: 'success', 
-            summary: 'Успех', 
-            detail: 'Пост удалён' 
-          });
-        }),
-        finalize(() => this.loaderService.hideLoader())
+          this.toastService.showSuccess('Пост удалён');
+          }),
+       finalize(() => this.loaderService.hideLoader())
       )
       .subscribe({
         error: (err) => {
-          this.messageService.add({ 
-            severity: 'error', 
-            summary: 'Ошибка', 
-            detail: 'Не удалось удалить пост' 
-          });
-          this.loaderService.hideLoader();
+          this.toastService.showError('Не удалось удалить пост');
         }
       });
   }

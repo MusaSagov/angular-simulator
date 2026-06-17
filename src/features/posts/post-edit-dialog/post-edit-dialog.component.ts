@@ -5,9 +5,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { IPost } from '../interfaces/IPost';
-import { MessageService } from 'primeng/api';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
+import { ToastService } from '../../../service/toast.service';
+import { catchError, finalize, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-post-edit-dialog',
@@ -18,26 +19,24 @@ import { ToastModule } from 'primeng/toast';
     DialogModule,
     InputTextModule,
     ButtonModule,
-    ToastModule
   ],
-  templateUrl: './post-edit-dialog.component.html',
-  providers: [MessageService]
+  templateUrl: './post-edit-dialog.component.html'
 })
 export class PostEditDialogComponent implements OnInit {
 
-  private readonly config = inject(DynamicDialogConfig);
-  private readonly ref = inject(DynamicDialogRef);
-  private readonly fb = inject(FormBuilder);
-  private readonly postApi = inject(PostApiService);
-  private readonly messageService = inject(MessageService);
+  config: DynamicDialogConfig = inject(DynamicDialogConfig);
+  ref: DynamicDialogRef = inject(DynamicDialogRef);
+  fb: FormBuilder = inject(FormBuilder);
+  postApi: PostApiService = inject(PostApiService);
+  messageService: ToastService = inject(ToastService);
+
+  loading: boolean = false;
 
   form: FormGroup = this.fb.group({
     title: ['', Validators.required],
     tags: [''],
     views: [0, Validators.min(0)]
   });
-
-  loading = false;
 
   ngOnInit(): void {
     const post: IPost = this.config.data as IPost;
@@ -55,9 +54,7 @@ export class PostEditDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.invalid) return;
-
-    this.loading = true;
-
+    
     const title: string = this.form.value.title!;
     const tagsRaw: string = this.form.value.tags as string;
     const views: number | null = this.form.value.views ?? 0;
@@ -66,17 +63,15 @@ export class PostEditDialogComponent implements OnInit {
       title,
       tags: (tagsRaw || '').split(',').map(t => t.trim()).filter(Boolean),
       views
-    }).subscribe({
-      next: () => {
-        this.loading = false;
-        this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Пост успешно обновлён' });
-        this.ref.close();
-      },
-      error: () => {
-        this.loading = false;
-        this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось обновить пост' });
-      }
-    });
+    })
+      .pipe(
+        tap(() => this.messageService.showSuccess('Пост успешно обновлён')),
+        tap(() => this.ref.close()),
+        catchError(() => {
+          this.messageService.showError('Не удалось обновить пост');
+          return of();
+        })
+      ).subscribe();
   }
-  
+
 }

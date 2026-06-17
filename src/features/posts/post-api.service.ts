@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, retry, timeout } from 'rxjs';
 import { IPost } from './interfaces/IPost';
 import { IPostResponse } from './interfaces/IPostResponse';
 
@@ -13,7 +13,12 @@ export class PostApiService {
   private httpClient: HttpClient = inject(HttpClient);
 
   getPosts(limit: number, skip: number): Observable<IPostResponse> {
-    return this.httpClient.get<IPostResponse>(`${ this.baseUrl }?limit=${ limit }&skip=${ skip }`);
+    return this.httpClient.get<IPostResponse>(`${ this.baseUrl }?limit=${ limit }&skip=${ skip }`
+    )
+    .pipe(
+      timeout(10000),
+      retry(1)
+    );
   }
 
   getPost(id: number): Observable<IPost> {

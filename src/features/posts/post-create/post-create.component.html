@@ -32,7 +32,7 @@
         pButton 
         type="submit" 
         label="Создать" 
-        [disabled]="loading || form.invalid"
+        [disabled]="form.invalid"
         class="btn-primary"
       ></button>
       <button 
@@ -40,7 +40,6 @@
         type="button" 
         label="Назад" 
         (click)="router.navigate(['/posts'])" 
-        [disabled]="loading"
         class="btn-secondary"
       ></button>
     </div>

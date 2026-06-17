@@ -14,8 +14,8 @@ export class PostDetailComponent implements OnInit {
   
   post: IPost | null = null;
 
-  private route = inject(ActivatedRoute);
-  private loaderService = inject(LoaderService);
+  private route: ActivatedRoute = inject(ActivatedRoute);
+  private loaderService: LoaderService = inject(LoaderService);
 
   ngOnInit(): void {
     this.loaderService.showLoader();
