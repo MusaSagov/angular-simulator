@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   HttpInterceptor,
   HttpRequest,
@@ -6,23 +6,20 @@ import {
   HttpEvent
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { LoaderService } from '../service/loader.service';
 
 @Injectable()
 export class LoaderInterceptor implements HttpInterceptor {
+  
+  private loaderService = inject(LoaderService);
 
-  constructor(private loaderService: LoaderService) {}
-
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<unknown>,next: HttpHandler): Observable<HttpEvent<unknown>> {
     this.loaderService.showLoader();
 
     return next.handle(request).pipe(
-      tap({
-        next: () => this.loaderService.hideLoader(),
-        error: () => this.loaderService.hideLoader()
-      })
+      finalize(() => this.loaderService.hideLoader())
     );
   }
-  
+
 }

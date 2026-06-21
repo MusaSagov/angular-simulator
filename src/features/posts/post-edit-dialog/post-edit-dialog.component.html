@@ -12,7 +12,7 @@
     <input pInputText formControlName="views" type="number" />
   </div>
   <div class="form-actions">
-    <button pButton type="submit" label="Сохранить" [disabled]="loading"></button>
-    <button pButton type="button" label="Закрыть" (click)="close()" [disabled]="loading"></button>
+    <button id="save-btn" pButton type="submit" label="Сохранить" [disabled]="loaderService.isLoading$ | async"></button>
+    <button id="close-btn" pButton type="button" label="Закрыть" (click)="close()" [disabled]="loaderService.isLoading$ | async"></button>
   </div>
 </form>

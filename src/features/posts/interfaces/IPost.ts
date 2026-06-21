@@ -2,9 +2,8 @@ export interface IPost {
   id: number;
   title: string;
   tags: string[];
-  views: number | null;
+  views: number;
   body: string;
   author: string;
-  createdAt: string;
   userId?: number;
 }

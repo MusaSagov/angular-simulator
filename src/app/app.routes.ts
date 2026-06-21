@@ -20,7 +20,10 @@ export const routes: Routes = [
   },
   {
     path: 'posts/:id',
-    loadComponent: () => import('../features/posts/post-detail/post-detail.component').then(m => m.PostDetailComponent), resolve: {post: postResolver}
+    loadComponent: () => import('../features/posts/post-detail/post-detail.component').then(m => m.PostDetailComponent),
+    resolve: {
+      post: postResolver
+    }
   },
   {
     path: '**',

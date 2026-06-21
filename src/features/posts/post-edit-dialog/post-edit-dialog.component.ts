@@ -6,9 +6,11 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { IPost } from '../interfaces/IPost';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { ToastModule } from 'primeng/toast';
 import { ToastService } from '../../../service/toast.service';
 import { catchError, finalize, of, tap } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+import { LoaderService } from '../../../service/loader.service';
+import { IPostUpdate } from '../interfaces/IPostUpdate';
 
 @Component({
   selector: 'app-post-edit-dialog',
@@ -19,18 +21,18 @@ import { catchError, finalize, of, tap } from 'rxjs';
     DialogModule,
     InputTextModule,
     ButtonModule,
+    AsyncPipe
   ],
   templateUrl: './post-edit-dialog.component.html'
 })
 export class PostEditDialogComponent implements OnInit {
 
-  config: DynamicDialogConfig = inject(DynamicDialogConfig);
-  ref: DynamicDialogRef = inject(DynamicDialogRef);
-  fb: FormBuilder = inject(FormBuilder);
-  postApi: PostApiService = inject(PostApiService);
-  messageService: ToastService = inject(ToastService);
-
-  loading: boolean = false;
+ private config: DynamicDialogConfig = inject(DynamicDialogConfig);
+ private ref: DynamicDialogRef = inject(DynamicDialogRef);
+ private fb: FormBuilder = inject(FormBuilder);
+ private postApi: PostApiService = inject(PostApiService);
+ private messageService: ToastService = inject(ToastService);
+ loaderService: LoaderService = inject(LoaderService);
 
   form: FormGroup = this.fb.group({
     title: ['', Validators.required],
@@ -55,15 +57,20 @@ export class PostEditDialogComponent implements OnInit {
   onSubmit(): void {
     if (this.form.invalid) return;
     
+    const post: IPost = this.config.data as IPost;
+    const id: number = post.id;
     const title: string = this.form.value.title!;
     const tagsRaw: string = this.form.value.tags as string;
-    const views: number | null = this.form.value.views ?? 0;
+    const views: number = this.form.value.views ?? 0;
 
-    this.postApi.updatePost(this.config.data.id, {
+    const postUpdate: IPostUpdate = {
+      id,
       title,
       tags: (tagsRaw || '').split(',').map(t => t.trim()).filter(Boolean),
-      views
-    })
+      views: views ?? 0,
+    } as const satisfies Omit<IPost, 'body' | 'author' | 'userId'> & { id: number };
+
+    this.postApi.updatePost(postUpdate)
       .pipe(
         tap(() => this.messageService.showSuccess('Пост успешно обновлён')),
         tap(() => this.ref.close()),

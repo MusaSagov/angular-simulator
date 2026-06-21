@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPost } from '../interfaces/IPost';
-import { LoaderService } from '../../../service/loader.service';
 
 @Component({
   selector: 'app-post-detail',
@@ -15,12 +14,9 @@ export class PostDetailComponent implements OnInit {
   post: IPost | null = null;
 
   private route: ActivatedRoute = inject(ActivatedRoute);
-  private loaderService: LoaderService = inject(LoaderService);
-
+  
   ngOnInit(): void {
-    this.loaderService.showLoader();
     this.post = this.route.snapshot.data['post'];
-    this.loaderService.hideLoader();
   }
 
 }

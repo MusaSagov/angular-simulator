@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PostApiService } from '../post-api.service';
@@ -7,8 +7,9 @@ import { TextareaModule } from 'primeng/textarea';
 import { ButtonModule } from 'primeng/button';
 import { IPost } from '../interfaces/IPost';
 import { ToastService } from '../../../service/toast.service';
-import { tap, catchError, of } from 'rxjs';
+import { tap, catchError, of, finalize } from 'rxjs';
 import { LoaderService } from '../../../service/loader.service';
+import { IPostCreate } from '../interfaces/IPostCreate';
 
 @Component({
   selector: 'app-post-create',
@@ -16,13 +17,13 @@ import { LoaderService } from '../../../service/loader.service';
   imports: [ReactiveFormsModule, InputTextModule, TextareaModule, ButtonModule],
   templateUrl: './post-create.component.html'
 })
-export class PostCreateComponent implements OnInit {
+export class PostCreateComponent {
 
-  fb: FormBuilder = inject(FormBuilder);
-  postApi: PostApiService = inject(PostApiService);
-  router: Router = inject(Router);
-  toastService: ToastService = inject(ToastService);
-  loaderService: LoaderService = inject(LoaderService);
+ private fb: FormBuilder = inject(FormBuilder);
+ private postApi: PostApiService = inject(PostApiService);
+ private toastService: ToastService = inject(ToastService);
+ private loaderService: LoaderService = inject(LoaderService);
+ router: Router = inject(Router);
 
   form: FormGroup = this.fb.group({
     title: ['', Validators.required],
@@ -31,20 +32,12 @@ export class PostCreateComponent implements OnInit {
     author: ['', Validators.required]
   });
 
-  ngOnInit(): void {}
-
   onSubmit(): void {
     if (this.form.invalid) return;
     this.loaderService.showLoader();
-    const newPost: IPost = {
-      id: 0,
-      title: this.form.value.title!,
-      body: this.form.value.content!,
+    const newPost: IPostCreate = {
+      ...this.form.value,
       tags: this.form.value.tags!.split(',').map((t: string) => t.trim()),
-      author: this.form.value.author!,
-      views: 0,
-      createdAt: new Date().toISOString(),
-      userId: 1
     };
 
     this.postApi.createPost(newPost)
@@ -52,14 +45,14 @@ export class PostCreateComponent implements OnInit {
         tap(() => {
           this.toastService.showSuccess('Пост успешно создан');
           this.router.navigate(['/posts']);
-          this.loaderService.hideLoader();
         }),
+        finalize(() => this.loaderService.hideLoader()),
         catchError(() => {
           this.toastService.showError('Не удалось создать пост');
-          this.loaderService.hideLoader();
           return of();
-        })
-      ).subscribe();
+        }),
+      ).
+      subscribe();
   }
 
 }

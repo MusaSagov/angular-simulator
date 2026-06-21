@@ -35,7 +35,8 @@ export class HeaderComponent {
       title: "Пользователи", 
       link: "/users-page"
     },
-    { id: 'posts-page',
+    {
+      id: 'posts-page',
       title: 'Posts',
       link: '/posts'
     }

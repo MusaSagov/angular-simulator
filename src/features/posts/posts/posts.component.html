@@ -22,7 +22,7 @@
       </tr>
     </ng-template>
     <ng-template #body let-post>
-      <tr (dblclick)="openDetail(post)" [pContextMenuRow]="post" style="cursor: pointer;">
+      <tr (dblclick)="openPost(post)" [pContextMenuRow]="post" style="cursor: pointer;">
         <td>{{ post.title }}</td>
         <td>{{ post.tags.join(', ') }}</td>
         <td >{{ post.views }}</td>

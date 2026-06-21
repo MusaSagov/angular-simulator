@@ -21,15 +21,11 @@
         <span class="author-label">Автор:</span>
         <span>{{ post.author }}</span>
       </div>
-      <div class="created-date">
-        <span class="date-label">Создан:</span>
-        <span>{{ post.createdAt }}</span>
-      </div>
     </section>
   </article>
 } @else {
   <div class="error">
     <p>Пост не найден или произошла ошибка при загрузке.</p>
-    <button routerLink="/posts" class="btn btn-secondary">Вернуться к списку</button>
+    <button routerLink="['/posts', post.id]" class="btn btn-secondary">Вернуться к списку</button>
   </div>
 }
