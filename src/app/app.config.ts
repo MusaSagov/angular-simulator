@@ -9,7 +9,6 @@ import { provideRouter } from '@angular/router';
 import { Preset } from '@primeuix/themes/types';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
-import { LoaderInterceptor } from './loader.interceptor';
 
 const getTheme = (): Preset => {
   const themeMap: Record<Theme, Preset> = {
@@ -28,7 +27,6 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection(),
     provideHttpClient(withInterceptorsFromDi()),
     MessageService,
-    LoaderInterceptor,
     providePrimeNG({
       theme: {
         preset: getTheme(),

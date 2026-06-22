@@ -17,14 +17,14 @@ export const postResolver: ResolveFn<IPost | null> = (route: ActivatedRouteSnaps
     router.navigate(['/posts']);
     return of(null);
   }
-
+  
   loaderService.showLoader();
-  return api.getPost(id).pipe(
+  return api.getPost(id)
+  .pipe(
+    finalize(() => loaderService.hideLoader()),
     catchError(() => {
-      router.navigate(['/posts']);
       return of(null);
-      finalize(() => loaderService.hideLoader())
     }),
   );
-  
+
 };

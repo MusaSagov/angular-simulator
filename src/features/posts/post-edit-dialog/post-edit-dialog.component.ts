@@ -11,6 +11,7 @@ import { catchError, finalize, of, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { LoaderService } from '../../../service/loader.service';
 import { IPostUpdate } from '../interfaces/IPostUpdate';
+import { PostService } from '../post.service';
 
 @Component({
   selector: 'app-post-edit-dialog',
@@ -27,12 +28,12 @@ import { IPostUpdate } from '../interfaces/IPostUpdate';
 })
 export class PostEditDialogComponent implements OnInit {
 
- private config: DynamicDialogConfig = inject(DynamicDialogConfig);
- private ref: DynamicDialogRef = inject(DynamicDialogRef);
- private fb: FormBuilder = inject(FormBuilder);
- private postApi: PostApiService = inject(PostApiService);
- private messageService: ToastService = inject(ToastService);
- loaderService: LoaderService = inject(LoaderService);
+  private config: DynamicDialogConfig = inject(DynamicDialogConfig);
+  private ref: DynamicDialogRef = inject(DynamicDialogRef);
+  private fb: FormBuilder = inject(FormBuilder);
+  private messageService: ToastService = inject(ToastService);
+  private postService: PostService = inject(PostService);
+  loaderService: LoaderService = inject(LoaderService);
 
   form: FormGroup = this.fb.group({
     title: ['', Validators.required],
@@ -68,9 +69,9 @@ export class PostEditDialogComponent implements OnInit {
       title,
       tags: (tagsRaw || '').split(',').map(t => t.trim()).filter(Boolean),
       views: views ?? 0,
-    } as const satisfies Omit<IPost, 'body' | 'author' | 'userId'> & { id: number };
+    };
 
-    this.postApi.updatePost(postUpdate)
+    this.postService.updatePost(postUpdate)
       .pipe(
         tap(() => this.messageService.showSuccess('Пост успешно обновлён')),
         tap(() => this.ref.close()),

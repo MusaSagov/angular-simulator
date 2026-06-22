@@ -10,7 +10,7 @@ import { IPostUpdate } from './interfaces/IPostUpdate';
 })
 export class PostApiService {
 
-  private readonly baseUrl = 'https://dummyjson.com/posts';
+  private readonly baseUrl: "https://dummyjson.com/posts" = 'https://dummyjson.com/posts';
   private httpClient: HttpClient = inject(HttpClient);
 
   getPosts(limit: number, skip: number): Observable<IPostResponse> {

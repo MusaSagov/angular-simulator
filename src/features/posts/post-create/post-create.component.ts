@@ -10,6 +10,7 @@ import { ToastService } from '../../../service/toast.service';
 import { tap, catchError, of, finalize } from 'rxjs';
 import { LoaderService } from '../../../service/loader.service';
 import { IPostCreate } from '../interfaces/IPostCreate';
+import { PostService } from '../post.service';
 
 @Component({
   selector: 'app-post-create',
@@ -19,11 +20,11 @@ import { IPostCreate } from '../interfaces/IPostCreate';
 })
 export class PostCreateComponent {
 
- private fb: FormBuilder = inject(FormBuilder);
- private postApi: PostApiService = inject(PostApiService);
- private toastService: ToastService = inject(ToastService);
- private loaderService: LoaderService = inject(LoaderService);
- router: Router = inject(Router);
+  private fb: FormBuilder = inject(FormBuilder);
+  private postService: PostService = inject(PostService);
+  private toastService: ToastService = inject(ToastService);
+  private loaderService: LoaderService = inject(LoaderService);
+  private router: Router = inject(Router);
 
   form: FormGroup = this.fb.group({
     title: ['', Validators.required],
@@ -40,13 +41,12 @@ export class PostCreateComponent {
       tags: this.form.value.tags!.split(',').map((t: string) => t.trim()),
     };
 
-    this.postApi.createPost(newPost)
+    this.postService.createPost(newPost)
       .pipe(
         tap(() => {
           this.toastService.showSuccess('Пост успешно создан');
           this.router.navigate(['/posts']);
         }),
-        finalize(() => this.loaderService.hideLoader()),
         catchError(() => {
           this.toastService.showError('Не удалось создать пост');
           return of();
