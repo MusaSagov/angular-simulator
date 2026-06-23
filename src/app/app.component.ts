@@ -1,17 +1,5 @@
 import { Component } from '@angular/core';
-import { Color } from '../enums/Color';
-import { Collection } from './collection';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ToastModule } from 'primeng/toast';
-import { inject } from '@angular/core';
-import { ToastService } from '../service/toast.service';
-import { MessageComponent } from '../message/message.component';
-import { FooterComponent } from "../footer/footer.component";
-import { HeaderComponent } from "../header/header.component";
-import { RouterOutlet } from '@angular/router';
-import { LoaderComponent } from '../loader/loader.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import "./training.ts"
 
 @Component({
   selector: 'app-root',
@@ -20,6 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
+
 export class AppComponent {
 
   toastService = inject(ToastService);
