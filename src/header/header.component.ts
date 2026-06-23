@@ -26,14 +26,19 @@ export class HeaderComponent {
 
   navItems: INavItem[] = [
     { 
-      id: "main-page", 
+      id: "main-page",
       title: "Главная", 
-      link: "/" 
+      link: "/"
     },
-    { 
-      id: "users-page", 
+    {
+      id: "users-page",
       title: "Пользователи", 
-      link: "/users-page" 
+      link: "/users-page"
+    },
+    {
+      id: 'posts-page',
+      title: 'Posts',
+      link: '/posts'
     }
   ];
   
