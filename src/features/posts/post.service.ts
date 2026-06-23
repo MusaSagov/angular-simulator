@@ -1,4 +1,4 @@
-import { DestroyRef, inject, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, filter, finalize, map, Observable, of, ReplaySubject, switchMap, tap, throwError } from 'rxjs';
 import { PostApiService } from './post-api.service';
 import { IPost } from './interfaces/IPost';
@@ -20,9 +20,6 @@ export class PostService {
   posts$: Observable<IPost[]> = this.postsSubject.asObservable();
   totalRecords: number = 0;
 
-  isLoadingSubject = new BehaviorSubject<boolean>(false);
-  isLoading$ = this.isLoadingSubject.asObservable();
-  
   loadPosts(limit: number, skip: number): Observable<IPostResponse> {
     this.loaderService.showLoader();
     return this.postApi.getPosts(limit, skip)

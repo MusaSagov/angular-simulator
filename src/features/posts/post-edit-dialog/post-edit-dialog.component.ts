@@ -1,13 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { PostApiService } from '../post-api.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { IPost } from '../interfaces/IPost';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ToastService } from '../../../service/toast.service';
-import { catchError, finalize, of, tap } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { LoaderService } from '../../../service/loader.service';
 import { IPostUpdate } from '../interfaces/IPostUpdate';

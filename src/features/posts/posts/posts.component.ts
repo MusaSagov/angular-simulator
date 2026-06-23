@@ -10,10 +10,7 @@ import { MenuItem } from 'primeng/api';
 import { AsyncPipe } from '@angular/common';
 import { IPost } from '../interfaces/IPost';
 import { PostService } from '../post.service';
-import { LoaderService } from '../../../service/loader.service';
-import { PostApiService } from '../post-api.service';
 import { ToastService } from '../../../service/toast.service';
-import { IPostResponse } from '../interfaces/IPostResponse';
 
 @Component({
   selector: 'app-posts',
@@ -28,8 +25,8 @@ export class PostsComponent implements OnInit {
   private dialogService: DialogService = inject(DialogService);
   private postService: PostService = inject(PostService);
   private toastService: ToastService = inject(ToastService);
-  private loaderService: LoaderService = inject(LoaderService);
-  private postApi: PostApiService = inject(PostApiService);
+  isLoadingSubject = new BehaviorSubject<boolean>(false);
+  isLoading$ = this.isLoadingSubject.asObservable();
   
   router: Router = inject(Router);
   pageSize: number = 10;
@@ -37,7 +34,6 @@ export class PostsComponent implements OnInit {
   selectedPost: IPost | null = null;
 
   totalRecords: number = this.postService.totalRecords;
-  isLoading$: Observable<boolean> = this.postService.isLoading$;
   posts$: Observable<IPost[]> = this.postService.posts$;
 
   menuItems: MenuItem[] = [
