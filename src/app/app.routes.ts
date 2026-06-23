@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { postResolver } from '../features/posts/post.resolver';
 
 export const routes: Routes = [
-  {
+  { 
     path: '',
     loadComponent: () => import('../home-page/home-page.component').then(m => m.HomePageComponent)
   },
