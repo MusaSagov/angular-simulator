@@ -1,4 +1,4 @@
-export interface IAuthRefreshResponse {
+export interface IToken {
   accessToken: string;
   refreshToken: string;
 }

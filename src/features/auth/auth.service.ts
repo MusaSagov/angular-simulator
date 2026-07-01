@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
-import { IAuthLoginRequest, IAuthLoginResponse, IAuthRefreshResponse, IAuthUser} from './interfaces/index';
+import { IAuthLoginRequest, ILogin, IToken, IAuthUser} from './interfaces/index';
 
 @Injectable({
   providedIn: 'root',
@@ -14,23 +14,15 @@ export class AuthService {
   private userSubject = new BehaviorSubject<IAuthUser | null>(null);
   user$ = this.userSubject.asObservable();
 
-  login(data: IAuthLoginRequest): Observable<IAuthLoginResponse> {
-    return this.http.post<IAuthLoginResponse>
+  login(data: IAuthLoginRequest): Observable<ILogin> {
+    return this.http.post<ILogin>
     (`${ this.apiUrl }/auth/login`, data, {
        withCredentials: true }
     ).pipe(
       tap((res) => {
         localStorage.setItem('accessToken', res.accessToken);
         localStorage.setItem('refreshToken', res.refreshToken);
-        this.userSubject.next({
-          id: res.id,
-          username: res.username,
-          email: res.email,
-          firstName: res.firstName,
-          lastName: res.lastName,
-          gender: res.gender,
-          image: res.image,
-        });
+        this.userSubject.next(res);
       })
     );
   }
@@ -55,10 +47,10 @@ export class AuthService {
       );
   }
 
-  refreshToken(): Observable<IAuthRefreshResponse> {
+  refreshToken(): Observable<IToken> {
     const refreshToken = this.getRefreshToken();
 
-    return this.http.post<IAuthRefreshResponse>(
+    return this.http.post<IToken>(
       `${ this.apiUrl }/auth/refresh`,
       refreshToken ? { refreshToken } : {},
       { withCredentials: true })

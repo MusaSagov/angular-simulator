@@ -8,14 +8,18 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
 
   const authService: AuthService = inject(AuthService);
   const router: Router = inject(Router);
+  const accessToken: string | null = authService.getAccessToken();
+  const refreshToken: string | null = authService.getRefreshToken();
 
-  const addTokenToRequest = (): HttpRequest<unknown> => req.clone({
-    setHeaders: {
-      Authorization: `Bearer ${ authService.getAccessToken() }`,
-    },
-  });
+  const addToken = (): HttpRequest<unknown> => {
+    return req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${ accessToken }`,
+      },
+    });
+  };
 
-  const logoutAndGoToLogin = (): Observable<never> => {authService.logout(); router.navigate(['/login']);
+  const logoutToLogin = (): Observable<never> => {authService.logout(); router.navigate(['/login']);
     return EMPTY;
   };
 
@@ -23,7 +27,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
     return next(req);
   }
 
-  const request: HttpRequest<unknown> = authService.getAccessToken() ? addTokenToRequest() : req;
+  const request: HttpRequest<unknown> = accessToken ? addToken() : req;
 
   return next(request)
     .pipe(
@@ -32,15 +36,16 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
           return throwError(() => error);
         }
 
-        if (!authService.getRefreshToken()) {
-          return logoutAndGoToLogin();
+        if (!refreshToken) {
+          return logoutToLogin();
         }
 
-        return authService.refreshToken().pipe(
-          switchMap(() => next(addTokenToRequest())),
-          catchError(() => logoutAndGoToLogin())
-        );
+        return authService.refreshToken()
+          .pipe(
+            switchMap(() => next(addToken())),
+            catchError(() => logoutToLogin())
+          );
       })
     );
-    
+
 };
