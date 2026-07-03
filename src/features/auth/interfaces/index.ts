@@ -1,4 +1,4 @@
-export * from './IAuthLoginRequest';
+export * from './ILogin';
 export * from './IAuthUser';
 export * from './IToken';
-export * from './ILogin';
+export * from './IAuthResponse';

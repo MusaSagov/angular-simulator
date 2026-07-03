@@ -1,34 +1,36 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
-import { IAuthLoginRequest, ILogin, IToken, IAuthUser} from './interfaces/index';
+import { IToken, IAuthUser, IAuthResponse, ILogin} from './interfaces/index';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
 
-  private http = inject(HttpClient);
-  private apiUrl = 'https://dummyjson.com';
+  private http: HttpClient = inject(HttpClient);
+  private apiUrl: string = 'https://dummyjson.com';
 
-  private userSubject = new BehaviorSubject<IAuthUser | null>(null);
-  user$ = this.userSubject.asObservable();
+  private userSubject: BehaviorSubject<IAuthUser | null> = new BehaviorSubject<IAuthUser | null>(null);
+  user$: Observable<IAuthUser | null> = this.userSubject.asObservable();
 
-  login(data: IAuthLoginRequest): Observable<ILogin> {
-    return this.http.post<ILogin>
+  login(data: ILogin): Observable<IAuthResponse> {
+    return this.http.post<IAuthResponse>
     (`${ this.apiUrl }/auth/login`, data, {
        withCredentials: true }
     ).pipe(
-      tap((res) => {
-        localStorage.setItem('accessToken', res.accessToken);
-        localStorage.setItem('refreshToken', res.refreshToken);
-        this.userSubject.next(res);
+      tap((res: IAuthResponse) => {
+        const tokens: IToken = {
+          accessToken: res.accessToken,
+          refreshToken: res.refreshToken,
+        };
+        this.saveTokens(tokens);
       })
     );
   }
 
   initAuth(): Observable<boolean> {
-    const token = this.getAccessToken();
+    const token: string | null = this.getAccessToken();
 
     if (!token) {
       this.userSubject.next(null);
@@ -38,7 +40,7 @@ export class AuthService {
     return this.http.get<IAuthUser>(`${ this.apiUrl }/auth/me`, {
       headers: {Authorization: `Bearer ${ token }`,}, withCredentials: true,})
       .pipe(
-        tap((user) => this.userSubject.next(user)),
+        tap((user: IAuthUser) => this.userSubject.next(user)),
         map(() => true),
         catchError(() => {
           this.logout();
@@ -48,36 +50,50 @@ export class AuthService {
   }
 
   refreshToken(): Observable<IToken> {
-    const refreshToken = this.getRefreshToken();
+    const currentTokens: IToken | null = this.getTokens();
+    const refreshToken: string | null = currentTokens?.refreshToken ?? null;
 
     return this.http.post<IToken>(
       `${ this.apiUrl }/auth/refresh`,
       refreshToken ? { refreshToken } : {},
       { withCredentials: true })
       .pipe(
-        tap((res) => {
-          localStorage.setItem('accessToken', res.accessToken);
-          localStorage.setItem('refreshToken', res.refreshToken);
+        tap((res: IToken) => {
+          const tokens: IToken = {
+            accessToken: res.accessToken,
+            refreshToken: res.refreshToken,
+          };
+        this.saveTokens(tokens);
         })
       );
   }
 
   logout(): void {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('tokens');
     this.userSubject.next(null);
   }
 
   getAccessToken(): string | null {
-    return localStorage.getItem('accessToken');
+    const tokens: IToken | null = this.getTokens();
+    return tokens?.accessToken ?? null;
   }
 
   getRefreshToken(): string | null {
-    return localStorage.getItem('refreshToken');
+    const tokens: IToken | null = this.getTokens();
+    return tokens?.refreshToken ?? null;
   }
 
   isLoggedIn(): boolean {
     return !!this.getAccessToken();
   }
-  
+
+  private saveTokens(tokens: IToken): void {
+    localStorage.setItem('tokens', JSON.stringify(tokens));
+  }
+
+  private getTokens(): IToken | null {
+    const raw: string | null = localStorage.getItem('tokens');
+    return raw ? JSON.parse(raw) as IToken : null;
+  }
+
 }

@@ -29,7 +29,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection(),
     provideHttpClient(withInterceptors([authInterceptor])),
     provideAppInitializer(() => {
-      const authService = inject(AuthService);
+      const authService: AuthService = inject(AuthService);
       return authService.initAuth();
     }),
     MessageService,

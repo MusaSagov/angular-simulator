@@ -1,4 +1,5 @@
-import { IAuthUser } from "./IAuthUser";
-import { IToken } from "./IToken";
-
-export interface ILogin extends IAuthUser, IToken {}
+export interface ILogin {
+  username: string;
+  password: string;
+  expiresInMins?: number;
+}
