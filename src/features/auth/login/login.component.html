@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <label>Логин:</label>
-  <input id="username" type="text" formControlName="username">
+  <input id="username" type="text" formControlName="username" required placeholder="Введите логин">
   <label>Пароль:</label>
-  <input id="password" type="text" formControlName="password">
-  <button type="submit">Отправить</button>
+  <input id="password" type="password" formControlName="password" required placeholder="Введите пароль">
+  <button type="submit" [disabled]="form.invalid">Отправить</button>
 </form>

@@ -30,7 +30,7 @@ export class LoginComponent {
           this.router.navigate(['/']);
         }),
         catchError(() => {
-          this.toastService.showError('Неверный логин или пароль');
+          this.toastService.showError('Произошла ошибка доступа.');
           return of(null);
         })
       ).subscribe();

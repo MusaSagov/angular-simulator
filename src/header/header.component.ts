@@ -8,6 +8,8 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ToggleSwitchChangeEvent, ToggleSwitchModule} from 'primeng/toggleswitch';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { AuthService } from '../features/auth/auth.service';
+import { Observable } from 'rxjs';
+import { IAuthUser } from '../features/auth/interfaces';
 
 @Component({
   selector: 'app-header',
@@ -27,7 +29,7 @@ export class HeaderComponent {
   counter: number = 0;
   formattedDateTime: string = new Date().toLocaleDateString('ru-Ru');
   
-  user$ = this.authService.user$;
+  user$: Observable<IAuthUser | null>= this.authService.user$;
 
   navItems: INavItem[] = [
     { 
@@ -44,11 +46,6 @@ export class HeaderComponent {
       id: 'posts-page',
       title: 'Posts',
       link: '/posts'
-    },
-    {
-      id: 'login',
-      title: 'Вход',
-      link: '/login'
     },
   ];
   

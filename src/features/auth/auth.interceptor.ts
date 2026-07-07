@@ -19,11 +19,13 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
     });
   };
 
-  const logoutToLogin = (): Observable<never> => {authService.logout(); router.navigate(['/login']);
+  const logoutToLogin = (): Observable<never> => {
+    authService.logout();
+    router.navigate(['/login']);
     return EMPTY;
   };
 
-  if (req.url.includes('/auth/login') || req.url.includes('/auth/refresh')) {
+  if (req.url.includes('/auth/login') || req.url.includes('/auth/refresh') || req.url.includes('/auth/me')) {
     return next(req);
   }
 

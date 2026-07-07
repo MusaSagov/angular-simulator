@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
 import { IToken, IAuthUser, IAuthResponse, ILogin} from './interfaces/index';
+import { LocalStorageService } from '../../service/local-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,14 +11,19 @@ export class AuthService {
 
   private http: HttpClient = inject(HttpClient);
   private apiUrl: string = 'https://dummyjson.com';
+  private authUrl: string = `${ this.apiUrl }/auth`;
+  private httpOptions: { withCredentials: boolean } = { withCredentials: true };
+  private localStorageService: LocalStorageService = inject(LocalStorageService);
+
 
   private userSubject: BehaviorSubject<IAuthUser | null> = new BehaviorSubject<IAuthUser | null>(null);
   user$: Observable<IAuthUser | null> = this.userSubject.asObservable();
 
   login(data: ILogin): Observable<IAuthResponse> {
-    return this.http.post<IAuthResponse>
-    (`${ this.apiUrl }/auth/login`, data, {
-       withCredentials: true }
+    return this.http.post<IAuthResponse>(
+      `${ this.authUrl }/login`,
+       data,
+       this.httpOptions,
     ).pipe(
       tap((res: IAuthResponse) => {
         const tokens: IToken = {
@@ -37,8 +43,7 @@ export class AuthService {
       return of(false);
     }
 
-    return this.http.get<IAuthUser>(`${ this.apiUrl }/auth/me`, {
-      headers: {Authorization: `Bearer ${ token }`,}, withCredentials: true,})
+    return this.http.get<IAuthUser>(`${ this.authUrl }/me`, this.httpOptions)
       .pipe(
         tap((user: IAuthUser) => this.userSubject.next(user)),
         map(() => true),
@@ -52,12 +57,13 @@ export class AuthService {
   refreshToken(): Observable<IToken> {
     const currentTokens: IToken | null = this.getTokens();
     const refreshToken: string | null = currentTokens?.refreshToken ?? null;
-
+    const body = refreshToken ? { refreshToken } : {};
+    
     return this.http.post<IToken>(
-      `${ this.apiUrl }/auth/refresh`,
-      refreshToken ? { refreshToken } : {},
-      { withCredentials: true })
-      .pipe(
+      `${ this.authUrl }/refresh`,
+      body,
+      this.httpOptions
+    ).pipe(
         tap((res: IToken) => {
           const tokens: IToken = {
             accessToken: res.accessToken,
@@ -69,31 +75,33 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('tokens');
+    this.localStorageService.deleteKey('tokens');
     this.userSubject.next(null);
   }
 
   getAccessToken(): string | null {
-    const tokens: IToken | null = this.getTokens();
-    return tokens?.accessToken ?? null;
+    return this.getToken('accessToken');
   }
 
   getRefreshToken(): string | null {
+    return this.getToken('refreshToken');
+  }
+
+  getToken(key: keyof IToken): string | null {
     const tokens: IToken | null = this.getTokens();
-    return tokens?.refreshToken ?? null;
+    return tokens?.[key] ?? null;
   }
 
   isLoggedIn(): boolean {
-    return !!this.getAccessToken();
+    return !!this.userSubject.value;
   }
 
   private saveTokens(tokens: IToken): void {
-    localStorage.setItem('tokens', JSON.stringify(tokens));
+    this.localStorageService.saveData('tokens', tokens);;
   }
 
   private getTokens(): IToken | null {
-    const raw: string | null = localStorage.getItem('tokens');
-    return raw ? JSON.parse(raw) as IToken : null;
+    return this.localStorageService.getItem<IToken>('tokens');
   }
 
 }
