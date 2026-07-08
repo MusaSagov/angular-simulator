@@ -25,7 +25,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
     return EMPTY;
   };
 
-  if (req.url.includes('/auth')) {
+  if (req.url.includes('/auth/login') || req.url.includes('/auth/refresh')) {
     return next(req);
   }
 

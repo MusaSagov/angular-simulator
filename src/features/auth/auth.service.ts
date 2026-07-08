@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, of, switchMap, tap } from 'rxjs';
 import { IToken, IAuthUser, IAuthResponse, ILogin} from './interfaces/index';
 import { LocalStorageService } from '../../service/local-storage.service';
 
@@ -17,7 +17,7 @@ export class AuthService {
   private userSubject: BehaviorSubject<IAuthUser | null> = new BehaviorSubject<IAuthUser | null>(null);
   user$: Observable<IAuthUser | null> = this.userSubject.asObservable();
 
-  login(data: ILogin): Observable<IAuthResponse> {
+  login(data: ILogin): Observable<boolean> {
     return this.http.post<IAuthResponse>(
       `${ this.apiUrl }/auth/login`,
        data,
@@ -29,7 +29,8 @@ export class AuthService {
           refreshToken: res.refreshToken,
         };
         this.saveTokens(tokens);
-      })
+      }),
+      switchMap(() => this.initAuth())
     );
   }
 
@@ -87,7 +88,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!this.getAccessToken;
+    return !!this.getAccessToken();
   }
 
   private saveTokens(tokens: IToken): void {
