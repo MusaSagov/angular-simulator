@@ -11,8 +11,6 @@ export class AuthService {
 
   private http: HttpClient = inject(HttpClient);
   private apiUrl: string = 'https://dummyjson.com';
-  private authUrl: string = `${ this.apiUrl }/auth`;
-  private httpOptions: { withCredentials: boolean } = { withCredentials: true };
   private localStorageService: LocalStorageService = inject(LocalStorageService);
 
 
@@ -21,9 +19,9 @@ export class AuthService {
 
   login(data: ILogin): Observable<IAuthResponse> {
     return this.http.post<IAuthResponse>(
-      `${ this.authUrl }/login`,
+      `${ this.apiUrl }/auth/login`,
        data,
-       this.httpOptions,
+       { withCredentials: true },
     ).pipe(
       tap((res: IAuthResponse) => {
         const tokens: IToken = {
@@ -43,7 +41,7 @@ export class AuthService {
       return of(false);
     }
 
-    return this.http.get<IAuthUser>(`${ this.authUrl }/me`, this.httpOptions)
+    return this.http.get<IAuthUser>(`${ this.apiUrl }/auth/me`, { withCredentials: true })
       .pipe(
         tap((user: IAuthUser) => this.userSubject.next(user)),
         map(() => true),
@@ -54,15 +52,11 @@ export class AuthService {
       );
   }
 
-  refreshToken(): Observable<IToken> {
-    const currentTokens: IToken | null = this.getTokens();
-    const refreshToken: string | null = currentTokens?.refreshToken ?? null;
-    const body = refreshToken ? { refreshToken } : {};
-    
+  refreshToken(refreshToken: string): Observable<IToken> {
     return this.http.post<IToken>(
-      `${ this.authUrl }/refresh`,
-      body,
-      this.httpOptions
+      `${ this.apiUrl }/auth/refresh`,
+      { refreshToken },
+      { withCredentials: true },
     ).pipe(
         tap((res: IToken) => {
           const tokens: IToken = {

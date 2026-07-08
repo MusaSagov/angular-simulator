@@ -25,7 +25,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
     return EMPTY;
   };
 
-  if (req.url.includes('/auth/login') || req.url.includes('/auth/refresh') || req.url.includes('/auth/me')) {
+  if (req.url.includes('/auth')) {
     return next(req);
   }
 
@@ -42,7 +42,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
           return logoutToLogin();
         }
 
-        return authService.refreshToken()
+        return authService.refreshToken(refreshToken)
           .pipe(
             switchMap(() => next(addToken())),
             catchError(() => logoutToLogin())
