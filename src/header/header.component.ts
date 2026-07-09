@@ -1,28 +1,35 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ThemeService } from '../service/theme.service';
 import { Theme } from '../enums/Theme';
-import { ColorMode } from '../enums/ColorMode';
 import { INavItem } from '../interfaces';
-import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ToggleSwitchChangeEvent, ToggleSwitchModule} from 'primeng/toggleswitch';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { AuthService } from '../features/auth/auth.service';
+import { Observable } from 'rxjs';
+import { IAuthUser } from '../features/auth/interfaces';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLinkActive, RouterLink, SelectButtonModule, ToggleSwitchModule],
+  imports: [CommonModule, FormsModule, RouterLinkActive, RouterLink, SelectButtonModule, ToggleSwitchModule, AsyncPipe],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
+
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   themeService: ThemeService = inject(ThemeService)
   companyName: string = 'Румтибет';
   currentWidget: 'counter' | 'dateTime' = 'dateTime';
   counter: number = 0;
   formattedDateTime: string = new Date().toLocaleDateString('ru-Ru');
+  
+  user$: Observable<IAuthUser | null>= this.authService.user$;
 
   navItems: INavItem[] = [
     { 
@@ -39,7 +46,7 @@ export class HeaderComponent {
       id: 'posts-page',
       title: 'Posts',
       link: '/posts'
-    }
+    },
   ];
   
   constructor() {
@@ -69,6 +76,11 @@ export class HeaderComponent {
 
   toggleTheme(theme: Theme): void {
     this.themeService.setTheme(theme);
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
 }

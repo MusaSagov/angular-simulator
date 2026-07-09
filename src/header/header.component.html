@@ -35,6 +35,12 @@
             {{ navItem.title }}</a>
         }
         </nav>
+        <div class="header-auth">
+          @if (user$ | async; as user) {
+            <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
+            <button type="button" (click)="logout()">Выйти</button>
+          }
+        </div>
         <div class="header__actions">
           <button id="consultation-btn" class="btn btn--primary">Консультация</button>
         </div>

@@ -1,5 +1,16 @@
-import { Component } from '@angular/core';
-import "./training.ts"
+import { Component, inject } from '@angular/core';
+import "./training"
+import { Color } from '../enums/Color.js';
+import { ToastService } from '../service/toast.service.js';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MessageComponent } from '../message/message.component.js';
+import { FooterComponent } from '../footer/footer.component.js';
+import { HeaderComponent } from '../header/header.component.js';
+import { RouterOutlet } from '@angular/router';
+import { LoaderComponent } from '../loader/loader.component.js';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { Collection } from './collection.js';
 
 @Component({
   selector: 'app-root',
