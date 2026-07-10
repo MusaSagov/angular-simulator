@@ -88,7 +88,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!this.getAccessToken();
+    return !!this.userSubject.value;
   }
 
   private saveTokens(tokens: IToken): void {
