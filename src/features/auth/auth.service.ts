@@ -99,4 +99,8 @@ export class AuthService {
     return this.localStorageService.getItem<IToken>('tokens');
   }
 
+  getCurrentUser(): IAuthUser | null {
+    return this.userSubject.value;
+  }
+  
 }
