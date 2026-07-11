@@ -16,12 +16,12 @@ export class LoginComponent {
   private formBuilder: FormBuilder = inject(FormBuilder);
   private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
-  toastService: ToastService = inject(ToastService)
+  toastService: ToastService = inject(ToastService);
 
   form: FormGroup = this.formBuilder.group({
     username: ['', [Validators.required]],
     password: ['', [Validators.required]],
-  })
+  });
 
   onSubmit(): void {
     this.authService.login(this.form.value)

@@ -4,7 +4,7 @@ import { ToastService } from '../service/toast.service';
 import { ILocation, IOffer, IParticipant, ISlide, ITours, ITravels } from '../interfaces';
 import { FormsModule, NgForm } from '@angular/forms';
 import { faMapPin, faShield, faTag, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { FaIconComponent } from "@fortawesome/angular-fontawesome";
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-home-page',
@@ -16,11 +16,11 @@ export class HomePageComponent {
 
   toastService: ToastService = inject(ToastService);
 
-  isLoading: boolean = true;
+  isLoading = true;
   selectedLocation!: string;
   selectedDate!: string;
   selectedCount!: string;
-  liveText: string = '';
+  liveText = '';
   faShield: IconDefinition = faShield;
   faTag: IconDefinition = faTag;
   faMapPin: IconDefinition = faMapPin;
@@ -188,4 +188,5 @@ export class HomePageComponent {
   }
 
   onSearchSubmit(form: NgForm): void {}
+
 }

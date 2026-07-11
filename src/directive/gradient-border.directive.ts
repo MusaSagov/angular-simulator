@@ -25,7 +25,7 @@ export class AnimatedGradientDirective implements OnDestroy {
     this.timer = window.setTimeout(() => {
       const colors: string = this.GradientConfiguration.colors?.join(', ') ?? 'blue, yellow, purple';
       const thickness: string | number = this.GradientConfiguration.thickness ?? 2;
-      const gradient: string = `linear-gradient(45deg, ${ colors })`;
+      const gradient = `linear-gradient(45deg, ${ colors })`;
       this.border = `${ thickness }px solid transparent`;
       this.background = `${ gradient } padding-box, ${ gradient } border-box`;
     },this.GradientConfiguration.delay ?? 1000);

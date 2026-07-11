@@ -7,7 +7,11 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write",
+    "format:check": "prettier . --check",
+    "lint:fix-rules": "eslint --fix --rule '{\"prettier/prettier\": \"off\"}' ."
   },
   "prettier": {
     "printWidth": 100,
@@ -42,6 +46,7 @@
     "zone.js": "0.16.0"
   },
   "devDependencies": {
+    "@angular-eslint/eslint-plugin": "^22.0.0",
     "@angular/build": "^21.0.5",
     "@angular/cli": "^21.0.5",
     "@angular/compiler-cli": "^21.0.0",

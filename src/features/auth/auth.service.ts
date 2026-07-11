@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, map, of, switchMap, tap } from 'rxjs';
-import { IToken, IAuthUser, IAuthResponse, ILogin} from './interfaces/index';
+import { IToken, IAuthUser, IAuthResponse, ILogin } from './interfaces/index';
 import { LocalStorageService } from '../../service/local-storage.service';
 
 @Injectable({
@@ -10,7 +10,7 @@ import { LocalStorageService } from '../../service/local-storage.service';
 export class AuthService {
 
   private http: HttpClient = inject(HttpClient);
-  private apiUrl: string = 'https://dummyjson.com';
+  private apiUrl = 'https://dummyjson.com';
   private localStorageService: LocalStorageService = inject(LocalStorageService);
 
 

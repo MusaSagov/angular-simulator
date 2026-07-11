@@ -1,4 +1,3 @@
-//Интерфейсы.
 interface IUser {
   id: number;
   name: string;
@@ -11,12 +10,10 @@ interface IDeveloper extends IUser {
   skills: string[];
 }
 
-//Переменные.
 type Status = 'loading' | 'success' | 'error';
 type textFormat = 'uppercase' | 'lowercase' | 'capitalize';
 type Adult = IUser
 
-//Функции
 function sum(a: number, b: number): number {
   const result: number = a + b;
   console.log(`Sum: ${ result }`);
@@ -35,9 +32,9 @@ function formatText(text: string, format: textFormat): string {
   }
 }
 
-console.log(formatText("hello world", "capitalize"));
-console.log(formatText("hello world", "uppercase"));
-console.log(formatText("hello world", "lowercase"));
+console.log(formatText('hello world', 'capitalize'));
+console.log(formatText('hello world', 'uppercase'));
+console.log(formatText('hello world', 'lowercase'));
 
 function removeChar(text: string, char: string): string {
   if (!char) {
@@ -46,9 +43,9 @@ function removeChar(text: string, char: string): string {
   return text.replaceAll(char, '');
 }
 
-console.log(removeChar("hello world", "l"));
-console.log(removeChar("привет мирр", "р"));
-console.log(removeChar("test@@test", "@"));
+console.log(removeChar('hello world', 'l'));
+console.log(removeChar('привет мир', 'р'));
+console.log(removeChar('test@@test', '@'));
 
 //Массив.
 const users: IUser[] = [
@@ -56,7 +53,7 @@ const users: IUser[] = [
   { id: 2, name: 'Мария Петрова', email: 'maria@test.ru', age: 30 },
   { id: 3, name: 'Иван Иванов', email: 'ivan@mail.ru', age: 22 },
   { id: 4, name: 'Елена Козлова', email: 'elena@work.ru', age: 35 }
-]
+];
 
 const adults: Adult[] = users.filter((user): user is Adult =>
   user.age !== undefined && user.age > 25

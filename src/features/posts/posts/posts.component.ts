@@ -29,8 +29,8 @@ export class PostsComponent implements OnInit {
   isLoading$ = this.isLoadingSubject.asObservable();
   
   router: Router = inject(Router);
-  pageSize: number = 10;
-  firstNumber: number = 0;
+  pageSize = 10;
+  firstNumber = 0;
   selectedPost: IPost | null = null;
 
   totalRecords: number = this.postService.totalRecords;
@@ -43,7 +43,7 @@ export class PostsComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.loadPosts(this.pageSize, this.firstNumber)
+    this.loadPosts(this.pageSize, this.firstNumber);
   }
 
   loadPosts(limit: number, skip: number): void {

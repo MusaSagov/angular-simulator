@@ -26,7 +26,7 @@ export class PluralPipe implements PipeTransform {
     if (isFewForm) {
       return `${ count } ${ few }`;
     }
-    return `${ count } ${ many}`;
+    return `${ count } ${ many }`;
   }
   
 }

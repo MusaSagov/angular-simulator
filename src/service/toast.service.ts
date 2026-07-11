@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
-import { IToastMessage } from "../interfaces/IToastMessage";
-import { MessageType } from "../enums/MessageType";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Injectable } from '@angular/core';
+import { IToastMessage } from '../interfaces/IToastMessage';
+import { MessageType } from '../enums/MessageType';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
@@ -42,7 +42,7 @@ export class ToastService {
 
   closeMessage(id: string): void {
     const current: IToastMessage[] = this.toastsSubject.getValue();
-    const updatedMessages: IToastMessage[] = current.filter((msg: IToastMessage) => msg.id !== id)
+    const updatedMessages: IToastMessage[] = current.filter((msg: IToastMessage) => msg.id !== id);
     this.toastsSubject.next(updatedMessages);
   }
 
