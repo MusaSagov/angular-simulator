@@ -17,12 +17,7 @@ export const routes: Routes = [
     path: 'users-page',
     canActivate: [adminGuard],
     canActivateChild: [adminGuard],
-    children: [
-      {
-        path: '',
-        loadComponent: () => import('../users-page/users-page.component').then(m => m.UsersPageComponent),
-      },
-    ],
+    loadComponent: () => import('../users-page/users-page.component').then(m => m.UsersPageComponent),
   },
   {
     path: 'posts',
