@@ -8,9 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier --write",
-    "format:check": "prettier . --check",
+    "format": "prettier --write . && eslint --fix .",
     "lint:fix-rules": "eslint --fix --rule '{\"prettier/prettier\": \"off\"}' ."
   },
   "prettier": {
