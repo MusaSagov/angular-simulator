@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { postResolver } from '../features/posts/post.resolver';
 import { authGuard } from '../features/auth/auth.guard';
+import { adminGuard } from '../features/auth/admin.guard';
 
 export const routes: Routes = [
   {
@@ -14,26 +15,31 @@ export const routes: Routes = [
   },
   {
     path: 'users-page',
-    canActivate: [authGuard],
-    loadComponent: () => import('../users-page/users-page.component').then(m => m.UsersPageComponent)
+    canActivate: [adminGuard],
+    canActivateChild: [adminGuard],
+    loadComponent: () => import('../users-page/users-page.component').then(m => m.UsersPageComponent),
   },
   {
     path: 'posts',
-    canActivate: [authGuard],
-    loadComponent: () => import('../features/posts/posts/posts.component').then(m => m.PostsComponent)
-  },
-  {
-    path: 'posts/create',
-    canActivate: [authGuard],
-    loadComponent: () => import('../features/posts/post-create/post-create.component').then(m => m.PostCreateComponent)
-  },
-  {
-    path: 'posts/:id',
-    canActivate: [authGuard],
-    loadComponent: () => import('../features/posts/post-detail/post-detail.component').then(m => m.PostDetailComponent),
-    resolve: {
-      post: postResolver
-    }
+    canActivate: [adminGuard],
+    canActivateChild: [adminGuard],
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('../features/posts/posts/posts.component').then(m => m.PostsComponent),
+      },
+      {
+        path: 'create',
+        loadComponent: () => import('../features/posts/post-create/post-create.component').then(m => m.PostCreateComponent),
+      },
+      {
+        path: ':id',
+        loadComponent: () => import('../features/posts/post-detail/post-detail.component').then(m => m.PostDetailComponent),
+        resolve: {
+          post: postResolver,
+        },
+      },
+    ],
   },
   {
     path: '**',
