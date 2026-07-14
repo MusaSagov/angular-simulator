@@ -18,7 +18,7 @@ export class PostService {
   private loaderService: LoaderService = inject(LoaderService);
   postsSubject: BehaviorSubject<IPost[]> = new BehaviorSubject<IPost[]>([]);
   posts$: Observable<IPost[]> = this.postsSubject.asObservable();
-  totalRecords: number = 0;
+  totalRecords = 0;
 
   loadPosts(limit: number, skip: number): Observable<IPostResponse> {
     this.loaderService.showLoader();
@@ -55,7 +55,7 @@ export class PostService {
     return this.postApi.createPost(newPost)
       .pipe(
         finalize(() => this.loaderService.hideLoader())
-      )
+      );
   }
 
   updatePost(updatedPost: IPostUpdate): Observable<IPost> {
@@ -66,7 +66,7 @@ export class PostService {
         this.toastService.showError('Не удалось обновить пост');
         return of();
       }),
-    )
+    );
   }
 
 }

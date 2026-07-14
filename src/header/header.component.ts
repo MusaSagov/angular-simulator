@@ -5,7 +5,7 @@ import { INavItem } from '../interfaces';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { ToggleSwitchChangeEvent, ToggleSwitchModule} from 'primeng/toggleswitch';
+import { ToggleSwitchChangeEvent, ToggleSwitchModule } from 'primeng/toggleswitch';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { AuthService } from '../features/auth/auth.service';
 import { Observable } from 'rxjs';
@@ -23,24 +23,24 @@ export class HeaderComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
-  themeService: ThemeService = inject(ThemeService)
-  companyName: string = 'Румтибет';
+  themeService: ThemeService = inject(ThemeService);
+  companyName = 'Румтибет';
   currentWidget: 'counter' | 'dateTime' = 'dateTime';
-  counter: number = 0;
+  counter = 0;
   formattedDateTime: string = new Date().toLocaleDateString('ru-Ru');
   
   user$: Observable<IAuthUser | null>= this.authService.user$;
 
   navItems: INavItem[] = [
     { 
-      id: "main-page",
-      title: "Главная", 
-      link: "/"
+      id: 'main-page',
+      title: 'Главная', 
+      link: '/'
     },
     {
-      id: "users-page",
-      title: "Пользователи", 
-      link: "/users-page"
+      id: 'users-page',
+      title: 'Пользователи', 
+      link: '/users-page'
     },
     {
       id: 'posts-page',

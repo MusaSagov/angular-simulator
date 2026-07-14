@@ -6,7 +6,7 @@ import { Directive, ElementRef, HostBinding, HostListener } from '@angular/core'
 })
 export class BoldOnHoverDirective {
 
-  @HostBinding('style.fontWeight') fontWeight: string = 'Bold';
+  @HostBinding('style.fontWeight') fontWeight = 'Bold';
 
   @HostListener('mouseenter')
   onEnter() {

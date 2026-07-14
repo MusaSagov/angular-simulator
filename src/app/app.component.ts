@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import "./training"
+import './training';
 import { Color } from '../enums/Color.js';
 import { ToastService } from '../service/toast.service.js';
 import { CommonModule } from '@angular/common';
@@ -23,7 +23,7 @@ import { Collection } from './collection.js';
 export class AppComponent {
 
   toastService = inject(ToastService);
-  isLoading: boolean = true;
+  isLoading = true;
 
   private wordCollection: Collection<string> = new Collection<string>([]);
   private numberCollection: Collection<number> = new Collection<number>([]);
