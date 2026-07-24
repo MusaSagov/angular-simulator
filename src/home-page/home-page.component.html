@@ -166,7 +166,7 @@
               <h3 class="title-travel">{{ travel.title }}</h3>
               <p class="travel-blog-card__text">{{ travel.text }}</p>
               <div class="travel-blog-card__footer">
-                <span class="card__date">{{ travel.date }}</span>
+                <span class="card__date">{{ travel.date | date }}</span>
                 <a [href]="travel.href" class="card__link">{{ travel.linkText }}</a>
               </div>
             </div>

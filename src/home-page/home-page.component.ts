@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ToastService } from '../service/toast.service';
 import { ILocation, IOffer, IParticipant, ISlide, ITours, ITravels } from '../interfaces';
@@ -8,7 +9,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-home-page',
-  imports: [CommonModule, FormsModule, FaIconComponent],
+  imports: [CommonModule, FormsModule, FaIconComponent, DatePipe],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
 })
@@ -20,7 +21,7 @@ export class HomePageComponent {
   selectedLocation!: string;
   selectedDate!: string;
   selectedCount!: string;
-  liveText = '';
+  liveText: string = '';
   faShield: IconDefinition = faShield;
   faTag: IconDefinition = faTag;
   faMapPin: IconDefinition = faMapPin;

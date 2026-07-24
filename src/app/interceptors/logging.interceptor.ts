@@ -1,16 +1,22 @@
 import { HttpErrorResponse, HttpEvent, HttpEventType, HttpHandlerFn, HttpInterceptorFn, HttpRequest, HttpResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { APPLICATION_CONFIG } from '../../application-config.token';
+import { inject } from '@angular/core';
+import { IApplicationConfig } from '../../interfaces/IApplicationConfig';
 
 export const loggingInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
+  const config: IApplicationConfig = inject(APPLICATION_CONFIG);
   const startTime: number = Date.now();
 
-  console.log('Метод:', req.method);
-  console.log('URL:', req.url);
+  if (config.enableLogs) {
+    console.log('Метод:', req.method);
+    console.log('URL:', req.url);
+  }
 
   return next(req).pipe(
     tap((event: HttpEvent<unknown>) => {
-      if (event.type === HttpEventType.Response) {
+      if(config.enableLogs && event.type === HttpEventType.Response) {
         const response: HttpResponse<unknown> = event as HttpResponse<unknown>;
         const elapsed: number = Date.now() - startTime;
 

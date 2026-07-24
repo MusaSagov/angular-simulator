@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { IToastMessage } from '../interfaces/IToastMessage';
 import { MessageType } from '../enums/MessageType';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { APPLICATION_CONFIG } from '../application-config.token';
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
   
   private toastsSubject: BehaviorSubject<IToastMessage[]> = new BehaviorSubject<IToastMessage[]>([]);
   toasts$: Observable<IToastMessage[]> = this.toastsSubject.asObservable();
+  config = inject(APPLICATION_CONFIG);
 
   getMessages(): IToastMessage[] {
     return this.toastsSubject.getValue();
@@ -30,6 +32,10 @@ export class ToastService {
   }
 
   addMessage(text: string, type: MessageType = MessageType.INFO): void {
+    if (!this.config.enableNotifications) {
+      return;
+    }
+    
     const message: IToastMessage = {
       id: Date.now().toString(),
       text,

@@ -10,6 +10,9 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { AuthService } from '../features/auth/auth.service';
 import { Observable } from 'rxjs';
 import { IAuthUser } from '../features/auth/interfaces';
+import { APPLICATION_CONFIG } from '../application-config.token';
+import { DATE_FORMAT_TOKEN } from '../date-format.token';
+import { IApplicationConfig } from '../interfaces/IApplicationConfig';
 
 @Component({
   selector: 'app-header',
@@ -20,14 +23,16 @@ import { IAuthUser } from '../features/auth/interfaces';
 })
 export class HeaderComponent {
 
-  private readonly authService = inject(AuthService);
-  private readonly router = inject(Router);
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly router: Router = inject(Router);
+  private readonly appConfig: IApplicationConfig = inject(APPLICATION_CONFIG);
 
   themeService: ThemeService = inject(ThemeService);
-  companyName = 'Румтибет';
   currentWidget: 'counter' | 'dateTime' = 'dateTime';
-  counter = 0;
+  counter: number = 0;
   formattedDateTime: string = new Date().toLocaleDateString('ru-Ru');
+  lastLoginDate: Date | null = new Date();
+  dateFormat: string = inject(DATE_FORMAT_TOKEN);
   
   user$: Observable<IAuthUser | null>= this.authService.user$;
 
@@ -81,6 +86,14 @@ export class HeaderComponent {
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  get companyName(): string {
+    return this.appConfig.companyName;
+  }
+
+  get enableTheming(): boolean {
+    return this.appConfig.enableTheming;
   }
 
 }
