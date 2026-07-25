@@ -42,7 +42,7 @@
           @if (user$ | async; as user) {
             <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
             @if (lastLoginDate) {
-              <span class="last-login">Последний вход: {{ lastLoginDate | date: dateFormat }}</span>
+              <span class="last-login">Последний вход: {{ lastLoginDate | date }}</span>
             }
             <button type="button" (click)="logout()">Выйти</button>
           }

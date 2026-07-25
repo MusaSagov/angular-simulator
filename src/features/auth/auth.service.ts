@@ -21,14 +21,14 @@ export class AuthService {
   user$: Observable<IAuthUser | null> = this.userSubject.asObservable();
 
   login(data: ILogin): Observable<boolean> {
-    const body: ILogin & { sessionTimeout?: number } = {
+    const body: ILogin & { expiresInMins?: number } = {
       ...data,
-      sessionTimeout: this.appConfig.sessionTimeout,
+      expiresInMins: this.appConfig.sessionTimeout,
     };
 
     return this.http.post<IAuthResponse>(
       `${ this.apiUrl }/auth/login`,
-       data,
+       body,
        { withCredentials: true },
     ).pipe(
       tap((res: IAuthResponse) => {
@@ -65,7 +65,7 @@ export class AuthService {
     return this.http.post<IToken>(
       `${ this.apiUrl }/auth/refresh`,
       { refreshToken,
-        sessionTimeout: this.appConfig.sessionTimeout,
+        expiresInMins: this.appConfig.sessionTimeout,
       },
       { withCredentials: true },
     ).pipe(

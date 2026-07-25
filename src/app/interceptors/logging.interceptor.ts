@@ -10,13 +10,15 @@ export const loggingInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>,
   const startTime: number = Date.now();
 
   if (config.enableLogs) {
-    console.log('Метод:', req.method);
-    console.log('URL:', req.url);
+    return next(req);
   }
+
+  console.log('Метод:', req.method);
+  console.log('URL:', req.url);
 
   return next(req).pipe(
     tap((event: HttpEvent<unknown>) => {
-      if(config.enableLogs && event.type === HttpEventType.Response) {
+      if(event.type === HttpEventType.Response) {
         const response: HttpResponse<unknown> = event as HttpResponse<unknown>;
         const elapsed: number = Date.now() - startTime;
 

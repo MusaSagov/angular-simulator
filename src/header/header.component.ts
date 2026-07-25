@@ -11,7 +11,6 @@ import { AuthService } from '../features/auth/auth.service';
 import { Observable } from 'rxjs';
 import { IAuthUser } from '../features/auth/interfaces';
 import { APPLICATION_CONFIG } from '../application-config.token';
-import { DATE_FORMAT_TOKEN } from '../date-format.token';
 import { IApplicationConfig } from '../interfaces/IApplicationConfig';
 
 @Component({
@@ -32,7 +31,6 @@ export class HeaderComponent {
   counter: number = 0;
   formattedDateTime: string = new Date().toLocaleDateString('ru-Ru');
   lastLoginDate: Date | null = new Date();
-  dateFormat: string = inject(DATE_FORMAT_TOKEN);
   
   user$: Observable<IAuthUser | null>= this.authService.user$;
 

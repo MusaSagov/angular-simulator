@@ -12,7 +12,6 @@ import { MessageService } from 'primeng/api';
 import { authInterceptor } from '../features/auth/auth.interceptor';
 import { AuthService } from '../features/auth/auth.service';
 import { APPLICATION_CONFIG } from '../application-config.token';
-import { DATE_FORMAT_TOKEN } from '../date-format.token';
 import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
 
 const getTheme = (): Preset => {
@@ -45,10 +44,6 @@ export const appConfig: ApplicationConfig = {
         enableTheming: true,
         sessionTimeout: 1,
       },
-    },
-    {
-      provide: DATE_FORMAT_TOKEN,
-      useValue: 'dd.MM.yyyy HH:mm',
     },
     {
       provide: DATE_PIPE_DEFAULT_OPTIONS,

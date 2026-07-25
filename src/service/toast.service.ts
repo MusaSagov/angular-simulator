@@ -3,13 +3,14 @@ import { IToastMessage } from '../interfaces/IToastMessage';
 import { MessageType } from '../enums/MessageType';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { APPLICATION_CONFIG } from '../application-config.token';
+import { IApplicationConfig } from '../interfaces/IApplicationConfig';
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
   
   private toastsSubject: BehaviorSubject<IToastMessage[]> = new BehaviorSubject<IToastMessage[]>([]);
   toasts$: Observable<IToastMessage[]> = this.toastsSubject.asObservable();
-  config = inject(APPLICATION_CONFIG);
+  config: IApplicationConfig = inject(APPLICATION_CONFIG);
 
   getMessages(): IToastMessage[] {
     return this.toastsSubject.getValue();
