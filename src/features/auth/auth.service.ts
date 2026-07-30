@@ -21,7 +21,7 @@ export class AuthService {
   user$: Observable<IAuthUser | null> = this.userSubject.asObservable();
 
   login(data: ILogin): Observable<boolean> {
-    const body: ILogin & { expiresInMins?: number } = {
+    const body: ILogin = {
       ...data,
       expiresInMins: this.appConfig.sessionTimeout,
     };
