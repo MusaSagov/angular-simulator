@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, map, of, switchMap, tap } from 'rxjs';
 import { IToken, IAuthUser, IAuthResponse, ILogin } from './interfaces/index';
 import { LocalStorageService } from '../../service/local-storage.service';
+import { APPLICATION_CONFIG } from '../../application-config.token';
+import { IApplicationConfig } from '../../interfaces/IApplicationConfig';
 
 @Injectable({
   providedIn: 'root',
@@ -10,17 +12,23 @@ import { LocalStorageService } from '../../service/local-storage.service';
 export class AuthService {
 
   private http: HttpClient = inject(HttpClient);
-  private apiUrl = 'https://dummyjson.com';
+  private apiUrl: string = 'https://dummyjson.com';
   private localStorageService: LocalStorageService = inject(LocalStorageService);
+  private appConfig: IApplicationConfig = inject(APPLICATION_CONFIG);
 
 
   private userSubject: BehaviorSubject<IAuthUser | null> = new BehaviorSubject<IAuthUser | null>(null);
   user$: Observable<IAuthUser | null> = this.userSubject.asObservable();
 
   login(data: ILogin): Observable<boolean> {
+    const body: ILogin = {
+      ...data,
+      expiresInMins: this.appConfig.sessionTimeout,
+    };
+
     return this.http.post<IAuthResponse>(
       `${ this.apiUrl }/auth/login`,
-       data,
+       body,
        { withCredentials: true },
     ).pipe(
       tap((res: IAuthResponse) => {
@@ -56,7 +64,9 @@ export class AuthService {
   refreshToken(refreshToken: string): Observable<IToken> {
     return this.http.post<IToken>(
       `${ this.apiUrl }/auth/refresh`,
-      { refreshToken },
+      { refreshToken,
+        expiresInMins: this.appConfig.sessionTimeout,
+      },
       { withCredentials: true },
     ).pipe(
         tap((res: IToken) => {

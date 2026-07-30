@@ -1,22 +1,25 @@
 <header class="header">
-  <p-toggleswitch
-    id="toggle-mode"
-    class="switch-mode"
-    [ngModel]="themeService.isDarkMode$ | async"
-    (onChange)="toggleMode($event)"
-  >
-  </p-toggleswitch>
-  <div class="switch-themes">
-    <p-selectbutton
-      id="switch-theme"
-      [options]="themeService.themeOptions"
-      [ngModel]="themeService.theme$ | async"
-      (onChange)="toggleTheme($event.value)"
-      optionLabel="label"
-      optionValue="value"
-      aria-labelledby="basic"
-    />
-  </div>
+  @if (enableTheming) {
+    <div class="theme-controls">
+      <p-toggleswitch
+        id="toggle-mode"
+        class="switch-mode"
+        [ngModel]="themeService.isDarkMode$ | async"
+        (onChange)="toggleMode($event)"
+      />
+      <div class="switch-themes">
+        <p-selectbutton
+          id="switch-theme"
+          [options]="themeService.themeOptions"
+          [ngModel]="themeService.theme$ | async"
+          (onChange)="toggleTheme($event.value)"
+          optionLabel="label"
+          optionValue="value"
+          aria-labelledby="basic"
+        />
+      </div>
+    </div>
+  }
   <div class="container">
     <div class="header__wrapper">
       <div class="header__logo">
@@ -38,6 +41,9 @@
         <div class="header-auth">
           @if (user$ | async; as user) {
             <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
+            @if (lastLoginDate) {
+              <span class="last-login">Последний вход: {{ lastLoginDate | date }}</span>
+            }
             <button type="button" (click)="logout()">Выйти</button>
           }
         </div>

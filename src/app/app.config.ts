@@ -7,10 +7,12 @@ import { routes } from './app.routes';
 import { Theme } from '../enums/Theme';
 import { provideRouter } from '@angular/router';
 import { Preset } from '@primeuix/themes/types';
-import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { authInterceptor } from '../features/auth/auth.interceptor';
 import { AuthService } from '../features/auth/auth.service';
+import { APPLICATION_CONFIG } from '../application-config.token';
+import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
 
 const getTheme = (): Preset => {
   const themeMap: Record<Theme, Preset> = {
@@ -18,7 +20,7 @@ const getTheme = (): Preset => {
     [Theme.LARA]: Lara,
     [Theme.NORA]: Nora,
   };
-  const themeFromStorage = localStorage.getItem('theme-name');
+  const themeFromStorage: string | null = localStorage.getItem('theme-name');
   const savedTheme: Theme = themeFromStorage ? JSON.parse(themeFromStorage) : Theme.AURA;
   return themeMap[savedTheme] ?? Aura;
 };
@@ -33,6 +35,22 @@ export const appConfig: ApplicationConfig = {
       return authService.initAuth();
     }),
     MessageService,
+    {
+      provide: APPLICATION_CONFIG,
+      useValue: {
+        companyName: 'РУМТИБЕТ',
+        enableLogs: true,
+        enableNotifications: true,
+        enableTheming: true,
+        sessionTimeout: 1,
+      },
+    },
+    {
+      provide: DATE_PIPE_DEFAULT_OPTIONS,
+      useValue: {
+        dateFormat: 'dd.MM.yyyy HH:mm',
+      },
+    },
     providePrimeNG({
       theme: {
         preset: getTheme(),
