@@ -7,12 +7,15 @@ import { routes } from './app.routes';
 import { Theme } from '../enums/Theme';
 import { provideRouter } from '@angular/router';
 import { Preset } from '@primeuix/themes/types';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { authInterceptor } from '../features/auth/auth.interceptor';
 import { AuthService } from '../features/auth/auth.service';
 import { APPLICATION_CONFIG } from '../application-config.token';
 import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
+import { provideTranslateHttpLoader, TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTranslateService, TranslateLoader } from '@ngx-translate/core';
+import { LanguageService } from '../service/language.service';
 
 const getTheme = (): Preset => {
   const themeMap: Record<Theme, Preset> = {
@@ -30,9 +33,19 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideZoneChangeDetection(),
     provideHttpClient(withInterceptors([authInterceptor])),
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({
+        prefix: './i18n/',
+        suffix: '.json'
+      })
+    }),
     provideAppInitializer(() => {
       const authService: AuthService = inject(AuthService);
       return authService.initAuth();
+    }),
+    provideAppInitializer(() => {
+      const languageService: LanguageService = inject(LanguageService);
+      languageService.init();
     }),
     MessageService,
     {
@@ -57,7 +70,15 @@ export const appConfig: ApplicationConfig = {
         options: {
           darkModeSelector: '.my-app-dark'
         }
-      }
+      },
+      translation: {
+        accept: 'Accept',
+        reject: 'Reject',
+        cancel: 'Cancel',
+        today: 'Today',
+        clear: 'Clear',
+        firstDayOfWeek: 0,
+      },
     }),
   ]
 };

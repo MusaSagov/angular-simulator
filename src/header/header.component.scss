@@ -78,3 +78,27 @@
   gap: 1rem;
 }
 
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.language-switcher {
+  display: flex;
+  gap: 4px;
+}
+
+.language-button {
+  min-width: 36px;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.language-button:hover {
+  background: #f0f0f0;
+}
+

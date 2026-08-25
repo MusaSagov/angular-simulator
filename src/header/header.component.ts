@@ -12,11 +12,13 @@ import { Observable } from 'rxjs';
 import { IAuthUser } from '../features/auth/interfaces';
 import { APPLICATION_CONFIG } from '../application-config.token';
 import { IApplicationConfig } from '../interfaces/IApplicationConfig';
+import { Language, LanguageService } from '../service/language.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLinkActive, RouterLink, SelectButtonModule, ToggleSwitchModule, AsyncPipe],
+  imports: [CommonModule, FormsModule, RouterLinkActive, RouterLink, SelectButtonModule, ToggleSwitchModule, AsyncPipe, TranslatePipe],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -25,6 +27,7 @@ export class HeaderComponent {
   private readonly authService: AuthService = inject(AuthService);
   private readonly router: Router = inject(Router);
   private readonly appConfig: IApplicationConfig = inject(APPLICATION_CONFIG);
+  languageService = inject(LanguageService);
 
   themeService: ThemeService = inject(ThemeService);
   currentWidget: 'counter' | 'dateTime' = 'dateTime';
@@ -92,6 +95,10 @@ export class HeaderComponent {
 
   get enableTheming(): boolean {
     return this.appConfig.enableTheming;
+  }
+
+  changeLanguage(language: Language): void {
+    this.languageService.setLanguage(language);
   }
 
 }

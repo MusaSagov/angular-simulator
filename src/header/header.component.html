@@ -48,7 +48,12 @@
           }
         </div>
         <div class="header__actions">
-          <button id="consultation-btn" class="btn btn--primary">Консультация</button>
+          <div class="language-switcher" aria-label="Выбор языка">
+            <button type="button" class="language-button" (click)="changeLanguage('ru')">RU</button>
+            <button type="button" class="language-button" (click)="changeLanguage('en')">EN</button>
+            <button type="button" class="language-button" (click)="changeLanguage('es')">ES</button>
+          </div>
+          <button id="consultation-btn" class="btn btn--primary">{{ 'HEADER.CONSULTATION' | translate }}</button>
         </div>
       </div>
     </div>
