@@ -9,8 +9,8 @@ export type Language = 'ru' | 'en' | 'es';
 })
 export class LanguageService {
 
-  private readonly translateService = inject(TranslateService);
-  private readonly localStorageService = inject(LocalStorageService);
+  private readonly translateService: TranslateService = inject(TranslateService);
+  private readonly localStorageService: LocalStorageService = inject(LocalStorageService);
 
   readonly supportedLanguages: Language[] = [
     'ru',

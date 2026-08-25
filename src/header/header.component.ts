@@ -27,7 +27,7 @@ export class HeaderComponent {
   private readonly authService: AuthService = inject(AuthService);
   private readonly router: Router = inject(Router);
   private readonly appConfig: IApplicationConfig = inject(APPLICATION_CONFIG);
-  languageService = inject(LanguageService);
+  languageService: LanguageService = inject(LanguageService);
 
   themeService: ThemeService = inject(ThemeService);
   currentWidget: 'counter' | 'dateTime' = 'dateTime';
