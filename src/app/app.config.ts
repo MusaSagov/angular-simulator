@@ -16,6 +16,8 @@ import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideTranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../service/language.service';
+import { primeTranslations } from './constants/prime-translations';
+import { Language } from '../enums/Language';
 
 const getTheme = (): Preset => {
   const themeMap: Record<Theme, Preset> = {
@@ -71,14 +73,7 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: '.my-app-dark'
         }
       },
-      translation: {
-        accept: 'Accept',
-        reject: 'Reject',
-        cancel: 'Cancel',
-        today: 'Today',
-        clear: 'Clear',
-        firstDayOfWeek: 0,
-      },
+      translation: primeTranslations[Language.En],
     }),
   ]
 };

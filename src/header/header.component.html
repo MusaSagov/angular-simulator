@@ -49,9 +49,15 @@
         </div>
         <div class="header__actions">
           <div class="language-switcher" aria-label="Выбор языка">
-            <button type="button" class="language-button" (click)="changeLanguage('ru')">RU</button>
-            <button type="button" class="language-button" (click)="changeLanguage('en')">EN</button>
-            <button type="button" class="language-button" (click)="changeLanguage('es')">ES</button>
+            <p-select
+              [options]="languages"
+              [(ngModel)]="selectedLanguage"
+              optionLabel="label"
+              optionValue="code"
+              (onChange)="changeLanguage(selectedLanguage)"
+              styleClass="language-select"
+              placeholder="Select Language">
+            </p-select>
           </div>
           <button id="consultation-btn" class="btn btn--primary">{{ 'HEADER.CONSULTATION' | translate }}</button>
         </div>

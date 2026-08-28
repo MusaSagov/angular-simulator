@@ -1,5 +1,25 @@
 {
-  "HEADER": { "TITLE": "My Application", "CHANGE_DETECTOR": "ChangeDetectorRef", "CONSULTATION": "Consultation" },
-  "BUTTONS": { "CLICK": "Click", "MARK_FOR_CHECK": "markForCheck", "DETECT_CHANGES": "detectChanges", "DETACH": "detach", "REATTACH": "reattach", "SET_TIMEOUT": "setTimeout", "SET_INTERVAL": "setInterval", "PROMISE": "Promise", "HTTP_CLIENT": "HttpClient" },
-  "PRIMENG": { "ACCEPT": "Accept", "REJECT": "Reject", "CANCEL": "Cancel", "TODAY": "Today", "CLEAR": "Clear" }
+  "HEADER": {
+    "TITLE": "My Application",
+    "CHANGE_DETECTOR": "ChangeDetectorRef",
+    "CONSULTATION": "Consultation"
+  },
+  "BUTTONS": {
+    "CLICK": "Click",
+    "MARK_FOR_CHECK": "markForCheck",
+    "DETECT_CHANGES": "detectChanges",
+    "DETACH": "detach",
+    "REATTACH": "reattach",
+    "SET_TIMEOUT": "setTimeout",
+    "SET_INTERVAL": "setInterval",
+    "PROMISE": "Promise", 
+    "HTTP_CLIENT": "HttpClient"
+  },
+  "PRIMENG": {
+    "ACCEPT": "Accept",
+    "REJECT": "Reject",
+    "CANCEL": "Cancel",
+    "TODAY": "Today",
+    "CLEAR": "Clear"
+  }
 }
