@@ -54,9 +54,8 @@
               [(ngModel)]="selectedLanguage"
               optionLabel="label"
               optionValue="code"
-              (onChange)="changeLanguage(selectedLanguage)"
-              styleClass="language-select"
-              placeholder="Select Language">
+              (onChange)="changeLanguage($event.value)"
+              placeholder="Language">
             </p-select>
           </div>
           <button id="consultation-btn" class="btn btn--primary">{{ 'HEADER.CONSULTATION' | translate }}</button>

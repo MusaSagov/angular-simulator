@@ -12,12 +12,20 @@ import { MessageService } from 'primeng/api';
 import { authInterceptor } from '../features/auth/auth.interceptor';
 import { AuthService } from '../features/auth/auth.service';
 import { APPLICATION_CONFIG } from '../application-config.token';
-import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
+import { DATE_PIPE_DEFAULT_OPTIONS, registerLocaleData } from '@angular/common';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideTranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../service/language.service';
-import { primeTranslations } from './constants/prime-translations';
-import { Language } from '../enums/Language';
+import { ru } from 'primelocale/js/ru.js';
+import { en } from 'primelocale/js/en.js';
+import { es } from 'primelocale/js/es.js';
+import localeRu from '@angular/common/locales/ru';
+import localeEn from '@angular/common/locales/en';
+import localeEs from '@angular/common/locales/es';
+
+registerLocaleData(localeRu);
+registerLocaleData(localeEn);
+registerLocaleData(localeEs);
 
 const getTheme = (): Preset => {
   const themeMap: Record<Theme, Preset> = {
@@ -73,7 +81,7 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: '.my-app-dark'
         }
       },
-      translation: primeTranslations[Language.En],
+      translation: ru,
     }),
   ]
 };

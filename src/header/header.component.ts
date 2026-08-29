@@ -39,13 +39,13 @@ export class HeaderComponent {
   
   user$: Observable<IAuthUser | null>= this.authService.user$;
 
-  languages: { code: string; label: string }[] = [
-    { code: Language.Ru, label: 'RU' },
-    { code: Language.En, label: 'EN' },
-    { code: Language.Es, label: 'ES' },
+  languages: { code: Language; label: string }[] = [
+    { code: Language.RU, label: 'RU' },
+    { code: Language.EN, label: 'EN' },
+    { code: Language.ES, label: 'ES' },
   ];
 
-  selectedLanguage: string = Language.En;
+  selectedLanguage: Language = this.languageService.currentLanguage;
 
   navItems: INavItem[] = [
     { 
@@ -107,8 +107,9 @@ export class HeaderComponent {
     return this.appConfig.enableTheming;
   }
 
-  changeLanguage(code: string): void {
-    this.languageService.setLanguage(code);
+  changeLanguage(language: Language): void {
+    this.selectedLanguage = language;
+    this.languageService.setLanguage(language);
   }
 
 }
