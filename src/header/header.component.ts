@@ -16,6 +16,7 @@ import { LanguageService } from '../service/language.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Select } from 'primeng/select';
 import { Language } from '../enums/Language';
+import { ILanguageOption } from '../interfaces/ILanguageOption';
 
 @Component({
   selector: 'app-header',
@@ -39,13 +40,11 @@ export class HeaderComponent {
   
   user$: Observable<IAuthUser | null>= this.authService.user$;
 
-  languages: { code: Language; label: string }[] = [
+  languages: ILanguageOption[] = [
     { code: Language.RU, label: 'RU' },
     { code: Language.EN, label: 'EN' },
     { code: Language.ES, label: 'ES' },
   ];
-
-  selectedLanguage: Language = this.languageService.currentLanguage;
 
   navItems: INavItem[] = [
     { 
@@ -108,7 +107,6 @@ export class HeaderComponent {
   }
 
   changeLanguage(language: Language): void {
-    this.selectedLanguage = language;
     this.languageService.setLanguage(language);
   }
 

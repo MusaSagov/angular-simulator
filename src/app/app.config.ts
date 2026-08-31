@@ -81,7 +81,6 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: '.my-app-dark'
         }
       },
-      translation: ru,
     }),
   ]
 };
