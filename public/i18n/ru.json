@@ -15,7 +15,7 @@
     "PROMISE": "Promise",
     "HTTP_CLIENT": "HttpClient"
   },
-  "PRIMENG": {
+  "primeng": {
     "ACCEPT": "Принять",
     "REJECT": "Отклонить",
     "CANCEL": "Отмена",
