@@ -1,0 +1,12 @@
+<h1>OnPush:</h1>
+<h3>{{ count }}</h3>
+<button (click)="incMarkForCheck()">markForCheck</button>
+<button (click)="incDetectChanges()">detectChanges</button>
+<button (click)="detach()">detach</button>
+<button (click)="incAfterDetach()">click</button>
+<button (click)="setTimeoutAfterDetach()">setTimeout</button>
+<button (click)="setIntervalAfterDetach()">setInterval</button>
+<button (click)="promiseAfterDetach()">Promise</button>
+<button (click)="reattach()">reattach</button>
+<button (click)="incAfterReattach()">reattach + click</button>
+<button (click)="fetchUsers().subscribe()">HttpClient</button>

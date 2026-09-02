@@ -12,11 +12,16 @@ import { Observable } from 'rxjs';
 import { IAuthUser } from '../features/auth/interfaces';
 import { APPLICATION_CONFIG } from '../application-config.token';
 import { IApplicationConfig } from '../interfaces/IApplicationConfig';
+import { LanguageService } from '../service/language.service';
+import { TranslatePipe } from '@ngx-translate/core';
+import { Select } from 'primeng/select';
+import { Language } from '../enums/Language';
+import { ILanguageOption } from '../interfaces/ILanguageOption';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLinkActive, RouterLink, SelectButtonModule, ToggleSwitchModule, AsyncPipe],
+  imports: [CommonModule, Select, FormsModule, RouterLinkActive, RouterLink, SelectButtonModule, ToggleSwitchModule, AsyncPipe, TranslatePipe],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -25,6 +30,7 @@ export class HeaderComponent {
   private readonly authService: AuthService = inject(AuthService);
   private readonly router: Router = inject(Router);
   private readonly appConfig: IApplicationConfig = inject(APPLICATION_CONFIG);
+  languageService: LanguageService = inject(LanguageService);
 
   themeService: ThemeService = inject(ThemeService);
   currentWidget: 'counter' | 'dateTime' = 'dateTime';
@@ -33,6 +39,12 @@ export class HeaderComponent {
   lastLoginDate: Date | null = new Date();
   
   user$: Observable<IAuthUser | null>= this.authService.user$;
+
+  languages: ILanguageOption[] = [
+    { code: Language.RU, label: 'RU' },
+    { code: Language.EN, label: 'EN' },
+    { code: Language.ES, label: 'ES' },
+  ];
 
   navItems: INavItem[] = [
     { 
@@ -92,6 +104,10 @@ export class HeaderComponent {
 
   get enableTheming(): boolean {
     return this.appConfig.enableTheming;
+  }
+
+  changeLanguage(language: Language): void {
+    this.languageService.setLanguage(language);
   }
 
 }

@@ -1,0 +1,25 @@
+{
+  "HEADER": {
+    "TITLE": "Моё Приложение",
+    "CHANGE_DETECTOR": "ChangeDetectorRef",
+    "CONSULTATION": "Консультация"
+  },
+  "BUTTONS": {
+    "CLICK": "Клик",
+    "MARK_FOR_CHECK": "markForCheck",
+    "DETECT_CHANGES": "detectChanges",
+    "DETACH": "detach",
+    "REATTACH": "reattach",
+    "SET_TIMEOUT": "setTimeout",
+    "SET_INTERVAL": "setInterval",
+    "PROMISE": "Promise",
+    "HTTP_CLIENT": "HttpClient"
+  },
+  "primeng": {
+    "ACCEPT": "Принять",
+    "REJECT": "Отклонить",
+    "CANCEL": "Отмена",
+    "TODAY": "Сегодня",
+    "CLEAR": "Очистить"
+  }
+}

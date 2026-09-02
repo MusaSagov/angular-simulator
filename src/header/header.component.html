@@ -48,7 +48,17 @@
           }
         </div>
         <div class="header__actions">
-          <button id="consultation-btn" class="btn btn--primary">Консультация</button>
+          <div class="language-switcher" aria-label="Выбор языка">
+            <p-select
+              [options]="languages"
+              [(ngModel)]="languageService.currentLanguage"
+              optionLabel="label"
+              optionValue="code"
+              (onChange)="changeLanguage($event.value)"
+              placeholder="Language">
+            </p-select>
+          </div>
+          <button id="consultation-btn" class="btn btn--primary">{{ 'HEADER.CONSULTATION' | translate }}</button>
         </div>
       </div>
     </div>

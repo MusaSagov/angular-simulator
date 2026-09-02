@@ -1,0 +1,25 @@
+{
+  "HEADER": {
+    "TITLE": "Mi Aplicación",
+    "CHANGE_DETECTOR": "ChangeDetectorRef",
+    "CONSULTATION": "Consulta"
+  },
+  "BUTTONS": {
+    "CLICK": "Clic", 
+    "MARK_FOR_CHECK": "markForCheck",
+    "DETECT_CHANGES": "detectChanges",
+    "DETACH": "detach",
+    "REATTACH": "reattach",
+    "SET_TIMEOUT": "setTimeout",
+    "SET_INTERVAL": "setInterval",
+    "PROMISE": "Promise",
+    "HTTP_CLIENT": "HttpClient"
+  },
+  "primeng": { 
+    "ACCEPT": "Aceptar", 
+    "REJECT": "Rechazar", 
+    "CANCEL": "Cancelar", 
+    "TODAY": "Hoy",
+    "CLEAR": "Limpiar"
+  }
+}

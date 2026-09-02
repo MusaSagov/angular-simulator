@@ -11,11 +11,13 @@ import { RouterOutlet } from '@angular/router';
 import { LoaderComponent } from '../loader/loader.component.js';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Collection } from './collection.js';
+import { DefaultComponent } from '../homework-28/default/default.component';
+import { ChangeDetectorRefComponent } from '../homework-28/change-detector-ref/change-detector-ref.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, MessageComponent, FooterComponent, HeaderComponent, RouterOutlet, LoaderComponent, FontAwesomeModule],
+  imports: [CommonModule, FormsModule, MessageComponent, FooterComponent, HeaderComponent, RouterOutlet, LoaderComponent, FontAwesomeModule,DefaultComponent, ChangeDetectorRefComponent ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
