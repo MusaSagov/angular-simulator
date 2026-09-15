@@ -1,0 +1,30 @@
+<p>product-detail works!</p>
+<div class="grid">
+  <div class="col-12 md:col-6">
+    <img [src]="product().images[0] || product().thumbnail" class="w-full" />
+  </div>
+  <div class="col-12 md:col-6">
+    <p-card [header]="product().title" [subheader]="product().category">
+      <p>{{ product().description }}</p>
+      <p>
+        Цена: {{ product().price | currency:'USD' }} •
+        Скидка: {{ product().discountPercentage }}% •
+        Рейтинг: {{ product().rating }} •
+        На складе: {{ product().stock }}
+      </p>
+      <p>
+        Бренд: {{ product().brand }} •
+        Доставка: {{ product().shippingInformation }} •
+        Гарантия: {{ product().warrantyInformation }}
+      </p>
+      <a pButton routerLink="/products" label="Назад" icon="pi pi-arrow-left"></a>
+      <button
+        pButton
+        label="В корзину"
+        icon="pi pi-shopping-cart"
+        (click)="addToCart()"
+        class="ml-2"
+      ></button>
+    </p-card>
+  </div>
+</div>

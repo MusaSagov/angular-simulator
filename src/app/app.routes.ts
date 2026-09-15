@@ -42,6 +42,14 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'products',
+    loadChildren: () => import('../features/products/products.routes').then(m => m.PRODUCTS_ROUTES)
+  },
+  {
+    path: 'cart',
+    loadComponent: () => import('../features/products/cart/cart.component').then(m => m.CartComponent)
+  },
+  {
     path: '**',
     canActivate: [authGuard],
     loadComponent: () => import('../not-found-page/not-found-page.component').then(m => m.NotFoundPageComponent)
