@@ -62,6 +62,16 @@ export class HeaderComponent {
       title: 'Posts',
       link: '/posts'
     },
+    {
+    id: 'products-page',
+    title: 'Products',
+    link: '/products'
+    },
+    {
+    id: 'cart-page',
+    title: 'Корзина',
+    link: '/cart'
+    },
   ];
   
   constructor() {
