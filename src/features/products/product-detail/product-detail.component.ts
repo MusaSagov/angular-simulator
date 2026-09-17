@@ -1,5 +1,5 @@
 import { Component, inject, Signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Params, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ProductApiService } from '../product-api.service';
 import { IProduct } from '../interfaces/IProduct';
@@ -23,7 +23,7 @@ export class ProductDetailComponent {
 
   product: Signal<IProduct | null> = toSignal(
     this.route.params.pipe(
-      switchMap(p => this.api.getProductById(Number(p['id'])))
+      switchMap((p: Params) => this.api.getProductById(Number(p['id'])))
     ),
     { initialValue: null }
   );

@@ -1,6 +1,6 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CartService } from '../cart.service';
-import { ICart } from '../interfaces/ICart';
+import { ICartItem } from '../interfaces/ICartItem';
 import { TableModule } from 'primeng/table';
 import { InputNumber } from 'primeng/inputnumber';
 import { Card } from 'primeng/card';

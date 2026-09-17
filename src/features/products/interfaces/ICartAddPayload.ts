@@ -1,4 +1,6 @@
+import { ICartProduct } from "./ICartProduct";
+
 export interface ICartAddPayload {
   userId: number;
-  products: { id: number; quantity: number }[];
+  products: ICartProduct[];
 }

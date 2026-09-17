@@ -1,7 +1,9 @@
+import { ICartItem } from "./ICartItem";
+
 export interface ICart {
   id: number;
-  quantity: number;
-  price: number;
-  title: string;
-  thumbnail: string;
+  products: ICartItem[];
+  total: number;
+  totalProducts: number;
+  userId: number;
 }

@@ -1,6 +1,7 @@
 <p>products works!</p>
 <div class="flex flex-wrap gap-3 mb-4">
   <input
+    id="products-search"
     pInputText
     type="text"
     placeholder="Поиск..."
@@ -9,6 +10,7 @@
     class="w-64"
   />
   <p-select
+    id="products-category"
     [options]="categories()"
     optionLabel="label"
     optionValue="value"
@@ -18,6 +20,7 @@
     [showClear]="true"
   />
   <p-select
+    id="products-sort-by"
     [options]="sortFields"
     optionLabel="label"
     optionValue="value"
@@ -26,6 +29,7 @@
     (ngModelChange)="onSortFieldChange($event)"
   />
   <p-select
+    id="products-sort-order"
     [options]="sortOrders"
     optionLabel="label"
     optionValue="value"
@@ -34,6 +38,7 @@
     (ngModelChange)="onSortOrderChange($event)"
   />
   <p-select
+    id="products-page-size"
     [options]="pageSizes"
     optionLabel="label"
     optionValue="value"
@@ -71,6 +76,7 @@
     }
 </div>
 <p-paginator
+  id="products-paginator"
   [first]="(page() - 1) * pageSize()"
   [rows]="pageSize()"
   [totalRecords]="total()"

@@ -1,5 +1,5 @@
-import { ICartItemApi } from "./ICartItemApi";
+import { ICartItem } from "./ICartItem";
 
 export interface ICartState {
-  items: ICartItemApi[];
+  items: ICartItem[];
 }
