@@ -28,7 +28,7 @@ export class ProductDetailComponent {
     { initialValue: null }
   );
 
-  addToCart() {
+  addToCart(): void {
     const p: IProduct | null = this.product();
     if (!p) return;
 

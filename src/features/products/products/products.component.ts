@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IField } from '../interfaces/IFields';
-import { IOrders } from '../interfaces/IOrders';
+import { IOrder } from '../interfaces/IOrder';
 
 @Component({
   selector: 'app-products',
@@ -38,7 +38,7 @@ export class ProductsComponent {
     { label: 'Наличие', value: 'stock' },
   ];
 
-  sortOrders: IOrders[] = [
+  sortOrders: IOrder[] = [
     { label: 'По возрастанию', value: 'asc' },
     { label: 'По убыванию', value: 'desc' },
   ];

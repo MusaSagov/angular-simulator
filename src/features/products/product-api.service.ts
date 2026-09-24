@@ -15,7 +15,7 @@ export class ProductApiService {
   private baseUrl: string = 'https://dummyjson.com';
 
   getProducts(q: IProductsQuery): Observable<IProductResponse> {
-    let params = new HttpParams()
+    let params: HttpParams = new HttpParams()
       .set('limit', q.limit)
       .set('skip', q.skip);
 
@@ -25,15 +25,15 @@ export class ProductApiService {
     if (q.order) params = params.set('order', q.order);
 
     const path: "/products/search" | "/products" = q.q ? '/products/search' : '/products';
-    return this.http.get<IProductResponse>(`${this.baseUrl}${path}`, { params });
+    return this.http.get<IProductResponse>(`${ this.baseUrl }${ path }`, { params });
   }
 
   getProductById(id: number): Observable<IProduct> {
-    return this.http.get<IProduct>(`${this.baseUrl}/products/${id}`);
+    return this.http.get<IProduct>(`${ this.baseUrl }/products/${id}`);
   }
 
   getCategories(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.baseUrl}/products/categories`);
+    return this.http.get<string[]>(`${ this.baseUrl }/products/categories`);
   }
 
 }

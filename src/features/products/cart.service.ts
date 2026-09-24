@@ -6,6 +6,7 @@ const TAX_RATE = 0.2;
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
+  
   private state: WritableSignal<ICartState> = signal<ICartState>({ items: [] });
 
   items: Signal<ICartItem[]> = computed(() => this.state().items);
@@ -14,20 +15,20 @@ export class CartService {
   tax: Signal<number> = computed(() => this.subtotal() * TAX_RATE);
   total: Signal<number> = computed(() => this.subtotal() + this.tax());
 
-  addItem(item: Omit<ICartItem, 'price'> & { price: number }) {
-    this.state.update(s => {
-      const existing = s.items.find(i => i.id === item.id);
+  addItem(item: Omit<ICartItem, 'price'> & { price: number }): void {
+    this.state.update((s: ICartState) => {
+      const existing: ICartItem | undefined = s.items.find(i => i.id === item.id);
       if (existing) {
         return {
           ...s,
-          items: s.items.map(i => i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i)
+          items: s.items.map((i: ICartItem) => i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i)
         };
       }
       return { ...s, items: [...s.items, item] };
     });
   }
 
-  updateQuantity(productId: number, quantity: number) {
+  updateQuantity(productId: number, quantity: number): void {
     if (quantity <= 0) {
       this.removeItem(productId);
       return;
@@ -38,14 +39,14 @@ export class CartService {
     }));
   }
 
-  removeItem(productId: number) {
+  removeItem(productId: number): void {
     this.state.update(s => ({
       ...s,
       items: s.items.filter(i => i.id !== productId)
     }));
   }
 
-  clear() {
+  clear(): void {
     this.state.set({ items: [] });
   }
 

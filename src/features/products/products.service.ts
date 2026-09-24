@@ -36,7 +36,7 @@ export class ProductsService {
       toObservable(this.query),
       this.searchQuery$.pipe(startWith('')),
     ]).pipe(
-      switchMap(([q, search]) => {
+      switchMap(([q, search]: [IProductsQuery, string]) => {
         const queryWithSearch: IProductsQuery = {
           ...q,
           q: search || undefined,
