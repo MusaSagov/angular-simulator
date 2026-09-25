@@ -4,7 +4,7 @@ import { CartService } from '../cart.service';
 import { IProduct } from '../interfaces/IProduct';
 import { ProductSortField, SortOrder } from '../product-api.service';
 import { CardModule } from 'primeng/card';
-import { PaginatorModule } from 'primeng/paginator';
+import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { SelectModule } from 'primeng/select';
 import { InputTextModule } from 'primeng/inputtext';
 import { SkeletonModule } from 'primeng/skeleton';
@@ -14,34 +14,79 @@ import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IField } from '../interfaces/IFields';
 import { IOrder } from '../interfaces/IOrder';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-products',
   standalone: true,
   templateUrl: './products.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CardModule, PaginatorModule, SelectModule, InputTextModule, SkeletonModule, ButtonModule, FormsModule, CurrencyPipe, RouterLink],
+  imports: [CardModule,TranslatePipe, PaginatorModule, SelectModule, InputTextModule, SkeletonModule, ButtonModule, FormsModule, CurrencyPipe, RouterLink],
 })
 export class ProductsComponent {
 
   private productsService: ProductsService = inject(ProductsService);
   private cart: CartService = inject(CartService);
+  private readonly translateService: TranslateService = inject(TranslateService);
 
   products: Signal<IProduct[]> = this.productsService.products;
   total: Signal<number> = this.productsService.total;
   categories: Signal<string[]> = this.productsService.categories;
 
-  sortFields: IField[] = [
-    { label: 'Название', value: 'title' },
-    { label: 'Цена', value: 'price' },
-    { label: 'Рейтинг', value: 'rating' },
-    { label: 'Наличие', value: 'stock' },
-  ];
+  sortFields: Signal<IField[]> = toSignal(
+    this.translateService.stream([
+      'PRODUCTS.SORT_FIELDS.TITLE',
+      'PRODUCTS.SORT_FIELDS.PRICE',
+      'PRODUCTS.SORT_FIELDS.RATING',
+      'PRODUCTS.SORT_FIELDS.STOCK',
+    ]).pipe(
+      map((translations: Record<string, string>): IField[] => [
+        {
+          label: translations['PRODUCTS.SORT_FIELDS.TITLE'],
+          value: 'title',
+        },
+        {
+          label: translations['PRODUCTS.SORT_FIELDS.PRICE'],
+          value: 'price',
+        },
+        {
+          label: translations['PRODUCTS.SORT_FIELDS.RATING'],
+          value: 'rating',
+        },
+        {
+          label: translations['PRODUCTS.SORT_FIELDS.STOCK'],
+          value: 'stock',
+        },
+      ]),
+    ),
+    {
+      initialValue: [],
+    },
+  );
 
-  sortOrders: IOrder[] = [
-    { label: 'По возрастанию', value: 'asc' },
-    { label: 'По убыванию', value: 'desc' },
-  ];
+  sortOrders: Signal<IOrder[]> = toSignal(
+    this.translateService.stream([
+      'PRODUCTS.SORT_ORDERS.ASC',
+      'PRODUCTS.SORT_ORDERS.DESC',
+    ]).pipe(
+      map((translations: Record<string, string>): IOrder[] => [
+        {
+          label: translations['PRODUCTS.SORT_ORDERS.ASC'],
+          value: 'asc',
+        },
+        {
+          label: translations['PRODUCTS.SORT_ORDERS.DESC'],
+          value: 'desc',
+        },
+      ]),
+    ),
+    {
+      initialValue: [],
+    },
+  );
 
   pageSizes: number[] = [10, 20, 30];
 
@@ -52,33 +97,28 @@ export class ProductsComponent {
   sortField: WritableSignal<ProductSortField> = this.productsService.sortField;
   sortOrder: WritableSignal<SortOrder> = this.productsService.sortOrder;
 
-  changePage(event: any): void {
-    this.productsService.page.set(event.page + 1);
+  changePage(event: PaginatorState): void {
+    this.productsService.page.set((event.page?? 0) + 1);
   }
 
   changePageSize(size: number): void {
     this.productsService.pageSize.set(size);
-    this.productsService.page.set(1);
   }
 
   selectCategory(cat: string | null): void {
     this.productsService.selectedCategory.set(cat);
-    this.productsService.page.set(1);
   }
 
   onSearchChange(value: string): void {
     this.productsService.search.set(value);
-    this.productsService.page.set(1);
   }
 
   onSortFieldChange(value: ProductSortField): void {
     this.productsService.sortField.set(value);
-    this.productsService.page.set(1);
   }
 
   onSortOrderChange(value: SortOrder): void {
     this.productsService.sortOrder.set(value);
-    this.productsService.page.set(1);
   }
 
   addToCart(p: IProduct): void {

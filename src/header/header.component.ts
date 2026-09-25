@@ -47,33 +47,33 @@ export class HeaderComponent {
   ];
 
   navItems: INavItem[] = [
-    { 
+    {
       id: 'main-page',
-      title: 'Главная', 
-      link: '/'
+      title: 'NAV.MAIN',
+      link: '/',
     },
     {
       id: 'users-page',
-      title: 'Пользователи', 
-      link: '/users-page'
+      title: 'NAV.USERS',
+      link: '/users-page',
     },
     {
       id: 'posts-page',
-      title: 'Posts',
-      link: '/posts'
+      title: 'NAV.POSTS',
+      link: '/posts',
     },
     {
-    id: 'products-page',
-    title: 'Products',
-    link: '/products'
+      id: 'products-page',
+      title: 'NAV.PRODUCTS',
+      link: '/products',
     },
     {
-    id: 'cart-page',
-    title: 'Корзина',
-    link: '/cart'
+      id: 'cart-page',
+      title: 'NAV.CART',
+      link: '/cart',
     },
   ];
-  
+
   constructor() {
     setInterval(() => {
       this.formattedDateTime = new Date().toLocaleString('ru-RU');

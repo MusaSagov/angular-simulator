@@ -1,4 +1,4 @@
-import { Injectable, inject, signal, computed, Signal, WritableSignal } from '@angular/core';
+import { Injectable, inject, signal, computed, Signal, WritableSignal, effect } from '@angular/core';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { debounceTime, switchMap, startWith } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
@@ -20,6 +20,16 @@ export class ProductsService {
   pageSize: WritableSignal<number> = signal(10);
   sortField: WritableSignal<ProductSortField> = signal<ProductSortField>('title');
   sortOrder: WritableSignal<SortOrder> = signal<SortOrder>('asc');
+
+  private readonly resetPageOnFiltersChange = effect(() => {
+    this.search();
+    this.selectedCategory();
+    this.pageSize();
+    this.sortField();
+    this.sortOrder();
+
+    this.page.set(1);
+  });
 
   skip: Signal<number> = computed(() => (this.page() - 1) * this.pageSize());
 

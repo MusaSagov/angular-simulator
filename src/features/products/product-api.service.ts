@@ -29,7 +29,7 @@ export class ProductApiService {
   }
 
   getProductById(id: number): Observable<IProduct> {
-    return this.http.get<IProduct>(`${ this.baseUrl }/products/${id}`);
+    return this.http.get<IProduct>(`${ this.baseUrl }/products/${ id }`);
   }
 
   getCategories(): Observable<string[]> {

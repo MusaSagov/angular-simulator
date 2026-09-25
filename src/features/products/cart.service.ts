@@ -2,20 +2,20 @@ import { Injectable, signal, computed, WritableSignal, Signal } from '@angular/c
 import { ICartItem } from './interfaces/ICartItem';
 import { ICartState } from './interfaces/ICartState';
 
-const TAX_RATE = 0.2;
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
   
   private state: WritableSignal<ICartState> = signal<ICartState>({ items: [] });
+  private readonly taxRate: number = 0.2;
 
   items: Signal<ICartItem[]> = computed(() => this.state().items);
   itemsCount: Signal<number> = computed(() => this.state().items.reduce((sum, i) => sum + i.quantity, 0));
   subtotal: Signal<number> = computed(() => this.state().items.reduce((sum, i) => sum + i.price * i.quantity, 0));
-  tax: Signal<number> = computed(() => this.subtotal() * TAX_RATE);
+  tax: Signal<number> = computed(() => this.subtotal() * this.taxRate);
   total: Signal<number> = computed(() => this.subtotal() + this.tax());
 
-  addItem(item: Omit<ICartItem, 'price'> & { price: number }): void {
+  addItem(item: ICartItem): void {
     this.state.update((s: ICartState) => {
       const existing: ICartItem | undefined = s.items.find(i => i.id === item.id);
       if (existing) {
@@ -33,14 +33,14 @@ export class CartService {
       this.removeItem(productId);
       return;
     }
-    this.state.update(s => ({
+    this.state.update((s: ICartState) => ({
       ...s,
       items: s.items.map(i => i.id === productId ? { ...i, quantity } : i)
     }));
   }
 
   removeItem(productId: number): void {
-    this.state.update(s => ({
+    this.state.update((s: ICartState) => ({
       ...s,
       items: s.items.filter(i => i.id !== productId)
     }));
