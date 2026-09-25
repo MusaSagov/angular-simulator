@@ -1,0 +1,107 @@
+<p>{{ 'PRODUCTS.TITLE' | translate }}</p>
+<div class="flex flex-wrap gap-3 mb-4">
+  <input
+    id="products-search"
+    pInputText
+    type="text"
+    [placeholder]="'PRODUCTS.SEARCH' | translate"
+    [ngModel]="search()"
+    (ngModelChange)="onSearchChange($event)"
+    class="w-64"
+  />
+  <p-select
+    id="products-category"
+    [options]="categories()"
+    [placeholder]="'PRODUCTS.CATEGORY' | translate"
+    [ngModel]="selectedCategory()"
+    (ngModelChange)="selectCategory($event)"
+    [showClear]="true"
+  />
+  <p-select
+    id="products-sort-by"
+    [options]="sortFields()"
+    optionLabel="label"
+    optionValue="value"
+    [placeholder]="'PRODUCTS.SORTING' | translate"
+    [ngModel]="sortField()"
+    (ngModelChange)="onSortFieldChange($event)"
+  />
+  <p-select
+    id="products-sort-order"
+    [options]="sortOrders()"
+    optionLabel="label"
+    optionValue="value"
+    [placeholder]="'PRODUCTS.ORDER' | translate"
+    [ngModel]="sortOrder()"
+    (ngModelChange)="onSortOrderChange($event)"
+  />
+  <p-select
+    id="products-page-size"
+    [options]="pageSizes"
+    [placeholder]="'PRODUCTS.PAGE_SIZE' | translate"
+    [ngModel]="pageSize()"
+    (ngModelChange)="changePageSize($event)"
+  />
+</div>
+<div class="grid">
+  @for (product of products(); track product.id) {
+    <div class="col-12 md:col-6 lg:col-4 mb-4">
+      <p-card
+        [header]="product.title"
+        [subheader]="product.category"
+        styleClass="h-full"
+      >
+        <ng-template pTemplate="header">
+          <img
+            [src]="product.thumbnail"
+            [alt]="product.title"
+            class="w-full"
+          />
+        </ng-template>
+
+        <p class="m-0">
+          {{ product.price | currency: 'USD' }}
+          • {{ 'PRODUCTS.RATING' | translate }}: {{ product.rating }}
+          • {{ 'PRODUCTS.IN_STOCK' | translate }}: {{ product.stock }}
+        </p>
+        <ng-template pTemplate="footer">
+          <a
+            [routerLink]="['/products', product.id]"
+            pButton
+            [label]="'PRODUCTS.DETAILS' | translate"
+            icon="pi pi-eye"
+            class="mr-2"
+          ></a>
+          <button
+            pButton
+            [label]="'PRODUCTS.ADD_TO_CART' | translate"
+            icon="pi pi-shopping-cart"
+            (click)="addToCart(product)"
+          ></button>
+        </ng-template>
+      </p-card>
+    </div>
+  } @empty {
+    @for (item of [1, 2, 3, 4, 5, 6]; track item) {
+      <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <p-card styleClass="h-full">
+          <ng-template pTemplate="header">
+            <p-skeleton width="100%" height="200px" />
+          </ng-template>
+
+          <p-skeleton width="80%" />
+          <p-skeleton width="60%" />
+        </p-card>
+      </div>
+    }
+  }
+</div>
+<p-paginator
+  id="products-paginator"
+  [first]="(page() - 1) * pageSize()"
+  [rows]="pageSize()"
+  [totalRecords]="total()"
+  [rowsPerPageOptions]="[10, 20, 30]"
+  (onPageChange)="changePage($event)"
+  class="mt-4"
+/>

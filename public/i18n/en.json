@@ -21,5 +21,35 @@
     "CANCEL": "Cancel",
     "TODAY": "Today",
     "CLEAR": "Clear"
+  },
+  "PRODUCTS": {
+    "TITLE": "Products",
+    "SEARCH": "Search...",
+    "CATEGORY": "Category",
+    "SORTING": "Sort by",
+    "ORDER": "Order",
+    "PAGE_SIZE": "Items per page",
+    "RATING": "Rating",
+    "IN_STOCK": "In stock",
+    "DETAILS": "Details",
+    "ADD_TO_CART": "Add to cart",
+    "SORT_FIELDS": {
+      "TITLE": "Title",
+      "PRICE": "Price",
+      "RATING": "Rating",
+      "STOCK": "Stock"
+    },
+    "SORT_ORDERS": {
+      "ASC": "Ascending",
+      "DESC": "Descending"
+    }
+  },
+  "NAV": {
+    "MAIN": "Home",
+    "USERS": "Users",
+    "POSTS": "Posts",
+    "PRODUCTS": "Products",
+    "CART": "Cart",
+    "MAIN_MENU": "Main menu"
   }
 }
