@@ -1,0 +1,33 @@
+@if (product(); as p) {
+  <div class="grid">
+    <div class="col-12 md:col-6">
+      <img [src]="p.images[0] || p.thumbnail" class="w-full" />
+    </div>
+    <div class="col-12 md:col-6">
+      <p-card [header]="p.title" [subheader]="p.category">
+        <p>{{ p.description }}</p>
+        <p>
+          Цена: {{ p.price | currency:'USD' }} •
+          Скидка: {{ p.discountPercentage }}% •
+          Рейтинг: {{ p.rating }} •
+          На складе: {{ p.stock }}
+        </p>
+        <p>
+          Бренд: {{ p.brand }} •
+          Доставка: {{ p.shippingInformation }} •
+          Гарантия: {{ p.warrantyInformation }}
+        </p>
+        <a pButton routerLink="/products" label="Назад" icon="pi pi-arrow-left"></a>
+        <button
+          pButton
+          label="В корзину"
+          icon="pi pi-shopping-cart"
+          (click)="addToCart()"
+          class="ml-2"
+        ></button>
+      </p-card>
+    </div>
+  </div>
+} @else {
+  <p>Загрузка...</p>
+  }

@@ -1,0 +1,53 @@
+<p>cart works!</p>
+<a pButton routerLink="/products" label="Вернуться к товарам" icon="pi pi-arrow-left" class="mb-3"></a>
+<p-card header="Корзина">
+  <p-table [value]="cart.items()" class="p-datatable-striped">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Товар</th>
+        <th>Цена</th>
+        <th>Количество</th>
+        <th>Сумма</th>
+        <th></th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td>
+          <div class="flex align-items-center gap-2">
+            <img [src]="item.thumbnail" width="40" />
+            <span>{{ item.title }}</span>
+          </div>
+        </td>
+        <td>{{ item.price | currency:'USD' }}</td>
+        <td>
+          <p-inputNumber
+            [ngModel]="item.quantity"
+            (ngModelChange)="cart.updateQuantity(item.id, $event)"
+            [min]="1"
+          />
+        </td>
+        <td>{{ item.price * item.quantity | currency:'USD' }}</td>
+        <td>
+          <button
+            pButton
+            icon="pi pi-trash"
+            class="p-button-danger p-button-text"
+            (click)="cart.removeItem(item.id)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <tr>
+        <td colspan="5" class="text-right">
+          <div>Subtotal: {{ cart.subtotal() | currency:'USD' }}</div>
+          <div>Tax (20%): {{ cart.tax() | currency:'USD' }}</div>
+          <div><strong>Total: {{ cart.total() | currency:'USD' }}</strong></div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
