@@ -1,23 +1,23 @@
 import { Routes } from '@angular/router';
-import { postResolver } from '../features/posts/post.resolver';
-import { authGuard } from '../features/auth/auth.guard';
-import { adminGuard } from '../features/auth/admin.guard';
+import { postResolver } from '../app/features/posts/post.resolver';
+import { authGuard } from '../app/features/auth/auth.guard';
+import { adminGuard } from '../app/features/auth/admin.guard';
 
 export const routes: Routes = [
   {
     path: 'login',
-    loadComponent: () => import('../features/auth/login/login.component').then(m => m.LoginComponent)
+    loadComponent: () => import('../app/features/auth/login/login.component').then(m => m.LoginComponent)
   },
   {
     path: '',
     canActivate: [authGuard],
-    loadComponent: () => import('../home-page/home-page.component').then(m => m.HomePageComponent)
+    loadComponent: () => import('../app/features/home/home-page/home-page.component').then(m => m.HomePageComponent)
   },
   {
     path: 'users-page',
     canActivate: [adminGuard],
     canActivateChild: [adminGuard],
-    loadComponent: () => import('../users-page/users-page.component').then(m => m.UsersPageComponent),
+    loadComponent: () => import('../app/features/users/users-page/users-page.component').then(m => m.UsersPageComponent),
   },
   {
     path: 'posts',
@@ -26,15 +26,15 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () => import('../features/posts/posts/posts.component').then(m => m.PostsComponent),
+        loadComponent: () => import('../app/features/posts/posts/posts.component').then(m => m.PostsComponent),
       },
       {
         path: 'create',
-        loadComponent: () => import('../features/posts/post-create/post-create.component').then(m => m.PostCreateComponent),
+        loadComponent: () => import('../app/features/posts/post-create/post-create.component').then(m => m.PostCreateComponent),
       },
       {
         path: ':id',
-        loadComponent: () => import('../features/posts/post-detail/post-detail.component').then(m => m.PostDetailComponent),
+        loadComponent: () => import('../app/features/posts/post-detail/post-detail.component').then(m => m.PostDetailComponent),
         resolve: {
           post: postResolver,
         },
@@ -43,15 +43,15 @@ export const routes: Routes = [
   },
   {
     path: 'products',
-    loadChildren: () => import('../features/products/products.routes').then(m => m.PRODUCTS_ROUTES)
+    loadChildren: () => import('./features/products/products.routes').then(m => m.PRODUCTS_ROUTES)
   },
   {
     path: 'cart',
-    loadComponent: () => import('../features/products/cart/cart.component').then(m => m.CartComponent)
+    loadComponent: () => import('../app/features/products/cart/cart.component').then(m => m.CartComponent)
   },
   {
     path: '**',
     canActivate: [authGuard],
-    loadComponent: () => import('../not-found-page/not-found-page.component').then(m => m.NotFoundPageComponent)
+    loadComponent: () => import('../app/core/components/not-found-page/not-found-page.component').then(m => m.NotFoundPageComponent)
   }
 ];

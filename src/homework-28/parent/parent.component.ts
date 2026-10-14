@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ChildComponent } from '../child/child.component';
-import { IPerson } from '../../interfaces/IPerson';
+import { IPerson } from '../../app/shared/interfaces/IPerson';
 
 @Component({
   selector: 'app-parent',
