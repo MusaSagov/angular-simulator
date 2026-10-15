@@ -11,7 +11,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { authInterceptor } from '../app/features/auth/auth.interceptor';
 import { AuthService } from '../app/features/auth/auth.service';
-import { APPLICATION_CONFIG } from '../app/shared/application-config.token';
+import { APPLICATION_CONFIG } from '../app/core/tokens/application-config.token';
 import { DATE_PIPE_DEFAULT_OPTIONS, registerLocaleData } from '@angular/common';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideTranslateService } from '@ngx-translate/core';

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, map, of, switchMap, tap } from 'rxjs';
 import { IToken, IAuthUser, IAuthResponse, ILogin } from './interfaces/index';
 import { LocalStorageService } from '../../core/service/local-storage.service';
-import { APPLICATION_CONFIG } from '../../shared/application-config.token';
+import { APPLICATION_CONFIG } from '../../core/tokens/application-config.token';
 import { IApplicationConfig } from '../../shared/interfaces/IApplicationConfig';
 
 @Injectable({

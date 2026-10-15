@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpEvent, HttpEventType, HttpHandlerFn, HttpInterceptorFn, HttpRequest, HttpResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { APPLICATION_CONFIG } from '../../shared/application-config.token';
+import { APPLICATION_CONFIG } from '../tokens/application-config.token';
 import { inject } from '@angular/core';
 import { IApplicationConfig } from '../../shared/interfaces/IApplicationConfig';
 

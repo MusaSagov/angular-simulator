@@ -10,7 +10,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { AuthService } from '../../../features/auth/auth.service';
 import { Observable } from 'rxjs';
 import { IAuthUser } from '../../../features/auth/interfaces';
-import { APPLICATION_CONFIG } from '../../../shared/application-config.token';
+import { APPLICATION_CONFIG } from '../../tokens/application-config.token';
 import { IApplicationConfig } from '../../../shared/interfaces/IApplicationConfig';
 import { LanguageService } from '../../service/language.service';
 import { TranslatePipe } from '@ngx-translate/core';

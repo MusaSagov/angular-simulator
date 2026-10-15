@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { IToastMessage } from '../../shared/interfaces/IToastMessage';
 import { MessageType } from '../../shared/enums/MessageType';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { APPLICATION_CONFIG } from '../../shared/application-config.token';
+import { APPLICATION_CONFIG } from '../tokens/application-config.token';
 import { IApplicationConfig } from '../../shared/interfaces/IApplicationConfig';
 
 @Injectable({ providedIn: 'root' })
