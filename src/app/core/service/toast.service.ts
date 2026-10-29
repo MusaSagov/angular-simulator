@@ -1,0 +1,56 @@
+import { inject, Injectable } from '@angular/core';
+import { IToastMessage } from '../../shared/interfaces/IToastMessage';
+import { MessageType } from '../../shared/enums/MessageType';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { APPLICATION_CONFIG } from '../tokens/application-config.token';
+import { IApplicationConfig } from '../../shared/interfaces/IApplicationConfig';
+
+@Injectable({ providedIn: 'root' })
+export class ToastService {
+  
+  private toastsSubject: BehaviorSubject<IToastMessage[]> = new BehaviorSubject<IToastMessage[]>([]);
+  toasts$: Observable<IToastMessage[]> = this.toastsSubject.asObservable();
+  config: IApplicationConfig = inject(APPLICATION_CONFIG);
+
+  getMessages(): IToastMessage[] {
+    return this.toastsSubject.getValue();
+  }
+
+  showSuccess(message: string): void {
+    this.addMessage(message, MessageType.SUCCESS);
+  }
+
+  showError(message: string): void {
+    this.addMessage(message, MessageType.ERROR);
+  }
+
+  showInfo(message: string): void {
+    this.addMessage(message, MessageType.INFO);
+  }
+
+  showWarning(message: string): void {
+    this.addMessage(message, MessageType.WARN);
+  }
+
+  addMessage(text: string, type: MessageType = MessageType.INFO): void {
+    if (!this.config.enableNotifications) {
+      return;
+    }
+    
+    const message: IToastMessage = {
+      id: Date.now().toString(),
+      text,
+      type
+    };
+    const messageList: IToastMessage[] = this.toastsSubject.getValue();
+    this.toastsSubject.next([message, ...messageList]);
+    setTimeout(() => this.closeMessage(message.id), 5000);
+  }
+
+  closeMessage(id: string): void {
+    const current: IToastMessage[] = this.toastsSubject.getValue();
+    const updatedMessages: IToastMessage[] = current.filter((msg: IToastMessage) => msg.id !== id);
+    this.toastsSubject.next(updatedMessages);
+  }
+
+}

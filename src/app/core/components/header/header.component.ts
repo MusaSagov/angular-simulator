@@ -1,0 +1,123 @@
+import { Component, inject } from '@angular/core';
+import { ThemeService } from '../../service/theme.service';
+import { Theme } from '../../../shared/enums/Theme';
+import { INavItem } from '../../../shared/interfaces';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ToggleSwitchChangeEvent, ToggleSwitchModule } from 'primeng/toggleswitch';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { AuthService } from '../../../features/auth/auth.service';
+import { Observable } from 'rxjs';
+import { IAuthUser } from '../../../features/auth/interfaces';
+import { APPLICATION_CONFIG } from '../../tokens/application-config.token';
+import { IApplicationConfig } from '../../../shared/interfaces/IApplicationConfig';
+import { LanguageService } from '../../service/language.service';
+import { TranslatePipe } from '@ngx-translate/core';
+import { Select } from 'primeng/select';
+import { Language } from '../../../shared/enums/Language';
+import { ILanguageOption } from '../../../shared/interfaces/ILanguageOption';
+
+@Component({
+  selector: 'app-header',
+  standalone: true,
+  imports: [CommonModule, Select, FormsModule, RouterLinkActive, RouterLink, SelectButtonModule, ToggleSwitchModule, AsyncPipe, TranslatePipe],
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.scss',
+})
+export class HeaderComponent {
+
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly router: Router = inject(Router);
+  private readonly appConfig: IApplicationConfig = inject(APPLICATION_CONFIG);
+  languageService: LanguageService = inject(LanguageService);
+
+  themeService: ThemeService = inject(ThemeService);
+  currentWidget: 'counter' | 'dateTime' = 'dateTime';
+  counter: number = 0;
+  formattedDateTime: string = new Date().toLocaleDateString('ru-Ru');
+  lastLoginDate: Date | null = new Date();
+  
+  user$: Observable<IAuthUser | null>= this.authService.user$;
+
+  languages: ILanguageOption[] = [
+    { code: Language.RU, label: 'RU' },
+    { code: Language.EN, label: 'EN' },
+    { code: Language.ES, label: 'ES' },
+  ];
+
+  navItems: INavItem[] = [
+    {
+      id: 'main-page',
+      title: 'NAV.MAIN',
+      link: '/',
+    },
+    {
+      id: 'users-page',
+      title: 'NAV.USERS',
+      link: '/users-page',
+    },
+    {
+      id: 'posts-page',
+      title: 'NAV.POSTS',
+      link: '/posts',
+    },
+    {
+      id: 'products-page',
+      title: 'NAV.PRODUCTS',
+      link: '/products',
+    },
+    {
+      id: 'cart-page',
+      title: 'NAV.CART',
+      link: '/cart',
+    },
+  ];
+
+  constructor() {
+    setInterval(() => {
+      this.formattedDateTime = new Date().toLocaleString('ru-RU');
+    }, 1000);
+  }
+
+  setWidget(widget: 'counter' | 'dateTime'): void {
+    this.currentWidget = widget;
+  }
+
+  incrementCounter(): void {
+    this.counter++;
+  }
+
+  decrementCounter(): void {
+    if (this.counter > 0) {
+      this.counter--;
+    }
+  }
+
+  toggleMode(event: ToggleSwitchChangeEvent): void {
+    const isDark: boolean = event.checked;
+    this.themeService.toggleDarkMode(isDark);
+  }
+
+  toggleTheme(theme: Theme): void {
+    this.themeService.setTheme(theme);
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
+  get companyName(): string {
+    return this.appConfig.companyName;
+  }
+
+  get enableTheming(): boolean {
+    return this.appConfig.enableTheming;
+  }
+
+  changeLanguage(language: Language): void {
+    this.languageService.setLanguage(language);
+  }
+
+}

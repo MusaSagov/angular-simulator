@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { IPerson } from '../../interfaces/IPerson';
+import { IPerson } from '../../app/shared/interfaces/IPerson';
 
 @Component({
   selector: 'app-child',
