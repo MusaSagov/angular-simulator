@@ -1,0 +1,14 @@
+<h1>Our Recipes</h1>
+<button type="button" (click)="reloadRecipes()">Reload recipes</button>
+@if (loading$ | async) { <p>Загружаем рецепты...</p> }
+@else if (error$ | async; as error) { <p>Ошибка: {{ error }}</p> }
+@else if (recipes$ | async; as recipes) {  @for (recipe of recipes; track recipe.id) {
+  <article>
+    <h2>{{ recipe.name }}</h2>
+    <p>Кухня: {{ recipe.cuisine }}</p>
+    <p>Время приготовления: {{ recipe.prepTimeMinutes + recipe.cookTimeMinutes }} минут</p>
+     <p>Рейтинг: {{ recipe.rating }}</p></article>
+} @empty {
+    <p>Рецепты не найдены.</p>
+  }
+}

@@ -22,6 +22,10 @@ import { es } from 'primelocale/js/es.js';
 import localeRu from '@angular/common/locales/ru';
 import localeEn from '@angular/common/locales/en';
 import localeEs from '@angular/common/locales/es';
+import { provideStore } from '@ngrx/store';
+import { recipesReducer } from './features/recipes/store/recipes.reducer';
+import { provideEffects } from '@ngrx/effects';
+import { RecipesEffects } from './features/recipes/store/recipes.effects';
 
 registerLocaleData(localeRu);
 registerLocaleData(localeEn);
@@ -43,6 +47,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideZoneChangeDetection(),
     provideHttpClient(withInterceptors([authInterceptor])),
+    provideStore({
+      recipes: recipesReducer,
+    }),
+    provideEffects([RecipesEffects]),
     provideTranslateService({
       loader: provideTranslateHttpLoader({
         prefix: './i18n/',

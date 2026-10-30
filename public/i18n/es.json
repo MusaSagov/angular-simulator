@@ -43,5 +43,14 @@
       "ASC": "Ascendente",
       "DESC": "Descendente"
     }
+  },
+  "NAV": {
+    "MAIN": "Inicio",
+    "USERS": "Usuarios",
+    "POSTS": "Publicaciones",
+    "PRODUCTS": "Productos",
+    "CART": "Carrito",
+    "RECIPES": "Recetas",
+    "MAIN_MENU": "Menú principal"
   }
 }

@@ -50,6 +50,10 @@ export const routes: Routes = [
     loadComponent: () => import('../app/features/products/cart/cart.component').then(m => m.CartComponent)
   },
   {
+    path: 'recipes',
+    loadComponent: () => import('./features/recipes/recipes-page/recipes-page.component').then(m => m.RecipesPageComponent),
+  },
+  {
     path: '**',
     canActivate: [authGuard],
     loadComponent: () => import('./features/not-found-page/not-found-page.component').then(m => m.NotFoundPageComponent)
