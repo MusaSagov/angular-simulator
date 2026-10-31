@@ -72,6 +72,11 @@ export class HeaderComponent {
       title: 'NAV.CART',
       link: '/cart',
     },
+    {
+      id: 'recipes-page',
+      title: 'NAV.RECIPES',
+      link: '/recipes',
+    },
   ];
 
   constructor() {
