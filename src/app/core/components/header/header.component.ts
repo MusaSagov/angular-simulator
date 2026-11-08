@@ -77,6 +77,11 @@ export class HeaderComponent {
       title: 'NAV.RECIPES',
       link: '/recipes',
     },
+    {
+      id: 'quotes-page',
+      title: 'NAV.QUOTES',
+      link: '/quotes',
+    },
   ];
 
   constructor() {
